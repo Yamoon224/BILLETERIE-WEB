@@ -13,7 +13,7 @@ const jakarta = Plus_Jakarta_Sans({
 
 export const metadata: Metadata = {
   title: {
-    default: "Kaara — Billetterie de transport interurbain",
+    default: "Kaara - Billetterie de transport interurbain",
     template: "%s · Kaara",
   },
   description:

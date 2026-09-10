@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 /*
- * Trois modes de theme — clair, sombre, systeme — pilotes par une classe sur
+ * Trois modes de theme - clair, sombre, systeme - pilotes par une classe sur
  * <html> plutot que par la seule media query : un voyageur doit pouvoir choisir
  * l'inverse de son systeme, et ce choix doit survivre au rechargement. La
  * variante `dark:` de Tailwind est donc rebranchee sur `.dark`.
@@ -15,7 +15,7 @@
   /*
    * Orange du drapeau ivoirien (#F77F00), decline en une seule rampe.
    * Le blanc est la seconde couleur de la charte : il porte les surfaces, et
-   * l'orange est reserve a ce qui doit attirer l'oeil — action principale,
+   * l'orange est reserve a ce qui doit attirer l'oeil - action principale,
    * etat actif, prix.
    */
   --color-brand-50: #fff6eb;
@@ -64,7 +64,7 @@
  * Trois teintes categorielles, dans un ordre fixe valide en paires completes
  * (daltonisme protan/deutan et vision normale) contre les surfaces reelles des
  * cartes, en clair comme en sombre. Le vert du drapeau n'y figure pas : il est
- * reserve aux etats de succes. La couleur suit l'entite — mobile money est
+ * reserve aux etats de succes. La couleur suit l'entite - mobile money est
  * toujours orange, quel que soit son rang dans la liste.
  */
 :root {
@@ -288,7 +288,7 @@ body {
 
   /* Etat monte : au focus, ou des qu'une valeur est presente. Les <select> et
      champs de date ne connaissent pas `:placeholder-shown` : `:not()` les rend
-     flottants en permanence, ce qui est voulu — ils affichent toujours quelque
+     flottants en permanence, ce qui est voulu - ils affichent toujours quelque
      chose. */
   .field-control:focus ~ .field-outline > legend,
   .field-control:not(:placeholder-shown) ~ .field-outline > legend,

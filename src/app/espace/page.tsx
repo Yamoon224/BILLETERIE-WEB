@@ -8,7 +8,7 @@ import { homeFor, useAuth } from "@/features/auth/AuthContext";
 import { DashboardOverview } from "@/features/dashboard/DashboardOverview";
 
 /**
- * Accueil de l'espace. Sans acces au suivi d'activite — un agent de guichet —,
+ * Accueil de l'espace. Sans acces au suivi d'activite - un agent de guichet -,
  * on renvoie vers l'ecran de travail du profil plutot que d'afficher un refus.
  */
 export default function SpaceHomePage() {
