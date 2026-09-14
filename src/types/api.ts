@@ -106,6 +106,13 @@ export interface City extends CityRef {
   created_at: string | null;
 }
 
+export interface Favorite {
+  id: string;
+  origin_city: CityRef;
+  destination_city: CityRef;
+  created_at: string | null;
+}
+
 export interface Company extends CompanyRef {
   legal_name: string | null;
   phone: string | null;

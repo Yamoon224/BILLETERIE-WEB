@@ -487,6 +487,14 @@ export function IconSeat(props: IconProps) {
   );
 }
 
+export function IconHeart(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <path d="M12 20.5s-7-4.35-9.3-8.8C1 8.1 2.8 4.5 6.3 4.5c2 0 3.4 1 5.7 3.4 2.3-2.4 3.7-3.4 5.7-3.4 3.5 0 5.3 3.6 3.6 7.2C19 16.15 12 20.5 12 20.5Z" />
+    </Icon>
+  );
+}
+
 export function IconSparkle(props: IconProps) {
   return (
     <Icon {...props}>

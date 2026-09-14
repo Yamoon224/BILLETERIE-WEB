@@ -5,7 +5,7 @@
       "routeType": "page",
       "response": "complete",
       "compute": "static",
-      "htmlSize": 67565,
+      "htmlSize": 69838,
       "experimentalBypassFor": [
         {
           "type": "header",
@@ -450,6 +450,34 @@
         "x-next-revalidate-tag-token"
       ]
     },
+    "/favoris": {
+      "routeType": "page",
+      "response": "complete",
+      "compute": "static",
+      "htmlSize": 26619,
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "next-action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/favoris",
+      "dataRoute": "/favoris.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
     "/icon.svg": {
       "initialHeaders": {
         "cache-control": "public, max-age=0, must-revalidate",
@@ -486,7 +514,7 @@
       "routeType": "page",
       "response": "complete",
       "compute": "static",
-      "htmlSize": 35518,
+      "htmlSize": 37774,
       "experimentalBypassFor": [
         {
           "type": "header",
@@ -514,7 +542,7 @@
       "routeType": "page",
       "response": "complete",
       "compute": "static",
-      "htmlSize": 27081,
+      "htmlSize": 29355,
       "experimentalBypassFor": [
         {
           "type": "header",
@@ -529,6 +557,34 @@
       "initialRevalidateSeconds": false,
       "srcRoute": "/mes-billets",
       "dataRoute": "/mes-billets.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
+    "/profil": {
+      "routeType": "page",
+      "response": "complete",
+      "compute": "static",
+      "htmlSize": 26959,
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "next-action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/profil",
+      "dataRoute": "/profil.rsc",
       "allowHeader": [
         "host",
         "x-matched-path",

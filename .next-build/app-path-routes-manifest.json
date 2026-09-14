@@ -1,9 +1,11 @@
 {
   "/(public)/billets/[reference]/page": "/billets/[reference]",
   "/(public)/connexion/page": "/connexion",
+  "/(public)/favoris/page": "/favoris",
   "/(public)/inscription/page": "/inscription",
   "/(public)/mes-billets/page": "/mes-billets",
   "/(public)/page": "/",
+  "/(public)/profil/page": "/profil",
   "/(public)/recherche/page": "/recherche",
   "/(public)/reservation/[tripId]/page": "/reservation/[tripId]",
   "/_global-error/page": "/_global-error",

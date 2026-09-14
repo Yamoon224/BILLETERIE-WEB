@@ -51,10 +51,10 @@ const PROMISES = [
 ];
 
 const PAYMENT_METHODS = [
-  { label: "Orange Money", className: "bg-[#FF6600] text-white" },
-  { label: "MTN MoMo", className: "bg-[#FFCB05] text-stone-900" },
-  { label: "Moov Money", className: "bg-[#0072CE] text-white" },
-  { label: "Wave", className: "bg-[#1DC8E5] text-stone-900" },
+  { label: "Orange Money", src: "/payments/orange-money.jpg" },
+  { label: "MTN MoMo", src: "/payments/mtn-momo.jpg" },
+  { label: "Moov Money", src: "/payments/moov-money.png" },
+  { label: "Wave", src: "/payments/wave.jpg" },
 ];
 
 const DESTINATIONS = [
@@ -176,16 +176,22 @@ export default function HomePage() {
           </ol>
         </Card>
 
-        <div className="mt-4 flex flex-wrap items-center gap-2">
-          <span className="text-xs font-semibold text-[var(--muted)]">Paiement accepte :</span>
-          {PAYMENT_METHODS.map((method) => (
-            <span
-              key={method.label}
-              className={`rounded-sm px-2.5 py-1 text-[11px] font-bold ${method.className}`}
-            >
-              {method.label}
-            </span>
-          ))}
+        <div className="mt-5">
+          <p className="text-center text-xs font-semibold text-[var(--muted)]">Payez avec</p>
+          <div className="mt-3 flex flex-wrap items-center justify-center gap-3">
+            {PAYMENT_METHODS.map((method) => (
+              // Fond blanc fixe, y compris en theme sombre : ce sont des logos
+              // de marque en couleurs fixes, pas des icones qui suivent le
+              // theme — sur une surface sombre, Orange Money en particulier
+              // deviendrait illisible.
+              <span
+                key={method.label}
+                className="flex h-11 items-center rounded-sm border border-[var(--hairline)] bg-white px-3 shadow-card"
+              >
+                <img src={method.src} alt={method.label} className="h-7 w-auto object-contain" loading="lazy" />
+              </span>
+            ))}
+          </div>
         </div>
       </section>
 

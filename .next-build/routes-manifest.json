@@ -143,6 +143,12 @@
       "namedRegex": "^/espace/villes(?:/)?$"
     },
     {
+      "page": "/favoris",
+      "regex": "^/favoris(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/favoris(?:/)?$"
+    },
+    {
       "page": "/icon.svg",
       "regex": "^/icon\\.svg(?:/)?$",
       "routeKeys": {},
@@ -159,6 +165,12 @@
       "regex": "^/mes\\-billets(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/mes\\-billets(?:/)?$"
+    },
+    {
+      "page": "/profil",
+      "regex": "^/profil(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/profil(?:/)?$"
     },
     {
       "page": "/recherche",

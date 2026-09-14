@@ -1,9 +1,11 @@
 {
   "/(public)/billets/[reference]/page": "app/(public)/billets/[reference]/page.js",
   "/(public)/connexion/page": "app/(public)/connexion/page.js",
+  "/(public)/favoris/page": "app/(public)/favoris/page.js",
   "/(public)/inscription/page": "app/(public)/inscription/page.js",
   "/(public)/mes-billets/page": "app/(public)/mes-billets/page.js",
   "/(public)/page": "app/(public)/page.js",
+  "/(public)/profil/page": "app/(public)/profil/page.js",
   "/(public)/recherche/page": "app/(public)/recherche/page.js",
   "/(public)/reservation/[tripId]/page": "app/(public)/reservation/[tripId]/page.js",
   "/_global-error/page": "app/_global-error/page.js",

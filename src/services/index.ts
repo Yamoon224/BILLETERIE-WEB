@@ -9,6 +9,7 @@
 export * as authService from "./auth-service";
 export * as tripService from "./trip-service";
 export * as bookingService from "./booking-service";
+export * as favoriteService from "./favorite-service";
 export * as ticketService from "./ticket-service";
 export * as networkService from "./network-service";
 export * as reportService from "./report-service";

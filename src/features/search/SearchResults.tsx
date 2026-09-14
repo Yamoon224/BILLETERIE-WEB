@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useCallback, useMemo } from "react";
 import { Card, CardBody, EmptyState, ErrorState, Skeleton } from "@/components/ui";
 import { IconBus, IconCalendar, IconChevronLeft, IconChevronRight } from "@/components/ui/icons";
+import { FavoriteButton } from "@/features/favorites/FavoriteButton";
 import { useAsyncData } from "@/hooks/useAsyncData";
 import { cn } from "@/lib/cn";
 import { formatDayLong, formatDayShort, todayIso } from "@/lib/format";
@@ -98,7 +99,15 @@ export function SearchResults({ criteria }: { criteria: SearchCriteria }) {
       </nav>
 
       <header className="mb-4 flex flex-wrap items-baseline justify-between gap-2">
-        <h1 className="text-xl font-extrabold tracking-tight">{routeLabel}</h1>
+        <span className="flex items-center gap-1">
+          <h1 className="text-xl font-extrabold tracking-tight">{routeLabel}</h1>
+          {trips && trips[0]?.itinerary?.origin_city && trips[0]?.itinerary?.destination_city ? (
+            <FavoriteButton
+              originCityId={trips[0].itinerary.origin_city.id}
+              destinationCityId={trips[0].itinerary.destination_city.id}
+            />
+          ) : null}
+        </span>
         <p className="flex items-center gap-1.5 text-sm capitalize text-[var(--muted)]">
           <IconCalendar className="h-4 w-4" />
           {formatDayLong(`${criteria.date}T12:00:00`)}

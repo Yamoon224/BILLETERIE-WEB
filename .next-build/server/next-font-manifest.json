@@ -6,6 +6,9 @@
     "[project]/src/app/(public)/connexion/page": [
       "static/media/fba5a26ea33df6a3-s.p.18rizl4rsrl42.woff2"
     ],
+    "[project]/src/app/(public)/favoris/page": [
+      "static/media/fba5a26ea33df6a3-s.p.18rizl4rsrl42.woff2"
+    ],
     "[project]/src/app/(public)/inscription/page": [
       "static/media/fba5a26ea33df6a3-s.p.18rizl4rsrl42.woff2"
     ],
@@ -13,6 +16,9 @@
       "static/media/fba5a26ea33df6a3-s.p.18rizl4rsrl42.woff2"
     ],
     "[project]/src/app/(public)/page": [
+      "static/media/fba5a26ea33df6a3-s.p.18rizl4rsrl42.woff2"
+    ],
+    "[project]/src/app/(public)/profil/page": [
       "static/media/fba5a26ea33df6a3-s.p.18rizl4rsrl42.woff2"
     ],
     "[project]/src/app/(public)/recherche/page": [

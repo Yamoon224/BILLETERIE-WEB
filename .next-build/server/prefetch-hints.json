@@ -22,6 +22,25 @@
       }
     }
   },
+  "/favoris": {
+    "hints": 64,
+    "slots": {
+      "children": {
+        "hints": 96,
+        "slots": {
+          "children": {
+            "hints": 96,
+            "slots": {
+              "children": {
+                "hints": 160,
+                "slots": null
+              }
+            }
+          }
+        }
+      }
+    }
+  },
   "/inscription": {
     "hints": 64,
     "slots": {
@@ -69,6 +88,25 @@
           "children": {
             "hints": 160,
             "slots": null
+          }
+        }
+      }
+    }
+  },
+  "/profil": {
+    "hints": 64,
+    "slots": {
+      "children": {
+        "hints": 96,
+        "slots": {
+          "children": {
+            "hints": 96,
+            "slots": {
+              "children": {
+                "hints": 160,
+                "slots": null
+              }
+            }
           }
         }
       }
