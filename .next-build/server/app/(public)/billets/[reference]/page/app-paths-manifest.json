@@ -1,0 +1,3 @@
+{
+  "/(public)/billets/[reference]/page": "app/(public)/billets/[reference]/page.js"
+}
