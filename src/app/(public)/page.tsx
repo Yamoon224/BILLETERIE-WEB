@@ -51,10 +51,10 @@ const PROMISES = [
 ];
 
 const PAYMENT_METHODS = [
-  { label: "Orange Money", src: "/payments/orange-money.jpg" },
-  { label: "MTN MoMo", src: "/payments/mtn-momo.jpg" },
-  { label: "Moov Money", src: "/payments/moov-money.png" },
-  { label: "Wave", src: "/payments/wave.jpg" },
+  { label: "Orange Money", src: "/payments/orange-money.jpg", width: 447, height: 447 },
+  { label: "MTN MoMo", src: "/payments/mtn-momo.jpg", width: 416, height: 203 },
+  { label: "Moov Money", src: "/payments/moov-money.png", width: 447, height: 447 },
+  { label: "Wave", src: "/payments/wave.jpg", width: 597, height: 335 },
 ];
 
 const DESTINATIONS = [
@@ -188,7 +188,14 @@ export default function HomePage() {
                 key={method.label}
                 className="flex h-11 items-center rounded-sm border border-[var(--hairline)] bg-white px-3 shadow-card"
               >
-                <img src={method.src} alt={method.label} className="h-7 w-auto object-contain" loading="lazy" />
+                <img
+                  src={method.src}
+                  alt={method.label}
+                  width={method.width}
+                  height={method.height}
+                  className="h-7 w-auto object-contain"
+                  loading="lazy"
+                />
               </span>
             ))}
           </div>
