@@ -12,6 +12,9 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Distinct dossier de build de production (voir next.config.ts) : le
+    // meme angle mort que ".next/**" ci-dessus, pour le meme motif.
+    ".next-build/**",
   ]),
 ]);
 
