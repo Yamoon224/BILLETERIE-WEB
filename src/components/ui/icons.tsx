@@ -42,6 +42,27 @@ export function IconBus(props: IconProps) {
   );
 }
 
+export function IconHome(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <path d="M3 10.5 12 3l9 7.5" />
+      <path d="M5 9.5V21h14V9.5" />
+      <path d="M10 21v-6h4v6" />
+    </Icon>
+  );
+}
+
+export function IconCar(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <path d="M4 16v-4.5l2-4.5h12l2 4.5V16" />
+      <path d="M4 16h16v3H4z" />
+      <circle cx="7.5" cy="16" r="1.4" fill="currentColor" stroke="none" />
+      <circle cx="16.5" cy="16" r="1.4" fill="currentColor" stroke="none" />
+    </Icon>
+  );
+}
+
 export function IconTicket(props: IconProps) {
   return (
     <Icon {...props}>
@@ -152,6 +173,14 @@ export function IconWallet(props: IconProps) {
     <Icon {...props}>
       <path d="M19 7V5.5a2 2 0 0 0-2-2H5.5a2 2 0 0 0 0 4H19a2 2 0 0 1 2 2V18a2 2 0 0 1-2 2H5.5a2 2 0 0 1-2-2V5.5" />
       <path d="M16.5 13.5h.01" />
+    </Icon>
+  );
+}
+
+export function IconChat(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <path d="M4 12a8 8 0 1 1 3.5 6.6L4 20l1.4-3.5A7.96 7.96 0 0 1 4 12Z" />
     </Icon>
   );
 }

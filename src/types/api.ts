@@ -50,7 +50,12 @@ export type ScanOutcome =
   | "trip_cancelled"
   | "outside_boarding_window";
 
-export type RoleName = "platform_admin" | "company_manager" | "agent" | "passenger";
+export type RoleName = "platform_admin" | "company_manager" | "agent" | "partner_manager" | "passenger";
+
+export type PartnerType = "housing" | "car_rental" | "both";
+export type TransmissionType = "manual" | "automatic";
+export type FuelType = "petrol" | "diesel" | "hybrid" | "electric";
+export type RentalVehicleCategory = "citadine" | "berline" | "suv" | "minibus" | "luxe" | "utilitaire";
 
 // --- Comptes ----------------------------------------------------------------------
 
@@ -363,6 +368,65 @@ export interface DashboardOverview {
     revenue: number;
   }>;
   sales_by_agent: Array<{ user_id: string; name: string; bookings: number; tickets: number; amount: number }>;
+}
+
+// --- Partenaires : appartements, location auto ---------------------------------------------
+
+export interface PartnerRef {
+  id: string;
+  name: string;
+  phone: string | null;
+  whatsapp: string | null;
+}
+
+export interface Apartment {
+  id: string;
+  title: string;
+  description: string | null;
+  neighborhood: string | null;
+  address_line: string | null;
+  bedrooms: number;
+  bathrooms: number;
+  capacity: number;
+  price_per_night: number;
+  currency: string;
+  amenities: string[];
+  cover_photo_url: string | null;
+  photo_urls: string[];
+  is_featured: boolean;
+  is_active: boolean;
+  city?: CityRef;
+  city_id: string;
+  partner?: PartnerRef;
+  partner_id: string;
+  created_at: string | null;
+}
+
+export interface RentalVehicle {
+  id: string;
+  brand: string;
+  model: string;
+  year: number | null;
+  category: RentalVehicleCategory;
+  category_label: string;
+  transmission: TransmissionType;
+  transmission_label: string;
+  fuel_type: FuelType;
+  fuel_type_label: string;
+  seats: number;
+  price_per_day: number;
+  currency: string;
+  with_driver_available: boolean;
+  plate_number: string | null;
+  cover_photo_url: string | null;
+  photo_urls: string[];
+  is_featured: boolean;
+  is_active: boolean;
+  city?: CityRef;
+  city_id: string;
+  partner?: PartnerRef;
+  partner_id: string;
+  created_at: string | null;
 }
 
 export interface AuditLog {
