@@ -138,6 +138,14 @@ body {
   );
 }
 
+/* Variante de `grad-brand` pour le pictogramme du logo : sur un carre de
+   36 px, une simple rampe 0/50/100 laisse le cyan a peine visible dans le
+   coin - le fuchsia central domine. Le premier tiers est donc tenu en cyan
+   uni avant de basculer, pour que la couleur reste lisible meme reduite. */
+@utility grad-logo-brand {
+  background-image: linear-gradient(135deg, #1cbbe8 0%, #1cbbe8 30%, #d6259f 65%, #ffd100 100%);
+}
+
 @utility shadow-card {
   box-shadow: var(--card-shadow);
 }

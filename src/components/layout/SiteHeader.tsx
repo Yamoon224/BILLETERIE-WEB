@@ -69,21 +69,12 @@ export function SiteHeader() {
                 </Link>
               </>
             ) : (
-              <>
-                <Link
-                  href="/connexion"
-                  className="hidden h-8 items-center justify-center rounded-full bg-brand-400 px-4 text-xs font-semibold text-white shadow-sm transition-colors hover:bg-brand-500 active:translate-y-px sm:inline-flex"
-                >
-                  Se connecter
-                </Link>
-                <Link
-                  href="/connexion"
-                  aria-label="Se connecter"
-                  className="inline-flex h-9 w-9 items-center justify-center rounded-full text-stone-600 hover:bg-stone-100 sm:hidden dark:text-stone-300 dark:hover:bg-stone-800"
-                >
-                  <IconUser className="h-5 w-5" />
-                </Link>
-              </>
+              <Link
+                href="/connexion"
+                className="inline-flex h-8 items-center justify-center whitespace-nowrap rounded-full bg-brand-400 px-3 text-xs font-semibold text-white shadow-sm transition-colors hover:bg-brand-500 active:translate-y-px sm:px-4"
+              >
+                Se connecter
+              </Link>
             )}
 
             <button

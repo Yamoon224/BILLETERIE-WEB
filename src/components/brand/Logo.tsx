@@ -18,7 +18,7 @@ export function LogoMark({
   className?: string;
 }) {
   const dimension = { sm: "h-8 w-8", md: "h-9 w-9", lg: "h-12 w-12" }[size];
-  const gradient = tone === "brand" ? "grad-brand" : "grad-logo";
+  const gradient = tone === "brand" ? "grad-logo-brand" : "grad-logo";
 
   return <span aria-hidden="true" className={cn(gradient, "inline-block shrink-0 rounded-sm shadow-card", dimension, className)} />;
 }
