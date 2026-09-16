@@ -81,8 +81,8 @@ export function BookingView({ reference }: { reference: string }) {
 
       {paid ? (
         <div className="no-print mb-6 flex flex-col items-center py-4 text-center">
-          <span className="mb-3.5 flex h-14 w-14 items-center justify-center rounded-full bg-[var(--color-flag-green)] text-white">
-            <IconCheckCircle className="h-7 w-7" />
+          <span className="mb-3.5 flex h-16 w-16 items-center justify-center rounded-full bg-[var(--color-flag-green)] text-white">
+            <IconCheckCircle className="h-8 w-8" />
           </span>
           <p className="text-lg font-extrabold">Paiement confirme !</p>
           <p className="mt-1 text-sm text-[var(--muted)]">
@@ -147,12 +147,20 @@ export function BookingView({ reference }: { reference: string }) {
           </div>
           <div className="space-y-4">
             {tickets.map((ticket) => (
-              <TicketCard key={ticket.id} ticket={ticket} trip={trip} price={trip.price} />
+              <TicketCard
+                key={ticket.id}
+                ticket={ticket}
+                trip={trip}
+                amount={tickets.length === 1 ? booking.total_amount : trip.price}
+              />
             ))}
           </div>
           <p className="no-print mt-4 text-center text-xs text-[var(--muted)]">
             Presentez le QR code a l&apos;agent avant de monter. Chaque billet n&apos;est valable qu&apos;une seule fois.
           </p>
+          <LinkButton href="/" size="lg" className="no-print mt-5 w-full">
+            Retour a l&apos;accueil
+          </LinkButton>
         </section>
       ) : null}
     </div>
