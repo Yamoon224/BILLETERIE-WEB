@@ -96,7 +96,6 @@ export function TripCard({ trip, passengers }: { trip: Trip; passengers: number 
             <span className="text-sm font-semibold text-[var(--muted)]">Indisponible</span>
           ) : (
             <LinkButton
-              variant="accent"
               href={`/reservation/${trip.id}?voyageurs=${passengers}`}
               icon={<IconArrowRight className="h-4 w-4" />}
               className="flex-row-reverse"

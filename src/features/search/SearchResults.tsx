@@ -80,7 +80,7 @@ export function SearchResults({ criteria }: { criteria: SearchCriteria }) {
               className={cn(
                 "flex h-10 shrink-0 items-center rounded-sm px-4 text-sm font-semibold capitalize transition-colors",
                 isActive
-                  ? "bg-ink-700 text-white shadow-sm"
+                  ? "grad-brand text-white shadow-sm"
                   : "border border-[var(--hairline)] bg-[var(--surface)] hover:border-brand-300",
                 isPast && "pointer-events-none opacity-40",
               )}

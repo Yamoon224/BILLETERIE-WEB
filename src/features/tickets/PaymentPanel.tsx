@@ -104,7 +104,7 @@ export function PaymentPanel({ booking, onPaid }: { booking: Booking; onPaid: (b
                     key={item.value}
                     className={cn(
                       "flex cursor-pointer items-center gap-3 rounded-sm border p-3.5 transition-colors",
-                      isActive ? "border-ink-700 dark:border-ink-500" : "border-[var(--hairline)] hover:border-brand-300",
+                      isActive ? "border-brand-500 dark:border-brand-400" : "border-[var(--hairline)] hover:border-brand-300",
                     )}
                   >
                     <input
@@ -125,7 +125,7 @@ export function PaymentPanel({ booking, onPaid }: { booking: Booking; onPaid: (b
                     <span
                       className={cn(
                         "flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2",
-                        isActive ? "border-ink-700 bg-ink-700 text-white dark:border-ink-500 dark:bg-ink-500" : "border-[var(--field-border)]",
+                        isActive ? "border-brand-500 bg-brand-500 text-white dark:border-brand-400 dark:bg-brand-400" : "border-[var(--field-border)]",
                       )}
                     >
                       {isActive ? <IconCheck className="h-3 w-3" /> : null}
@@ -154,7 +154,7 @@ export function PaymentPanel({ booking, onPaid }: { booking: Booking; onPaid: (b
           {failure ? <FormAlert>{failure}</FormAlert> : null}
           {payment.error ? <FormAlert>{errorMessage(payment.error)}</FormAlert> : null}
 
-          <Button type="submit" variant="accent" size="lg" className="w-full" isLoading={payment.isPending} disabled={isExpired}>
+          <Button type="submit" size="lg" className="w-full" isLoading={payment.isPending} disabled={isExpired}>
             Payer maintenant
           </Button>
 

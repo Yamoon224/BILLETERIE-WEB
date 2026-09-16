@@ -349,13 +349,13 @@ function GuaranteeOption({
       aria-pressed={selected}
       className={cn(
         "flex w-full items-start gap-3 rounded-sm border p-3.5 text-left transition-colors",
-        selected ? "border-ink-700 dark:border-ink-500" : "border-[var(--hairline)] hover:border-brand-300",
+        selected ? "border-brand-500 dark:border-brand-400" : "border-[var(--hairline)] hover:border-brand-300",
       )}
     >
       <span
         className={cn(
           "mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2",
-          selected ? "border-ink-700 bg-ink-700 text-white dark:border-ink-500 dark:bg-ink-500" : "border-[var(--field-border)]",
+          selected ? "border-brand-500 bg-brand-500 text-white dark:border-brand-400 dark:bg-brand-400" : "border-[var(--field-border)]",
         )}
       >
         {selected ? <IconCheck className="h-3 w-3" /> : null}

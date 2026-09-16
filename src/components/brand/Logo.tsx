@@ -14,38 +14,21 @@ export function LogoMark({ size = "md", className }: { size?: "sm" | "md" | "lg"
   return <span aria-hidden="true" className={cn("grad-logo inline-block shrink-0 rounded-sm shadow-card", dimension, className)} />;
 }
 
-export function Logo({
-  size = "md",
-  className,
-  tagline = false,
-  onDark = false,
-}: {
-  size?: "sm" | "md" | "lg";
-  className?: string;
-  tagline?: boolean;
-  /** Sur un fond navy (topbar, hero) : texte blanc plutot que degrade. */
-  onDark?: boolean;
-}) {
+export function Logo({ size = "md", className, tagline = false }: { size?: "sm" | "md" | "lg"; className?: string; tagline?: boolean }) {
   return (
     <span className={cn("inline-flex items-center gap-2.5", className)}>
       <LogoMark size={size} />
       <span className="flex flex-col leading-none">
         <span
           className={cn(
-            "font-extrabold tracking-tight",
-            onDark ? "text-white" : "text-stone-900 dark:text-stone-50",
+            "font-extrabold tracking-tight text-stone-900 dark:text-stone-50",
             size === "lg" ? "text-2xl" : "text-lg",
           )}
         >
-          Ka{onDark ? <span className="text-brand-500">ara</span> : <span className="grad-brand-text">ara</span>}
+          Kaa<span className="grad-brand-text">ra</span>
         </span>
         {tagline ? (
-          <span
-            className={cn(
-              "mt-1 text-[10px] font-semibold uppercase tracking-[0.18em]",
-              onDark ? "text-white/70" : "text-[var(--muted)]",
-            )}
-          >
+          <span className="mt-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--muted)]">
             Billetterie interurbaine
           </span>
         ) : null}
