@@ -54,6 +54,22 @@ export function formatDayShort(value: string | null | undefined): string {
   }).format(date);
 }
 
+/** « 14 sept » — libelle compact d'une puce de date, sans jour de semaine. */
+export function formatDayCompact(value: string | null | undefined): string {
+  const date = toDate(value);
+  if (!date) return "—";
+
+  return new Intl.DateTimeFormat(LOCALE, { day: "numeric", month: "short" }).format(date).replace(/\.$/, "");
+}
+
+/** « lun » — jour de semaine seul, sans point, pour un sous-titre compact. */
+export function formatWeekdayShort(value: string | null | undefined): string {
+  const date = toDate(value);
+  if (!date) return "—";
+
+  return new Intl.DateTimeFormat(LOCALE, { weekday: "short" }).format(date).replace(/\.$/, "");
+}
+
 /** « lundi 14 septembre 2026 » */
 export function formatDayLong(value: string | null | undefined): string {
   const date = toDate(value);

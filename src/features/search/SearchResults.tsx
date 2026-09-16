@@ -1,16 +1,18 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useCallback, useMemo } from "react";
 import { Card, CardBody, EmptyState, ErrorState, Skeleton } from "@/components/ui";
-import { IconBus, IconCalendar, IconChevronLeft, IconChevronRight, IconSortAscending } from "@/components/ui/icons";
+import { IconBus, IconChevronLeft, IconChevronRight, IconSortAscending } from "@/components/ui/icons";
+import { BookingStepper } from "@/features/booking/BookingStepper";
 import { FavoriteButton } from "@/features/favorites/FavoriteButton";
 import { useAsyncData } from "@/hooks/useAsyncData";
 import { cn } from "@/lib/cn";
-import { formatDayLong, formatDayShort, todayIso } from "@/lib/format";
+import { formatDayCompact, formatNumber, formatWeekdayShort, todayIso } from "@/lib/format";
 import { tripService } from "@/services";
 import { TripCard } from "./TripCard";
-import { searchHref, TripSearchForm } from "./TripSearchForm";
+import { searchHref } from "./TripSearchForm";
 import type { SearchCriteria } from "./TripSearchForm";
 
 function shiftDate(isoDate: string, days: number): string {
@@ -23,11 +25,14 @@ function shiftDate(isoDate: string, days: number): string {
 /**
  * Resultats de recherche.
  *
- * Le bandeau de dates permet de passer au jour voisin en un geste : quand le
- * car du samedi est complet, la question suivante est toujours « et
- * dimanche ? », et la reposer via le formulaire ferait ressaisir quatre champs.
+ * Le bandeau de dates permet de passer au jour voisin en un geste, prix a
+ * l'appui : quand le car du samedi est complet, la question suivante est
+ * toujours « et dimanche, c'est plus cher ? » — y repondre sans rejouer la
+ * recherche evite un aller-retour.
  */
 export function SearchResults({ criteria }: { criteria: SearchCriteria }) {
+  const router = useRouter();
+
   const loader = useCallback(
     () =>
       tripService.search({
@@ -44,16 +49,60 @@ export function SearchResults({ criteria }: { criteria: SearchCriteria }) {
   const days = useMemo(() => [-2, -1, 0, 1, 2].map((offset) => shiftDate(criteria.date, offset)), [criteria.date]);
   const today = todayIso();
 
+  const otherDays = useMemo(() => days.filter((day) => day !== criteria.date), [days, criteria.date]);
+  const pricesLoader = useCallback(async () => {
+    const entries = await Promise.all(
+      otherDays.map(async (day) => {
+        try {
+          const results = await tripService.search({
+            origin: criteria.origin,
+            destination: criteria.destination,
+            date: day,
+            passengers: criteria.passengers,
+          });
+
+          return [day, results.length > 0 ? Math.min(...results.map((trip) => trip.price)) : null] as const;
+        } catch {
+          return [day, null] as const;
+        }
+      }),
+    );
+
+    return Object.fromEntries(entries) as Record<string, number | null>;
+  }, [otherDays, criteria.origin, criteria.destination, criteria.passengers]);
+
+  const { data: otherPrices } = useAsyncData(pricesLoader);
+
+  const currentDayPrice = trips && trips.length > 0 ? Math.min(...trips.map((trip) => trip.price)) : null;
+
+  function priceForDay(day: string): number | null {
+    return day === criteria.date ? currentDayPrice : (otherPrices?.[day] ?? null);
+  }
+
   const routeLabel =
     trips && trips[0]?.itinerary
       ? `${trips[0].itinerary.origin_city?.name} → ${trips[0].itinerary.destination_city?.name}`
-      : "Departs disponibles";
+      : `${criteria.origin} → ${criteria.destination}`;
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-6 sm:px-6 sm:py-8">
-      <Card className="mb-6">
-        <CardBody>
-          <TripSearchForm initial={criteria} layout="inline" />
+      <BookingStepper current="recherche" onBack={() => router.back()} />
+
+      <Card accent={false} className="mb-5">
+        <CardBody className="flex items-start justify-between gap-3">
+          <div>
+            <h1 className="text-xl font-extrabold tracking-tight">{routeLabel}</h1>
+            <p className="mt-1 text-sm text-[var(--muted)]">
+              {formatDayCompact(criteria.date)}, {formatWeekdayShort(criteria.date)} · {criteria.passengers} passager
+              {criteria.passengers > 1 ? "s" : ""}
+            </p>
+          </div>
+          {trips && trips[0]?.itinerary?.origin_city && trips[0]?.itinerary?.destination_city ? (
+            <FavoriteButton
+              originCityId={trips[0].itinerary.origin_city.id}
+              destinationCityId={trips[0].itinerary.destination_city.id}
+            />
+          ) : null}
         </CardBody>
       </Card>
 
@@ -62,7 +111,7 @@ export function SearchResults({ criteria }: { criteria: SearchCriteria }) {
           href={searchHref({ ...criteria, date: shiftDate(criteria.date, -1) })}
           aria-label="Jour precedent"
           className={cn(
-            "flex h-10 w-10 shrink-0 items-center justify-center rounded-sm border border-[var(--hairline)] bg-[var(--surface)] hover:border-brand-300",
+            "flex h-14 w-10 shrink-0 items-center justify-center rounded-2xl border border-[var(--hairline)] bg-[var(--surface)] hover:border-brand-300",
             criteria.date <= today && "pointer-events-none opacity-40",
           )}
         >
@@ -71,6 +120,7 @@ export function SearchResults({ criteria }: { criteria: SearchCriteria }) {
         {days.map((day) => {
           const isActive = day === criteria.date;
           const isPast = day < today;
+          const price = priceForDay(day);
 
           return (
             <Link
@@ -78,44 +128,31 @@ export function SearchResults({ criteria }: { criteria: SearchCriteria }) {
               href={searchHref({ ...criteria, date: day })}
               aria-current={isActive ? "date" : undefined}
               className={cn(
-                "flex h-10 shrink-0 items-center rounded-sm px-4 text-sm font-semibold capitalize transition-colors",
+                "flex h-14 shrink-0 flex-col items-center justify-center gap-0.5 rounded-2xl px-4 transition-colors",
                 isActive
-                  ? "grad-brand text-white shadow-sm"
-                  : "border border-[var(--hairline)] bg-[var(--surface)] hover:border-brand-300",
+                  ? "bg-[#0e1a3a] text-white shadow-sm"
+                  : "border border-[var(--hairline)] bg-[var(--surface)] text-[var(--foreground)] hover:border-brand-300",
                 isPast && "pointer-events-none opacity-40",
               )}
             >
-              {formatDayShort(`${day}T12:00:00`)}
+              <span className="text-sm font-bold capitalize">{formatDayCompact(day)}</span>
+              <span className={cn("text-xs font-medium", isActive ? "text-white/75" : "text-[var(--muted)]")}>
+                {price !== null ? `${formatNumber(price)} F` : "—"}
+              </span>
             </Link>
           );
         })}
         <Link
           href={searchHref({ ...criteria, date: shiftDate(criteria.date, 1) })}
           aria-label="Jour suivant"
-          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-sm border border-[var(--hairline)] bg-[var(--surface)] hover:border-brand-300"
+          className="flex h-14 w-10 shrink-0 items-center justify-center rounded-2xl border border-[var(--hairline)] bg-[var(--surface)] hover:border-brand-300"
         >
           <IconChevronRight />
         </Link>
       </nav>
 
-      <header className="mb-4 flex flex-wrap items-baseline justify-between gap-2">
-        <span className="flex items-center gap-1">
-          <h1 className="text-xl font-extrabold tracking-tight">{routeLabel}</h1>
-          {trips && trips[0]?.itinerary?.origin_city && trips[0]?.itinerary?.destination_city ? (
-            <FavoriteButton
-              originCityId={trips[0].itinerary.origin_city.id}
-              destinationCityId={trips[0].itinerary.destination_city.id}
-            />
-          ) : null}
-        </span>
-        <p className="flex items-center gap-1.5 text-sm capitalize text-[var(--muted)]">
-          <IconCalendar className="h-4 w-4" />
-          {formatDayLong(`${criteria.date}T12:00:00`)}
-        </p>
-      </header>
-
       {trips && trips.length > 0 ? (
-        <p className="mb-4 inline-flex w-max items-center gap-1.5 rounded-sm border border-[var(--hairline)] bg-[var(--surface)] px-3.5 py-2 text-xs font-semibold text-[var(--foreground)]">
+        <p className="mb-4 inline-flex w-max items-center gap-1.5 rounded-2xl border border-[var(--hairline)] bg-[var(--surface)] px-3.5 py-2 text-xs font-semibold text-[var(--foreground)]">
           <IconSortAscending className="h-3.5 w-3.5" />
           Par heure de depart
         </p>
