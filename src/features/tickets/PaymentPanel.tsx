@@ -105,7 +105,7 @@ export function PaymentPanel({ booking, onPaid }: { booking: Booking; onPaid: (b
                     className={cn(
                       "relative flex cursor-pointer flex-col items-center gap-2 rounded-sm border p-3 text-center text-xs font-bold transition-all",
                       isActive
-                        ? "border-brand-500 bg-brand-50 shadow-card dark:bg-brand-900/20"
+                        ? "border-ink-700 bg-[var(--surface-muted)] shadow-card dark:border-ink-500"
                         : "border-[var(--hairline)] bg-[var(--surface)] hover:border-brand-300",
                     )}
                   >

@@ -44,8 +44,8 @@ export function SiteFooter() {
         </div>
       </div>
       <div className="flex h-1">
-        <span className="flex-[3] bg-[var(--color-flag-orange)]" />
-        <span className="flex-[2] bg-[var(--color-flag-green)]" />
+        <span className="bg-[var(--color-flag-orange)]" style={{ width: "55%" }} />
+        <span className="bg-[var(--color-flag-green)]" style={{ width: "45%" }} />
       </div>
     </footer>
   );

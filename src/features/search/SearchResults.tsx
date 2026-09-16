@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useCallback, useMemo } from "react";
 import { Card, CardBody, EmptyState, ErrorState, Skeleton } from "@/components/ui";
-import { IconBus, IconCalendar, IconChevronLeft, IconChevronRight } from "@/components/ui/icons";
+import { IconBus, IconCalendar, IconChevronLeft, IconChevronRight, IconSortAscending } from "@/components/ui/icons";
 import { FavoriteButton } from "@/features/favorites/FavoriteButton";
 import { useAsyncData } from "@/hooks/useAsyncData";
 import { cn } from "@/lib/cn";
@@ -80,7 +80,7 @@ export function SearchResults({ criteria }: { criteria: SearchCriteria }) {
               className={cn(
                 "flex h-10 shrink-0 items-center rounded-sm px-4 text-sm font-semibold capitalize transition-colors",
                 isActive
-                  ? "grad-brand text-white shadow-sm"
+                  ? "bg-ink-700 text-white shadow-sm"
                   : "border border-[var(--hairline)] bg-[var(--surface)] hover:border-brand-300",
                 isPast && "pointer-events-none opacity-40",
               )}
@@ -113,6 +113,13 @@ export function SearchResults({ criteria }: { criteria: SearchCriteria }) {
           {formatDayLong(`${criteria.date}T12:00:00`)}
         </p>
       </header>
+
+      {trips && trips.length > 0 ? (
+        <p className="mb-4 inline-flex w-max items-center gap-1.5 rounded-sm border border-[var(--hairline)] bg-[var(--surface)] px-3.5 py-2 text-xs font-semibold text-[var(--foreground)]">
+          <IconSortAscending className="h-3.5 w-3.5" />
+          Par heure de depart
+        </p>
+      ) : null}
 
       {isLoading ? (
         <div className="space-y-3" aria-busy="true">

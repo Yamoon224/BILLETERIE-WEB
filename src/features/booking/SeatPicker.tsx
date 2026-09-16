@@ -41,7 +41,7 @@ export function SeatPicker({
           <span className="h-4 w-4 rounded-sm border border-[var(--field-border)] bg-[var(--surface)]" /> Libre
         </li>
         <li className="flex items-center gap-2">
-          <span className="grad-brand h-4 w-4 rounded-sm" /> Votre choix
+          <span className="h-4 w-4 rounded-sm bg-[var(--color-flag-green)]" /> Votre choix
         </li>
         <li className="flex items-center gap-2">
           <span className="h-4 w-4 rounded-sm bg-stone-300 dark:bg-stone-700" /> Occupee
@@ -80,7 +80,7 @@ export function SeatPicker({
                           seat.is_taken
                             ? "cursor-not-allowed bg-stone-300 text-stone-500 dark:bg-stone-700 dark:text-stone-500"
                             : isSelected
-                              ? "grad-brand scale-105 text-white shadow-card"
+                              ? "scale-105 bg-[var(--color-flag-green)] text-white shadow-card"
                               : "border border-[var(--field-border)] bg-[var(--surface)] text-stone-700 hover:border-brand-400 hover:text-brand-700 dark:text-stone-200",
                         )}
                       >

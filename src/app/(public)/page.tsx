@@ -233,19 +233,20 @@ export default async function HomePage({ searchParams }: PageProps<"/">) {
   return (
     <>
       <section className="relative overflow-hidden">
-        {/* Fond de marque : degrade orange et motif de bandes inclinees rappelant
-            le drapeau, en retrait pour ne jamais concurrencer le formulaire. */}
-        <div aria-hidden="true" className="grad-brand absolute inset-x-0 top-0 h-[26rem] sm:h-[26rem]" />
-        <div
-          aria-hidden="true"
-          className="absolute inset-x-0 top-0 h-[26rem] opacity-[0.12] sm:h-[26rem]"
-          style={{
-            backgroundImage:
-              "repeating-linear-gradient(115deg, #fff 0 18px, transparent 18px 64px)",
-          }}
-        />
+        {/* Fond de chrome : degrade navy, la couleur de fil du tunnel. L'orange
+            n'apparait ici que sur le bandeau promo, ponctuel. */}
+        <div aria-hidden="true" className="grad-ink absolute inset-x-0 top-0 h-[28rem] sm:h-[28rem]" />
 
-        <div className="relative mx-auto max-w-6xl px-4 pb-8 pt-8 sm:px-6 sm:pt-16">
+        <div className="relative mx-auto max-w-6xl px-4 pb-8 pt-6 sm:px-6 sm:pt-14">
+          <div className="grad-brand mb-4 max-w-sm rounded-sm px-4 py-2.5 text-sm font-bold text-white sm:max-w-md">
+            🔥 -20&nbsp;% sur votre 1er trajet reserve en ligne
+          </div>
+
+          <div className="mb-5 flex flex-wrap gap-2">
+            <span className="rounded-sm bg-white/10 px-3 py-2 text-xs font-semibold text-white">🛡️ 100&nbsp;% ivoirien</span>
+            <span className="rounded-sm bg-white/10 px-3 py-2 text-xs font-semibold text-white">🚀 Reservation en 2 minutes</span>
+          </div>
+
           <div className="max-w-2xl text-white">
             <p className="inline-flex items-center gap-2 rounded-sm bg-white/15 px-3 py-1 text-xs font-bold uppercase tracking-wider backdrop-blur">
               <span className="h-1.5 w-1.5 rounded-full bg-[var(--color-flag-green)]" />

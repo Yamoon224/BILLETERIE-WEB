@@ -34,10 +34,10 @@ export function SiteHeader() {
 
   return (
     <>
-      <header className="no-print sticky top-0 z-30 border-b border-[var(--hairline)] bg-[var(--surface)]/85 backdrop-blur-md">
+      <header className="no-print sticky top-0 z-30 bg-ink-700">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-3 px-4 sm:px-6">
           <Link href="/" className="rounded-sm" aria-label="Kaara, accueil">
-            <Logo />
+            <Logo onDark />
           </Link>
 
           <div className="flex items-center gap-2">
@@ -45,7 +45,7 @@ export function SiteHeader() {
               <>
                 <LinkButton
                   href={homeFor(user)}
-                  variant="secondary"
+                  variant="accent"
                   size="sm"
                   icon={<IconUser className="h-3.5 w-3.5" />}
                   className="hidden sm:inline-flex"
@@ -62,13 +62,13 @@ export function SiteHeader() {
               </>
             ) : (
               <>
-                <LinkButton href="/connexion" size="sm" className="hidden sm:inline-flex">
+                <LinkButton href="/connexion" variant="accent" size="sm" className="hidden sm:inline-flex">
                   Se connecter
                 </LinkButton>
                 <Link
                   href="/connexion"
                   aria-label="Se connecter"
-                  className="inline-flex h-9 w-9 items-center justify-center rounded-full text-stone-600 hover:bg-stone-100 sm:hidden dark:text-stone-300 dark:hover:bg-stone-800"
+                  className="inline-flex h-9 w-9 items-center justify-center rounded-full text-white/80 hover:bg-white/10 sm:hidden"
                 >
                   <IconUser className="h-5 w-5" />
                 </Link>
@@ -81,7 +81,7 @@ export function SiteHeader() {
               aria-label="Ouvrir le menu"
               aria-haspopup="true"
               aria-expanded={isMenuOpen}
-              className="inline-flex h-9 w-9 items-center justify-center rounded-sm text-stone-600 hover:bg-stone-100 dark:text-stone-300 dark:hover:bg-stone-800"
+              className="inline-flex h-9 w-9 items-center justify-center rounded-sm text-white/80 hover:bg-white/10"
             >
               <IconMenu className="h-5 w-5" />
             </button>

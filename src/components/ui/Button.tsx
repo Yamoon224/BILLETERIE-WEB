@@ -2,17 +2,21 @@ import { forwardRef } from "react";
 import type { ButtonHTMLAttributes, ReactNode } from "react";
 import { cn } from "@/lib/cn";
 
-export type ButtonVariant = "primary" | "secondary" | "danger" | "ghost";
+export type ButtonVariant = "primary" | "accent" | "secondary" | "danger" | "ghost";
 export type ButtonSize = "sm" | "md" | "lg" | "icon";
 
 /**
- * L'orange de marque n'apparait qu'en degrade diagonal sur l'action principale :
- * c'est ce qui la rend reconnaissable d'un ecran a l'autre, du tunnel de
- * reservation au guichet.
+ * Le navy porte le fil du tunnel (rechercher, continuer, payer par etape,
+ * retour a l'accueil) : c'est la couleur de chrome de l'appli. L'orange
+ * n'apparait qu'aux endroits ou le voyageur engage une depense ou son
+ * identite - choisir un depart, payer maintenant, se connecter - pour
+ * rester reconnaissable sans se banaliser.
  */
 const VARIANT_CLASSES: Record<ButtonVariant, string> = {
   primary:
-    "grad-brand text-white shadow-sm hover:grad-brand-hover hover:shadow-md active:translate-y-px",
+    "bg-ink-700 text-white shadow-sm hover:bg-ink-800 active:translate-y-px dark:bg-ink-600 dark:hover:bg-ink-700",
+  accent:
+    "bg-brand-500 text-white shadow-sm hover:bg-brand-600 active:translate-y-px",
   secondary:
     "bg-[var(--surface)] text-stone-700 ring-1 ring-inset ring-stone-300 hover:bg-brand-50 hover:text-brand-700 hover:ring-brand-300 dark:text-stone-200 dark:ring-stone-600 dark:hover:bg-stone-800 dark:hover:text-brand-300 dark:hover:ring-brand-700",
   danger:

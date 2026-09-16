@@ -17,7 +17,7 @@ import type { Ticket, Trip } from "@/types/api";
 export function TicketCard({ ticket, trip, price }: { ticket: Ticket; trip: Trip; price: number }) {
   return (
     <article className="overflow-hidden rounded-sm border border-[var(--hairline)] bg-[var(--surface)] shadow-card print:break-inside-avoid print:shadow-none">
-      <div className="grad-brand flex items-center justify-between px-4 py-2.5 text-white">
+      <div className="flex items-center justify-between bg-ink-700 px-4 py-2.5 text-white">
         <span className="text-xs font-bold uppercase tracking-wider">{trip.company?.name}</span>
         <span className="font-mono text-xs font-bold">{ticket.code}</span>
       </div>

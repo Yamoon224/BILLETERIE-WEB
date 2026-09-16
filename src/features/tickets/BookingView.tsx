@@ -75,10 +75,15 @@ export function BookingView({ reference }: { reference: string }) {
       </header>
 
       {paid ? (
-        <FormAlert tone="success" className="no-print mb-6">
-          <strong>Paiement confirme.</strong> Votre billet a ete envoye par SMS au {booking.customer_phone}. Vous pouvez aussi le
-          presenter depuis cette page.
-        </FormAlert>
+        <div className="no-print mb-6 flex flex-col items-center py-4 text-center">
+          <span className="mb-3.5 flex h-14 w-14 items-center justify-center rounded-full bg-[var(--color-flag-green)] text-white">
+            <IconCheckCircle className="h-7 w-7" />
+          </span>
+          <p className="text-lg font-extrabold">Paiement confirme !</p>
+          <p className="mt-1 text-sm text-[var(--muted)]">
+            Votre billet a ete envoye par SMS au {booking.customer_phone}. Vous pouvez aussi le presenter depuis cette page.
+          </p>
+        </div>
       ) : null}
 
       {isPayable ? (

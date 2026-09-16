@@ -13,55 +13,66 @@
   --font-mono: ui-monospace, "SFMono-Regular", "Cascadia Code", Menlo, monospace;
 
   /*
-   * Cyan vif, decline en une seule rampe : le ciel, la mer, l'horizon des
-   * possibles. Le blanc reste la seconde couleur de la charte - il porte les
-   * surfaces - et ce cyan est reserve a ce qui doit attirer l'oeil : action
-   * principale, etat actif, prix. Le jaune et le rose fuchsia de la charte
-   * n'apparaissent qu'a travers `grad-brand` (voir plus bas) : jamais en
-   * rampe unie, pour qu'ils restent des accents et non un fond.
+   * Orange vif, decline en une seule rampe : promesse, prix, actions qui
+   * engagent (choisir un depart, payer). Reserve a ce qui doit attirer
+   * l'oeil - jamais un fond de page entier.
    */
-  --color-brand-50: #eafbff;
-  --color-brand-100: #c9f3fd;
-  --color-brand-200: #97e6fb;
-  --color-brand-300: #59d3f4;
-  --color-brand-400: #1cbbe8;
-  --color-brand-500: #00a6d6;
-  --color-brand-600: #0086b0;
-  --color-brand-700: #036d8f;
-  --color-brand-800: #0a5570;
-  --color-brand-900: #0d4258;
+  --color-brand-50: #fdf1e9;
+  --color-brand-100: #fbe0cc;
+  --color-brand-200: #f6c199;
+  --color-brand-300: #f0a066;
+  --color-brand-400: #ec7a38;
+  --color-brand-500: #e8590c;
+  --color-brand-600: #ce500a;
+  --color-brand-700: #b34700;
+  --color-brand-800: #8a3800;
+  --color-brand-900: #6b2a00;
 
-  /* Vert, reserve aux etats de succes : embarquement autorise, paiement
-     encaisse. Il ne sert jamais de decoration. */
-  --color-flag-green: #009e60;
+  /*
+   * Navy, decline en une seule rampe : c'est la couleur de chrome de
+   * l'appli - en-tetes, degrade du hero, action principale des tunnels
+   * (rechercher, continuer, payer, retour a l'accueil). L'orange reste
+   * reserve aux actions qui engagent une depense (choisir, payer maintenant,
+   * se connecter).
+   */
+  --color-ink-500: #35496b;
+  --color-ink-600: #243a58;
+  --color-ink-700: #1b2a41;
+  --color-ink-800: #142032;
+  --color-ink-900: #101a2b;
+
+  /* Vert, reserve aux etats de succes et de selection : siege choisi,
+     embarquement autorise, paiement encaisse. Il ne sert jamais de
+     decoration. */
+  --color-flag-green: #1f7a4d;
 
   /* Orange fixe, independant de la rampe de marque : ne sert qu'au liser
      drapeau (logo, pied de page), cote a cote avec le vert ci-dessus. */
-  --color-flag-orange: #f77f00;
+  --color-flag-orange: #e8590c;
 }
 
 :root {
   color-scheme: light;
-  --canvas: #f4fbfd;
+  --canvas: #ffffff;
   --surface: #ffffff;
-  --surface-muted: #e9f5f8;
-  --foreground: #12222b;
-  --muted: #57707a;
-  --hairline: #dcebef;
-  --card-shadow: 0 1px 2px rgb(10 30 38 / 0.05), 0 12px 28px -14px rgb(10 30 38 / 0.22);
-  --card-shadow-hover: 0 2px 4px rgb(10 30 38 / 0.06), 0 18px 38px -16px rgb(0 134 176 / 0.35);
+  --surface-muted: #fdf3ec;
+  --foreground: #1b2a41;
+  --muted: #6b7280;
+  --hairline: #eae3dc;
+  --card-shadow: 0 1px 2px rgb(27 42 65 / 0.05), 0 12px 28px -14px rgb(27 42 65 / 0.22);
+  --card-shadow-hover: 0 2px 4px rgb(27 42 65 / 0.06), 0 18px 38px -16px rgb(232 89 12 / 0.35);
 }
 
 .dark {
   color-scheme: dark;
-  --canvas: #071219;
-  --surface: #0f1d24;
-  --surface-muted: #15262e;
-  --foreground: #e9f6fa;
-  --muted: #93aab2;
-  --hairline: #22343b;
+  --canvas: #0d1420;
+  --surface: #16213a;
+  --surface-muted: #1c2b47;
+  --foreground: #f3efe9;
+  --muted: #9aa5b4;
+  --hairline: #26334d;
   --card-shadow: 0 1px 2px rgb(0 0 0 / 0.5), 0 12px 30px -14px rgb(0 0 0 / 0.85);
-  --card-shadow-hover: 0 2px 6px rgb(0 0 0 / 0.55), 0 20px 42px -16px rgb(0 166 214 / 0.3);
+  --card-shadow-hover: 0 2px 6px rgb(0 0 0 / 0.55), 0 20px 42px -16px rgb(232 89 12 / 0.3);
 }
 
 /*
@@ -69,26 +80,26 @@
  *
  * Trois teintes categorielles, dans un ordre fixe valide en paires completes
  * (daltonisme protan/deutan et vision normale) contre les surfaces reelles des
- * cartes, en clair comme en sombre. Le vert du drapeau n'y figure pas : il est
+ * cartes, en clair comme en sombre. Le vert de succes n'y figure pas : il est
  * reserve aux etats de succes. La couleur suit l'entite - mobile money est
  * toujours orange, quel que soit son rang dans la liste.
  */
 :root {
-  --series-1: #db6d00;
+  --series-1: #e8590c;
   --series-2: #2a78d6;
   --series-3: #1baf7a;
-  --chart-grid: #dcebef;
-  --chart-axis: #c9dee3;
-  --meter-track: #ffe9cc;
+  --chart-grid: #eae3dc;
+  --chart-axis: #d8d2c8;
+  --meter-track: #fbe0cc;
 }
 
 .dark {
-  --series-1: #db6d00;
+  --series-1: #e8590c;
   --series-2: #3987e5;
   --series-3: #199e70;
-  --chart-grid: #22343b;
-  --chart-axis: #2e4750;
-  --meter-track: #3a2a1a;
+  --chart-grid: #26334d;
+  --chart-axis: #3a4d6b;
+  --meter-track: #3a2000;
 }
 
 body {
@@ -98,34 +109,45 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* La bande degradee multicolore de la charte - cyan, rose fuchsia, jaune -
-   toujours diagonale : une seule definition, reprise par les boutons, les
-   en-tetes de billet, les liseres de cartes et l'etat actif. Elle materialise
-   la trajectoire du voyage, jamais un simple fond decoratif. */
+/* Le degrade de marque, toujours diagonal : une seule definition, reprise par
+   le bandeau promo, les cartes-piliers et les vignettes de decouverte. */
 @utility grad-brand {
-  background-image: linear-gradient(135deg, #1cbbe8 0%, #d6259f 50%, #ffd100 100%);
+  background-image: linear-gradient(135deg, #e8590c 0%, #b34700 100%);
 }
 
 @utility grad-brand-hover {
-  background-image: linear-gradient(135deg, #00a6d6 0%, #b01b82 50%, #e6b800 100%);
+  background-image: linear-gradient(135deg, #b34700 0%, #8a3800 100%);
 }
 
 @utility grad-brand-soft {
-  background-image: linear-gradient(135deg, rgb(0 166 214 / 0.14) 0%, rgb(214 37 159 / 0.06) 100%);
+  background-image: linear-gradient(135deg, rgb(232 89 12 / 0.14) 0%, rgb(179 71 0 / 0.06) 100%);
 }
 
 @utility grad-brand-text {
-  background-image: linear-gradient(135deg, #00a6d6 0%, #b01b82 100%);
+  background-image: linear-gradient(135deg, #e8590c 0%, #b34700 100%);
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
 }
 
+/* Degrade de chrome, navy : hero, en-tetes de billet, arriere-plan des
+   ecrans de tunnel. */
+@utility grad-ink {
+  background-image: linear-gradient(160deg, #1b2a41 0%, #101a2b 100%);
+}
+
 /* Bandeau fixe du logo et du pied de page : orange + vert, cote a cote, sans
-   le blanc du drapeau. Independant de `grad-brand` afin que ce motif reste
-   stable meme si la rampe de marque evolue. */
+   blanc entre les deux - partage nette a 55 %, comme la marque du bloc
+   marchand. Independant de `grad-brand` afin que ce motif reste stable meme
+   si la rampe de marque evolue. */
 @utility grad-logo {
-  background-image: linear-gradient(135deg, var(--color-flag-orange) 0%, var(--color-flag-orange) 60%, var(--color-flag-green) 100%);
+  background-image: linear-gradient(
+    135deg,
+    var(--color-flag-orange) 0%,
+    var(--color-flag-orange) 55%,
+    var(--color-flag-green) 55%,
+    var(--color-flag-green) 100%
+  );
 }
 
 @utility shadow-card {
@@ -166,7 +188,7 @@ body {
 }
 
 ::selection {
-  background-color: rgb(0 166 214 / 0.24);
+  background-color: rgb(232 89 12 / 0.24);
 }
 
 /* ---------------------------------------------------------------------------
@@ -180,25 +202,25 @@ body {
  */
 
 :root {
-  --field-border: #c9dee3;
-  --field-border-hover: #9fbac2;
-  --field-border-focus: #00a6d6;
+  --field-border: #eae3dc;
+  --field-border-hover: #d8d2c8;
+  --field-border-focus: #e8590c;
   --field-border-error: #e11d48;
-  --field-label: #5e7a83;
-  --field-label-focus: #0086b0;
-  --field-placeholder: #85a0a8;
-  --field-disabled-bg: #e9f5f8;
+  --field-label: #6b7280;
+  --field-label-focus: #b34700;
+  --field-placeholder: #c9c2b8;
+  --field-disabled-bg: #fdf3ec;
 }
 
 .dark {
-  --field-border: #2e4750;
-  --field-border-hover: #47646d;
-  --field-border-focus: #1cbbe8;
+  --field-border: #2a3b57;
+  --field-border-hover: #3a4d6b;
+  --field-border-focus: #ec7a38;
   --field-border-error: #fb7185;
-  --field-label: #93aab2;
-  --field-label-focus: #59d3f4;
-  --field-placeholder: #6b8890;
-  --field-disabled-bg: #15262e;
+  --field-label: #9aa5b4;
+  --field-label-focus: #f0a066;
+  --field-placeholder: #6b7c92;
+  --field-disabled-bg: #1c2b47;
 }
 
 @layer components {

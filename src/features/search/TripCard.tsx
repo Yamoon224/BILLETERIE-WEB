@@ -49,8 +49,15 @@ export function TripCard({ trip, passengers }: { trip: Trip; passengers: number 
           <div className="mt-3 flex flex-wrap items-center gap-2 text-xs">
             <span className="font-bold text-stone-700 dark:text-stone-200">{trip.company?.name}</span>
             {trip.vehicle ? <Badge tone={trip.vehicle.class === "vip" ? "brand" : "neutral"}>{trip.vehicle.class_label}</Badge> : null}
-            <span className="text-[var(--muted)]">Depart : {trip.departure_station?.name}</span>
           </div>
+
+          {trip.departure_station || trip.arrival_station ? (
+            <p className="mt-1.5 text-xs leading-relaxed text-[var(--muted)]">
+              {trip.departure_station?.name}
+              {trip.departure_station && trip.arrival_station ? " → " : null}
+              {trip.arrival_station?.name}
+            </p>
+          ) : null}
         </div>
 
         <div className="flex items-center justify-between gap-4 border-t border-[var(--hairline)] pt-3 sm:flex-col sm:items-end sm:border-0 sm:pt-0">
@@ -71,6 +78,7 @@ export function TripCard({ trip, passengers }: { trip: Trip; passengers: number 
             <span className="text-sm font-semibold text-[var(--muted)]">Indisponible</span>
           ) : (
             <LinkButton
+              variant="accent"
               href={`/reservation/${trip.id}?voyageurs=${passengers}`}
               icon={<IconArrowRight className="h-4 w-4" />}
               className="flex-row-reverse"
