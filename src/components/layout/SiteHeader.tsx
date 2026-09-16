@@ -6,7 +6,7 @@ import { useState } from "react";
 import { Logo, LogoMark } from "@/components/brand/Logo";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
 import { Avatar, LinkButton } from "@/components/ui";
-import { IconClose, IconMenu, IconTicket, IconUser } from "@/components/ui/icons";
+import { IconClose, IconHeart, IconMenu, IconTicket, IconUser } from "@/components/ui/icons";
 import { homeFor, useAuth } from "@/features/auth/AuthContext";
 import { cn } from "@/lib/cn";
 
@@ -37,10 +37,18 @@ export function SiteHeader() {
       <header className="no-print sticky top-0 z-30 border-b border-[var(--hairline)] bg-[var(--surface)]/85 backdrop-blur-md">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-3 px-4 sm:px-6">
           <Link href="/" className="rounded-sm" aria-label="Kaara, accueil">
-            <Logo />
+            <Logo tone="brand" />
           </Link>
 
           <div className="flex items-center gap-2">
+            <Link
+              href="/favoris"
+              aria-label="Mes favoris"
+              className="inline-flex h-9 w-9 items-center justify-center rounded-full text-stone-500 ring-1 ring-inset ring-stone-200 hover:bg-stone-100 dark:text-stone-300 dark:ring-stone-700 dark:hover:bg-stone-800"
+            >
+              <IconHeart className="h-4 w-4" />
+            </Link>
+
             {user ? (
               <>
                 <LinkButton
@@ -62,9 +70,12 @@ export function SiteHeader() {
               </>
             ) : (
               <>
-                <LinkButton href="/connexion" size="sm" className="hidden sm:inline-flex">
+                <Link
+                  href="/connexion"
+                  className="hidden h-8 items-center justify-center rounded-full bg-brand-400 px-4 text-xs font-semibold text-white shadow-sm transition-colors hover:bg-brand-500 active:translate-y-px sm:inline-flex"
+                >
                   Se connecter
-                </LinkButton>
+                </Link>
                 <Link
                   href="/connexion"
                   aria-label="Se connecter"
