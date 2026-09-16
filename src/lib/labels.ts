@@ -54,17 +54,16 @@ export const VEHICLE_CLASS_LABEL: Record<VehicleClass, string> = {
 export const MOBILE_MONEY_PROVIDERS: Array<{
   value: MobileMoneyProvider;
   label: string;
-  /** Sigle porte par le badge carre — le repere le plus rapide au regard, avant le nom. */
-  badge: string;
   swatch: string;
-  /** Le sigle MTN est jaune vif : un texte blanc y disparait, il reste sombre. */
-  badgeTextDark?: boolean;
   ussd: string;
+  logo: string;
+  logoWidth: number;
+  logoHeight: number;
 }> = [
-  { value: "wave", label: "Wave", badge: "W", swatch: "#1dc3ff", ussd: "Appli Wave" },
-  { value: "orange_money", label: "Orange Money", badge: "OM", swatch: "#ff7900", ussd: "#144#" },
-  { value: "mtn_money", label: "MTN MoMo", badge: "MTN", swatch: "#ffcc00", badgeTextDark: true, ussd: "*133#" },
-  { value: "moov_money", label: "Moov Money", badge: "MV", swatch: "#0066b3", ussd: "*155#" },
+  { value: "wave", label: "Wave", swatch: "#1dc3ff", ussd: "Appli Wave", logo: "/payments/wave.jpg", logoWidth: 597, logoHeight: 335 },
+  { value: "orange_money", label: "Orange Money", swatch: "#ff7900", ussd: "#144#", logo: "/payments/orange-money.jpg", logoWidth: 447, logoHeight: 447 },
+  { value: "mtn_money", label: "MTN MoMo", swatch: "#ffcc00", ussd: "*133#", logo: "/payments/mtn-momo.jpg", logoWidth: 416, logoHeight: 203 },
+  { value: "moov_money", label: "Moov Money", swatch: "#0066b3", ussd: "*155#", logo: "/payments/moov-money.png", logoWidth: 447, logoHeight: 447 },
 ];
 
 export const ROLE_LABEL: Record<string, string> = {

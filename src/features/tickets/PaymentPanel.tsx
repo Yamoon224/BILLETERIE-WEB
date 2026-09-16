@@ -115,14 +115,11 @@ export function PaymentPanel({ booking, onPaid }: { booking: Booking; onPaid: (b
                       onChange={() => setProvider(item.value)}
                       className="sr-only"
                     />
-                    <span
-                      className={cn(
-                        "flex h-9 w-9 shrink-0 items-center justify-center rounded-sm text-[11px] font-extrabold",
-                        item.badgeTextDark ? "text-ink-900" : "text-white",
-                      )}
-                      style={{ backgroundColor: item.swatch }}
-                    >
-                      {item.badge}
+                    {/* Fond blanc fixe, y compris en theme sombre : ce sont des logos de
+                        marque en couleurs fixes, pas des icones qui suivent le theme. */}
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-sm border border-[var(--hairline)] bg-white p-1">
+                      {/* eslint-disable-next-line @next/next/no-img-element -- logo de marque fixe, pas une image de contenu */}
+                      <img src={item.logo} alt="" width={item.logoWidth} height={item.logoHeight} className="h-full w-full object-contain" />
                     </span>
                     <span className="flex-1 text-sm font-bold">{item.label}</span>
                     <span
