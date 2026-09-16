@@ -117,7 +117,8 @@ export function PaymentPanel({ booking, onPaid }: { booking: Booking; onPaid: (b
                       onChange={() => setProvider(item.value)}
                       className="sr-only"
                     />
-                    <span className="h-8 w-8 rounded-full ring-2 ring-white dark:ring-stone-900" style={{ backgroundColor: item.swatch }} />
+                    {/* eslint-disable-next-line @next/next/no-img-element -- logo de marque fixe, pas une image de contenu */}
+                    <img src={item.logo} alt="" width={item.logoWidth} height={item.logoHeight} className="h-8 w-auto max-w-[3.5rem] object-contain" />
                     {item.label}
                   </label>
                 );

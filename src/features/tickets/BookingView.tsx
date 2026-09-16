@@ -9,6 +9,7 @@ import { formatDateTime, formatMoney } from "@/lib/format";
 import { BOOKING_TONE } from "@/lib/labels";
 import { bookingService } from "@/services";
 import type { Booking } from "@/types/api";
+import { BookingStepper } from "@/features/booking/BookingStepper";
 import { PaymentPanel } from "./PaymentPanel";
 import { TicketCard } from "./TicketCard";
 
@@ -73,6 +74,10 @@ export function BookingView({ reference }: { reference: string }) {
           {booking.is_hold_expired ? "Delai depasse" : booking.status_label}
         </Badge>
       </header>
+
+      {isPayable || booking.status === "confirmed" ? (
+        <BookingStepper current={booking.status === "confirmed" ? "billet" : "paiement"} />
+      ) : null}
 
       {paid ? (
         <div className="no-print mb-6 flex flex-col items-center py-4 text-center">

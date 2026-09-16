@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 import type { FormEvent } from "react";
 import { Badge, Button, Card, CardBody, CardHeader, ErrorState, FormAlert, LoadingState, TextField } from "@/components/ui";
-import { IconArrowLeft, IconBus, IconClock, IconMapPin, IconSeat, IconUser } from "@/components/ui/icons";
+import { IconBus, IconClock, IconMapPin, IconSeat, IconUser } from "@/components/ui/icons";
 import { useAuth } from "@/features/auth/AuthContext";
 import { useAsyncData } from "@/hooks/useAsyncData";
 import { useMutation } from "@/hooks/useMutation";
@@ -14,15 +14,18 @@ import { formatDayLong, formatDuration, formatMoney, formatTime } from "@/lib/fo
 import { bookingService, tripService } from "@/services";
 import type { BookingInput } from "@/services/booking-service";
 import type { Trip } from "@/types/api";
+import { BookingStepper } from "./BookingStepper";
 import { SeatPicker } from "./SeatPicker";
 
+type Step = "siege" | "passager";
+
 /**
- * Tunnel de reservation : places, voyageurs, coordonnees — sur un seul ecran.
- *
- * Un seul ecran et non trois etapes : chaque changement de page est un
- * aller-retour reseau de plus sur une connexion 3G, et une occasion de perdre
- * le voyageur. Le recapitulatif reste visible (colonne sur ordinateur, barre
- * collee en bas sur telephone) : le prix total ne doit jamais etre une surprise.
+ * Tunnel de reservation : deux etapes visibles (siege, puis voyageurs et
+ * coordonnees), mais une seule page chargee — passer de l'une a l'autre est
+ * un changement d'etat local, pas un aller-retour reseau. Sur une connexion
+ * 3G, chaque navigation de page est une occasion de perdre le voyageur ; le
+ * fil d'etapes (`BookingStepper`) donne le meme repere visuel qu'un vrai
+ * changement d'ecran sans en payer le cout reseau.
  */
 export function BookingFlow({ tripId, passengers: initialPassengers }: { tripId: string; passengers: number }) {
   const router = useRouter();
@@ -31,6 +34,7 @@ export function BookingFlow({ tripId, passengers: initialPassengers }: { tripId:
   const loadSeatMap = useCallback(() => tripService.seatMap(tripId), [tripId]);
   const { data: seatMap, isLoading, error, reload } = useAsyncData(loadSeatMap);
 
+  const [step, setStep] = useState<Step>("siege");
   const [passengerCount, setPassengerCount] = useState(initialPassengers);
   const [seats, setSeats] = useState<string[]>([]);
   const [names, setNames] = useState<Record<string, string>>({});
@@ -74,6 +78,11 @@ export function BookingFlow({ tripId, passengers: initialPassengers }: { tripId:
       return;
     }
 
+    if (step === "siege") {
+      setStep("passager");
+      return;
+    }
+
     const booking = await reservation.run({
       trip_id: trip.id,
       customer_name: customerName.trim(),
@@ -92,6 +101,7 @@ export function BookingFlow({ tripId, passengers: initialPassengers }: { tripId:
       // laisser le voyageur retenter sur une place qui n'existe plus.
       reload();
       setSeats([]);
+      setStep("siege");
     }
   }
 
@@ -104,124 +114,126 @@ export function BookingFlow({ tripId, passengers: initialPassengers }: { tripId:
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-6 pb-32 sm:px-6 sm:py-8 lg:pb-8">
-      <button
-        type="button"
-        onClick={() => router.back()}
-        className="mb-4 inline-flex items-center gap-2 text-sm font-semibold text-[var(--muted)] hover:text-brand-600"
-      >
-        <IconArrowLeft className="h-4 w-4" /> Retour aux departs
-      </button>
+      <BookingStepper
+        current={step}
+        onBack={step === "siege" ? () => router.back() : () => setStep("siege")}
+        backLabel={step === "siege" ? "Retour aux departs" : "Retour au choix des sieges"}
+      />
 
       <form onSubmit={submit} noValidate className="grid gap-6 lg:grid-cols-[1fr_22rem]">
         <div className="space-y-6">
-          <Card>
-            <CardHeader
-              icon={<IconSeat className="h-4 w-4" />}
-              title="Choisissez vos places"
-              description={`${seatMap.available} place${seatMap.available > 1 ? "s" : ""} libre${seatMap.available > 1 ? "s" : ""} sur ${seatMap.capacity}.`}
-              actions={
-                <div className="flex items-center gap-2 text-sm">
-                  <label htmlFor="passenger-count" className="text-[var(--muted)]">
-                    Voyageurs
-                  </label>
-                  <select
-                    id="passenger-count"
-                    value={passengerCount}
-                    onChange={(event) => {
-                      const next = Number(event.target.value);
-                      setPassengerCount(next);
-                      setSeats((current) => current.slice(0, next));
-                    }}
-                    className="rounded-sm bg-[var(--surface)] px-2 py-1.5 font-semibold ring-1 ring-inset ring-[var(--field-border)] focus:outline-none focus:ring-2 focus:ring-brand-500"
-                  >
-                    {Array.from({ length: Math.max(1, maxPassengers) }, (_, index) => index + 1).map((count) => (
-                      <option key={count} value={count}>
-                        {count}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              }
-            />
-            <CardBody>
-              <SeatPicker seatMap={seatMap} selected={seats} max={passengerCount} onChange={setSeats} />
-            </CardBody>
-          </Card>
-
-          {seats.length > 0 ? (
+          {step === "siege" ? (
             <Card>
               <CardHeader
-                icon={<IconUser className="h-4 w-4" />}
-                title="Voyageurs"
-                description="Le nom figure sur le billet. Il peut vous etre demande a l'embarquement."
+                icon={<IconSeat className="h-4 w-4" />}
+                title="Choisissez vos places"
+                description={`${seatMap.available} place${seatMap.available > 1 ? "s" : ""} libre${seatMap.available > 1 ? "s" : ""} sur ${seatMap.capacity}.`}
+                actions={
+                  <div className="flex items-center gap-2 text-sm">
+                    <label htmlFor="passenger-count" className="text-[var(--muted)]">
+                      Voyageurs
+                    </label>
+                    <select
+                      id="passenger-count"
+                      value={passengerCount}
+                      onChange={(event) => {
+                        const next = Number(event.target.value);
+                        setPassengerCount(next);
+                        setSeats((current) => current.slice(0, next));
+                      }}
+                      className="rounded-sm bg-[var(--surface)] px-2 py-1.5 font-semibold ring-1 ring-inset ring-[var(--field-border)] focus:outline-none focus:ring-2 focus:ring-brand-500"
+                    >
+                      {Array.from({ length: Math.max(1, maxPassengers) }, (_, index) => index + 1).map((count) => (
+                        <option key={count} value={count}>
+                          {count}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                }
               />
-              <CardBody className="grid gap-4 sm:grid-cols-2">
-                {seats.map((seat, index) => (
-                  <TextField
-                    key={seat}
-                    label={`Voyageur ${index + 1} — place ${seat}`}
-                    placeholder="Prenom et nom"
-                    value={names[seat] ?? ""}
-                    onChange={(event) => setNames((current) => ({ ...current, [seat]: event.target.value }))}
-                    autoComplete={index === 0 ? "name" : "off"}
-                  />
-                ))}
+              <CardBody>
+                <SeatPicker seatMap={seatMap} selected={seats} max={passengerCount} onChange={setSeats} />
               </CardBody>
             </Card>
-          ) : null}
+          ) : (
+            <>
+              <Card>
+                <CardHeader
+                  icon={<IconUser className="h-4 w-4" />}
+                  title="Voyageurs"
+                  description="Le nom figure sur le billet. Il peut vous etre demande a l'embarquement."
+                />
+                <CardBody className="grid gap-4 sm:grid-cols-2">
+                  {seats.map((seat, index) => (
+                    <TextField
+                      key={seat}
+                      label={`Voyageur ${index + 1} — place ${seat}`}
+                      placeholder="Prenom et nom"
+                      value={names[seat] ?? ""}
+                      onChange={(event) => setNames((current) => ({ ...current, [seat]: event.target.value }))}
+                      autoComplete={index === 0 ? "name" : "off"}
+                    />
+                  ))}
+                </CardBody>
+              </Card>
 
-          <Card>
-            <CardHeader
-              title="Vos coordonnees"
-              description="Le billet vous est envoye par SMS sur ce numero. Verifiez-le bien."
-            />
-            <CardBody className="grid gap-4 sm:grid-cols-2">
-              <TextField
-                label="Nom complet"
-                placeholder="Awa Kone"
-                value={customerName}
-                onChange={(event) => setCustomerName(event.target.value)}
-                errors={reservation.fieldErrors.customer_name}
-                autoComplete="name"
-                required
-              />
-              <TextField
-                label="Telephone"
-                type="tel"
-                inputMode="tel"
-                placeholder="+225 07 00 00 00 00"
-                value={customerPhone}
-                onChange={(event) => setCustomerPhone(event.target.value)}
-                errors={reservation.fieldErrors.customer_phone}
-                autoComplete="tel"
-                required
-              />
-              <TextField
-                label="E-mail (facultatif)"
-                type="email"
-                placeholder="vous@exemple.ci"
-                value={customerEmail}
-                onChange={(event) => setCustomerEmail(event.target.value)}
-                errors={reservation.fieldErrors.customer_email}
-                autoComplete="email"
-                fieldClassName="sm:col-span-2"
-              />
-            </CardBody>
-          </Card>
+              <Card>
+                <CardHeader
+                  title="Vos coordonnees"
+                  description="Le billet vous est envoye par SMS sur ce numero. Verifiez-le bien."
+                />
+                <CardBody className="grid gap-4 sm:grid-cols-2">
+                  <TextField
+                    label="Nom complet"
+                    placeholder="Awa Kone"
+                    value={customerName}
+                    onChange={(event) => setCustomerName(event.target.value)}
+                    errors={reservation.fieldErrors.customer_name}
+                    autoComplete="name"
+                    required
+                  />
+                  <TextField
+                    label="Telephone"
+                    type="tel"
+                    inputMode="tel"
+                    placeholder="+225 07 00 00 00 00"
+                    value={customerPhone}
+                    onChange={(event) => setCustomerPhone(event.target.value)}
+                    errors={reservation.fieldErrors.customer_phone}
+                    autoComplete="tel"
+                    required
+                  />
+                  <TextField
+                    label="E-mail (facultatif)"
+                    type="email"
+                    placeholder="vous@exemple.ci"
+                    value={customerEmail}
+                    onChange={(event) => setCustomerEmail(event.target.value)}
+                    errors={reservation.fieldErrors.customer_email}
+                    autoComplete="email"
+                    fieldClassName="sm:col-span-2"
+                  />
+                </CardBody>
+              </Card>
+            </>
+          )}
         </div>
 
-        {/* Recapitulatif : colonne collante sur grand ecran. */}
+        {/* Recapitulatif : colonne collante sur grand ecran, presente aux deux etapes. */}
         <aside className="hidden lg:block">
           <div className="sticky top-24 space-y-4">
             <TripSummary trip={trip} seats={seats} total={total} />
             {localError ? <FormAlert>{localError}</FormAlert> : null}
             {reservationError ? <FormAlert>{reservationError}</FormAlert> : null}
             <Button type="submit" size="lg" className="w-full" isLoading={reservation.isPending} disabled={seats.length === 0}>
-              Reserver — {formatMoney(total)}
+              {step === "siege" ? "Continuer" : `Reserver — ${formatMoney(total)}`}
             </Button>
-            <p className="text-center text-xs text-[var(--muted)]">
-              Vos places sont bloquees 15 minutes le temps du paiement.
-            </p>
+            {step === "siege" ? null : (
+              <p className="text-center text-xs text-[var(--muted)]">
+                Vos places sont bloquees 15 minutes le temps du paiement.
+              </p>
+            )}
           </div>
         </aside>
 
@@ -241,7 +253,7 @@ export function BookingFlow({ tripId, passengers: initialPassengers }: { tripId:
               <p className="text-lg font-extrabold tabular-nums text-brand-700 dark:text-brand-400">{formatMoney(total)}</p>
             </div>
             <Button type="submit" size="lg" isLoading={reservation.isPending} disabled={seats.length === 0}>
-              Reserver
+              {step === "siege" ? "Continuer" : "Reserver"}
             </Button>
           </div>
         </div>
