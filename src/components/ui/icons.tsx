@@ -542,6 +542,56 @@ export function IconHeart(props: IconProps) {
   );
 }
 
+/*
+ * Marques sociales : glyphes pleins (fill), pas le trait unique du reste du
+ * jeu — ce sont des logos de tiers reconnaissables a leur silhouette, pas des
+ * pictogrammes d'interface.
+ */
+
+export function IconFacebook(props: IconProps) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      aria-hidden="true"
+      focusable="false"
+      {...props}
+      className={props.className ?? "h-4 w-4 shrink-0"}
+    >
+      <path d="M14 9h2.5V6h-2.5c-2.2 0-4 1.8-4 4v1.3H8v3h2v6.7h3V14.3h2.4l.6-3H13V10c0-.6.4-1 1-1Z" />
+    </svg>
+  );
+}
+
+export function IconGithub(props: IconProps) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      aria-hidden="true"
+      focusable="false"
+      {...props}
+      className={props.className ?? "h-4 w-4 shrink-0"}
+    >
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M12 2C6.48 2 2 6.58 2 12.2c0 4.5 2.87 8.32 6.84 9.67.5.1.68-.22.68-.49v-1.9c-2.78.62-3.37-1.36-3.37-1.36-.46-1.2-1.11-1.52-1.11-1.52-.9-.63.07-.62.07-.62 1 .07 1.53 1.05 1.53 1.05.9 1.57 2.34 1.12 2.91.86.09-.66.35-1.12.63-1.38-2.22-.26-4.56-1.13-4.56-5.03 0-1.11.39-2.02 1.03-2.73-.1-.26-.45-1.31.1-2.73 0 0 .84-.27 2.75 1.05a9.3 9.3 0 0 1 5 0c1.9-1.32 2.74-1.05 2.74-1.05.55 1.42.2 2.47.1 2.73.64.71 1.03 1.62 1.03 2.73 0 3.91-2.34 4.77-4.57 5.02.36.32.68.94.68 1.9v2.82c0 .27.18.6.69.49A10.03 10.03 0 0 0 22 12.2C22 6.58 17.52 2 12 2Z"
+      />
+    </svg>
+  );
+}
+
+export function IconInstagram(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <rect x="3.5" y="3.5" width="17" height="17" rx="5" />
+      <circle cx="12" cy="12" r="4" />
+      <circle cx="17.2" cy="6.8" r="0.6" fill="currentColor" stroke="none" />
+    </Icon>
+  );
+}
+
 export function IconSparkle(props: IconProps) {
   return (
     <Icon {...props}>

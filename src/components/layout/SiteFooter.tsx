@@ -1,48 +1,85 @@
 import Link from "next/link";
-import { Logo } from "@/components/brand/Logo";
+import { IconFacebook, IconGithub, IconInstagram } from "@/components/ui/icons";
 
+const FOOTER_SECTIONS = [
+  {
+    heading: "Voyageurs",
+    links: [
+      { href: "#", label: "Chèques cadeaux" },
+      { href: "#", label: "Programme de fidélité" },
+      { href: "#", label: "Guide des destinations" },
+    ],
+  },
+  {
+    heading: "Partenaires",
+    links: [
+      { href: "#", label: "Devenir partenaire" },
+      { href: "#", label: "Ajouter votre compagnie ou résidence" },
+      { href: "#", label: "Publicité sur Kaara" },
+      { href: "#", label: "Programme d'affiliation" },
+    ],
+  },
+  {
+    heading: "Aide",
+    links: [
+      { href: "#", label: "Centre d'aide" },
+      { href: "#", label: "Nous contacter" },
+    ],
+  },
+];
+
+const SOCIAL_LINKS = [
+  { href: "#", label: "Facebook", icon: <IconFacebook className="h-4 w-4" /> },
+  { href: "#", label: "GitHub", icon: <IconGithub className="h-4 w-4" /> },
+  { href: "#", label: "Instagram", icon: <IconInstagram className="h-4 w-4" /> },
+];
+
+/**
+ * Pied de page voyageur : fond sombre fixe, independant du theme clair/sombre
+ * de reste du site — c'est un socle marketing, pas une surface applicative.
+ */
 export function SiteFooter() {
   return (
-    <footer className="no-print mt-16 border-t border-[var(--hairline)] bg-[var(--surface)] pb-20 md:pb-0">
-      <div className="mx-auto grid max-w-6xl gap-8 px-4 py-10 sm:px-6 md:grid-cols-[1.5fr_1fr_1fr]">
-        <div>
-          <Logo tagline />
-          <p className="mt-4 max-w-sm text-sm leading-relaxed text-[var(--muted)]">
-            Reservez votre place, payez par mobile money et recevez votre billet par SMS. Presentez simplement
-            le QR code a l&apos;embarquement.
-          </p>
+    <footer className="no-print mt-16 bg-[#0f1d24] pb-20 text-stone-300 md:pb-0">
+      <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
+        <span className="text-2xl font-extrabold tracking-tight text-white">
+          Ka<span className="grad-brand-text">ara</span>
+        </span>
+
+        <div className="mt-10 grid gap-8 sm:grid-cols-3">
+          {FOOTER_SECTIONS.map((section) => (
+            <div key={section.heading}>
+              <p className="text-base font-bold text-white">{section.heading}</p>
+              <ul className="mt-3 space-y-2.5 text-sm">
+                {section.links.map((link) => (
+                  <li key={link.label}>
+                    <Link href={link.href} className="text-stone-400 hover:text-brand-300">
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
-        <div>
-          <p className="text-xs font-bold uppercase tracking-wider text-[var(--muted)]">Voyageurs</p>
-          <ul className="mt-3 space-y-2 text-sm">
-            <li>
-              <Link href="/" className="hover:text-brand-600">
-                Rechercher un trajet
-              </Link>
-            </li>
-            <li>
-              <Link href="/mes-billets" className="hover:text-brand-600">
-                Retrouver mon billet
-              </Link>
-            </li>
-            <li>
-              <Link href="/inscription" className="hover:text-brand-600">
-                Creer un compte
-              </Link>
-            </li>
-          </ul>
-        </div>
-        <div>
-          <p className="text-xs font-bold uppercase tracking-wider text-[var(--muted)]">Professionnels</p>
-          <ul className="mt-3 space-y-2 text-sm">
-            <li>
-              <Link href="/connexion" className="hover:text-brand-600">
-                Espace compagnies et guichets
-              </Link>
-            </li>
-          </ul>
+
+        <div className="mt-10 border-t border-white/10 pt-8">
+          <p className="text-base font-bold text-white">Suivez-nous</p>
+          <div className="mt-4 flex gap-3">
+            {SOCIAL_LINKS.map((social) => (
+              <a
+                key={social.label}
+                href={social.href}
+                aria-label={social.label}
+                className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20"
+              >
+                {social.icon}
+              </a>
+            ))}
+          </div>
         </div>
       </div>
+
       <div className="flex h-1">
         <span className="bg-[var(--color-flag-orange)]" style={{ width: "55%" }} />
         <span className="bg-[var(--color-flag-green)]" style={{ width: "45%" }} />
