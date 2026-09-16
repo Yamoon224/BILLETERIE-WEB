@@ -4,10 +4,10 @@ import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 import type { FormEvent } from "react";
 import { Button, Modal, SelectField, TextField } from "@/components/ui";
-import { IconCalendar, IconMinus, IconPlus, IconSearch, IconSwap, IconUsers } from "@/components/ui/icons";
+import { IconCalendar, IconMinus, IconPlus, IconSearch, IconSwap } from "@/components/ui/icons";
 import { useAsyncData } from "@/hooks/useAsyncData";
 import { config } from "@/lib/config";
-import { todayIso } from "@/lib/format";
+import { formatDayCompact, todayIso } from "@/lib/format";
 import { tripService } from "@/services";
 
 export interface SearchCriteria {
@@ -132,43 +132,90 @@ export function TripSearchForm({
 
   if (layout === "stacked") {
     // Ordre impose : depart, inversion, arrivee, date, voyageurs, rechercher.
-    // Rien n'est cote a cote — chaque champ occupe toute la largeur pour rester
-    // atteignable au pouce sur un telephone tenu d'une main.
+    // Champs presentes comme une valeur choisie plutot que comme des boites de
+    // saisie : chaque ligne reste atteignable au pouce, sans le chrome d'un
+    // champ de formulaire classique.
     return (
       <form onSubmit={submit} noValidate aria-label="Rechercher un trajet" className="flex flex-col gap-3">
-        <div className="relative flex flex-col gap-3">
-          {originField}
-          {destinationField}
-          <button
-            type="button"
-            onClick={swap}
-            aria-label="Inverser depart et arrivee"
-            title="Inverser"
-            className="absolute right-3 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-brand-500 text-white shadow-md transition-transform hover:rotate-180 hover:bg-brand-600"
-          >
-            <IconSwap className="h-4 w-4 rotate-90" />
-          </button>
+        <div className="overflow-hidden rounded-2xl border border-[var(--hairline)] bg-[var(--surface)] shadow-card">
+          <div className="flex items-center gap-3 px-4 py-3">
+            <label className="min-w-0 flex-1">
+              <span className="block text-xs text-[var(--muted)]">D&apos;où</span>
+              <select
+                value={origin}
+                onChange={(event) => setOrigin(event.target.value)}
+                disabled={isLoading}
+                required
+                className="mt-0.5 block w-full cursor-pointer appearance-none bg-transparent text-lg font-extrabold text-stone-900 focus:outline-none dark:text-stone-50"
+              >
+                <option value="">{isLoading ? "Chargement…" : "Choisir une ville"}</option>
+                {cityOptions.map((city) => (
+                  <option key={city.id} value={city.slug}>
+                    {city.name}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <button
+              type="button"
+              onClick={swap}
+              aria-label="Inverser depart et arrivee"
+              title="Inverser"
+              className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-[var(--hairline)] bg-[var(--surface-muted)] text-brand-500 transition-transform hover:rotate-180"
+            >
+              <IconSwap className="h-4 w-4 rotate-90" />
+            </button>
+          </div>
+
+          <div className="border-t border-[var(--hairline)] px-4 py-3">
+            <label>
+              <span className="block text-xs text-[var(--muted)]">Où</span>
+              <select
+                value={destination}
+                onChange={(event) => setDestination(event.target.value)}
+                disabled={isLoading}
+                required
+                className="mt-0.5 block w-full cursor-pointer appearance-none bg-transparent text-lg font-extrabold text-stone-900 focus:outline-none dark:text-stone-50"
+              >
+                <option value="">{isLoading ? "Chargement…" : "Choisir une ville"}</option>
+                {cityOptions.map((city) => (
+                  <option key={city.id} value={city.slug} disabled={city.slug === origin}>
+                    {city.name}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
+
+          <div className="grid grid-cols-2 divide-x divide-[var(--hairline)] border-t border-[var(--hairline)]">
+            <label className="relative px-4 py-3">
+              <span className="block text-xs text-[var(--muted)]">Quand</span>
+              <span className="mt-0.5 block text-lg font-extrabold capitalize text-stone-900 dark:text-stone-50">
+                {formatDayCompact(date)}
+              </span>
+              <input
+                type="date"
+                value={date}
+                min={todayIso()}
+                onChange={(event) => setDate(event.target.value)}
+                required
+                aria-label="Date du voyage"
+                className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
+              />
+            </label>
+            <button type="button" onClick={() => setIsPassengersOpen(true)} className="px-4 py-3 text-left">
+              <span className="block text-xs text-[var(--muted)]">Qui va</span>
+              <span className="mt-0.5 block text-lg font-extrabold text-stone-900 dark:text-stone-50">{passengers}</span>
+            </button>
+          </div>
         </div>
 
-        {dateField}
-
         <button
-          type="button"
-          onClick={() => setIsPassengersOpen(true)}
-          className="flex w-full items-center justify-between rounded-sm border border-[var(--field-border)] bg-transparent px-3.5 py-3 text-left transition-colors hover:border-[var(--field-border-hover)]"
+          type="submit"
+          className="flex h-12 w-full items-center justify-center rounded-full bg-[#0e1a3a] text-base font-bold text-white shadow-sm transition-colors hover:bg-[#16295c] active:translate-y-px"
         >
-          <span className="min-w-0">
-            <span className="block text-[0.7rem] font-semibold text-[var(--field-label)]">Voyageurs</span>
-            <span className="block text-sm font-medium text-[var(--foreground)]">
-              {passengers} {passengers > 1 ? "voyageurs" : "voyageur"}
-            </span>
-          </span>
-          <IconUsers className="h-4 w-4 shrink-0 text-stone-400" />
+          Trouver un bus
         </button>
-
-        <Button type="submit" size="lg" icon={<IconSearch className="h-4 w-4" />} className="w-full">
-          Rechercher
-        </Button>
 
         {errorMessage}
 

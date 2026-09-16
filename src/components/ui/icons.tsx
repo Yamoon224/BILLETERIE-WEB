@@ -492,6 +492,15 @@ export function IconHeadphones(props: IconProps) {
   );
 }
 
+export function IconCard(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <rect x="2.5" y="5.5" width="19" height="13" rx="2" />
+      <path d="M2.5 9.5h19M6 14.5h4" />
+    </Icon>
+  );
+}
+
 export function IconShield(props: IconProps) {
   return (
     <Icon {...props}>

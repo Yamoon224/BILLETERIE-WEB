@@ -3,6 +3,7 @@ import { Card, CardBody } from "@/components/ui";
 import {
   IconArrowRight,
   IconBuilding,
+  IconCard,
   IconClock,
   IconMapPin,
   IconPhone,
@@ -30,21 +31,6 @@ interface Step {
   title: string;
   text: string;
 }
-
-const HERO_CONTENT: Record<Pillar, { kicker: string; title: string }> = {
-  bus: {
-    kicker: "Transport interurbain en Cote d'Ivoire",
-    title: "Votre place dans le car, reservee en deux minutes.",
-  },
-  appartements: {
-    kicker: "Locations meublees en Cote d'Ivoire",
-    title: "Votre sejour a la mer, a portee de recherche.",
-  },
-  "location-auto": {
-    kicker: "Location de vehicules en Cote d'Ivoire",
-    title: "Votre vehicule, reserve ou que vous soyez.",
-  },
-};
 
 const STEPS_BY_PILLAR: Record<Pillar, Step[]> = {
   bus: [
@@ -126,19 +112,16 @@ const LISTING_TITLE_BY_PILLAR: Record<Pillar, { title: string; subtitle?: string
 
 const PROMISES = [
   {
-    icon: <IconShield className="h-5 w-5" />,
-    title: "Billet infalsifiable",
-    text: "Verifie a l'embarquement",
+    icon: <IconCard className="h-6 w-6" />,
+    title: "Paiement Wave, Orange & MTN Money",
   },
   {
-    icon: <IconWifiOff className="h-5 w-5" />,
-    title: "Pense pour la 2G/3G",
-    text: "Fonctionne sur reseau lent",
+    icon: <IconWifiOff className="h-6 w-6" />,
+    title: "Fonctionne en 2G / 3G",
   },
   {
-    icon: <IconScan className="h-5 w-5" />,
-    title: "Aucun ticket papier",
-    text: "Tout tient dans le telephone",
+    icon: <IconQrCode className="h-6 w-6" />,
+    title: "Billet QR, sans impression",
   },
 ];
 
@@ -225,68 +208,51 @@ export default async function HomePage({ searchParams }: PageProps<"/">) {
   const params = await searchParams;
   const activeTab = pillarFrom(first(params.onglet));
 
-  const hero = HERO_CONTENT[activeTab];
   const steps = STEPS_BY_PILLAR[activeTab];
   const trustBadges = TRUST_BADGES_BY_PILLAR[activeTab];
   const listing = LISTING_TITLE_BY_PILLAR[activeTab];
 
   return (
     <>
-      <section className="relative overflow-hidden">
-        {/* Fond de marque : la bande degradee multicolore de la charte,
-            trajectoire du voyage en toile de fond du tunnel de reservation. */}
-        <div aria-hidden="true" className="grad-brand absolute inset-x-0 top-0 h-[28rem] sm:h-[28rem]" />
+      <section className="mx-auto max-w-6xl px-4 pb-2 pt-6 sm:px-6 sm:pt-8">
+        <div className="mb-3 rounded-2xl bg-brand-400 px-4 py-3 text-sm font-bold text-white shadow-sm">
+          🔥 -20&nbsp;% sur votre 1er trajet reserve en ligne
+        </div>
 
-        <div className="relative mx-auto max-w-6xl px-4 pb-8 pt-6 sm:px-6 sm:pt-14">
-          <div className="mb-4 max-w-sm rounded-sm bg-white/15 px-4 py-2.5 text-sm font-bold text-white backdrop-blur sm:max-w-md">
-            🔥 -20&nbsp;% sur votre 1er trajet reserve en ligne
-          </div>
+        <div className="mb-5 flex flex-col gap-2">
+          <span className="rounded-2xl bg-[#d6259f] px-4 py-3 text-sm font-bold text-white shadow-sm">🛡️ 100&nbsp;% ivoirien</span>
+          <span className="rounded-2xl bg-[#d6259f] px-4 py-3 text-sm font-bold text-white shadow-sm">🚌 Ligne pilote active</span>
+        </div>
 
-          <div className="mb-5 flex flex-wrap gap-2">
-            <span className="rounded-sm bg-white/10 px-3 py-2 text-xs font-semibold text-white">🛡️ 100&nbsp;% ivoirien</span>
-            <span className="rounded-sm bg-white/10 px-3 py-2 text-xs font-semibold text-white">🚀 Reservation en 2 minutes</span>
-          </div>
+        <PillarTabs active={activeTab} />
 
-          <div className="max-w-2xl text-white">
-            <p className="inline-flex items-center gap-2 rounded-sm bg-white/15 px-3 py-1 text-xs font-bold uppercase tracking-wider backdrop-blur">
-              <span className="h-1.5 w-1.5 rounded-full bg-[var(--color-flag-green)]" />
-              {hero.kicker}
-            </p>
-            <h1 className="mt-4 max-w-sm text-[1.75rem] font-extrabold leading-[1.2] tracking-tight sm:max-w-none sm:text-5xl">
-              {hero.title}
-            </h1>
-          </div>
-
-          <div className="mt-6 sm:mt-8">
-            <PillarTabs active={activeTab} />
-          </div>
-
-          <Card className="mt-4 sm:mt-5">
-            <CardBody className="p-4 sm:p-6">
-              {activeTab === "bus" ? <TripSearchForm layout="stacked" /> : null}
-              {activeTab === "appartements" ? <ApartmentSearchForm layout="stacked" /> : null}
-              {activeTab === "location-auto" ? <RentalVehicleSearchForm layout="stacked" /> : null}
-            </CardBody>
-          </Card>
+        <div className="mt-4 sm:mt-5">
+          {activeTab === "bus" ? <TripSearchForm layout="stacked" /> : null}
+          {activeTab === "appartements" ? (
+            <Card>
+              <CardBody className="p-4 sm:p-6">
+                <ApartmentSearchForm layout="stacked" />
+              </CardBody>
+            </Card>
+          ) : null}
+          {activeTab === "location-auto" ? (
+            <Card>
+              <CardBody className="p-4 sm:p-6">
+                <RentalVehicleSearchForm layout="stacked" />
+              </CardBody>
+            </Card>
+          ) : null}
         </div>
       </section>
 
-      {/* Arguments forts : slider horizontal discret, pour ne pas alourdir la
-          page d'un bloc de texte sur trois colonnes. */}
-      <section className="mx-auto max-w-6xl px-4 py-6 sm:px-6">
-        <div className="flex gap-3 overflow-x-auto pb-1">
+      {/* Arguments forts : bandeau clair, trois colonnes centrees — le
+          dernier rappel avant que le voyageur ne lance sa recherche. */}
+      <section className="mt-6 bg-[var(--surface-muted)] py-8">
+        <div className="mx-auto grid max-w-6xl grid-cols-3 gap-4 px-4 sm:px-6">
           {PROMISES.map((promise) => (
-            <div
-              key={promise.title}
-              className="flex w-[13.5rem] shrink-0 items-start gap-3 rounded-sm border border-[var(--hairline)] bg-[var(--surface)] p-3.5 shadow-card"
-            >
-              <span className="grad-brand-soft flex h-9 w-9 shrink-0 items-center justify-center rounded-sm text-brand-600 dark:text-brand-400">
-                {promise.icon}
-              </span>
-              <span className="min-w-0">
-                <span className="block text-sm font-bold leading-snug">{promise.title}</span>
-                <span className="block text-xs text-[var(--muted)]">{promise.text}</span>
-              </span>
+            <div key={promise.title} className="flex flex-col items-center gap-2 text-center">
+              <span className="text-[#d6259f]">{promise.icon}</span>
+              <span className="text-xs font-semibold leading-snug text-[var(--foreground)] sm:text-sm">{promise.title}</span>
             </div>
           ))}
         </div>

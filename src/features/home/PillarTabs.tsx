@@ -31,19 +31,26 @@ export function PillarTabs({ active }: { active: Pillar }) {
             role="tab"
             aria-selected={isActive}
             className={cn(
-              "flex flex-col items-center gap-2 rounded-sm px-2 py-3 text-center transition-colors",
-              isActive ? "bg-white/15 text-white" : "text-white/70 hover:bg-white/10 hover:text-white",
+              "relative flex flex-col items-center gap-2 rounded-2xl border px-2 py-3 text-center transition-colors",
+              isActive
+                ? "border-transparent bg-brand-50 dark:bg-brand-500/10"
+                : "border-[var(--hairline)] bg-[var(--surface)] hover:border-brand-300",
             )}
           >
+            {isActive ? (
+              <span className="absolute -right-1.5 -top-1.5 rounded-full bg-[#d6259f] px-2 py-0.5 text-[10px] font-bold text-white shadow-sm">
+                Actif
+              </span>
+            ) : null}
             <span
               className={cn(
-                "flex h-11 w-11 items-center justify-center rounded-sm transition-colors",
-                isActive ? "bg-brand-500 text-white shadow-md" : "bg-white/10 text-white/80",
+                "flex h-11 w-11 items-center justify-center rounded-2xl transition-colors",
+                isActive ? "bg-brand-400 text-white shadow-md" : "bg-[var(--surface-muted)] text-stone-500 dark:text-stone-400",
               )}
             >
               {pillar.icon}
             </span>
-            <span className="text-xs font-bold">{pillar.label}</span>
+            <span className="text-xs font-bold text-stone-900 dark:text-stone-50">{pillar.label}</span>
           </Link>
         );
       })}
