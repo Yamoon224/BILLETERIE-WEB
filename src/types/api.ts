@@ -298,6 +298,8 @@ export interface Booking {
   customer_email: string | null;
   seats_count: number;
   total_amount: number;
+  refund_guarantee_fee: number;
+  has_refund_guarantee: boolean;
   currency: string;
   commission_amount: number;
   commission_per_mille: number;

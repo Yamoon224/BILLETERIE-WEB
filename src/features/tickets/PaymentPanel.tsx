@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import type { FormEvent } from "react";
 import { Button, Card, CardBody, CardHeader, FormAlert, TextField } from "@/components/ui";
-import { IconClock, IconLock, IconWallet } from "@/components/ui/icons";
+import { IconCheck, IconClock, IconLock, IconWallet } from "@/components/ui/icons";
 import { useMutation } from "@/hooks/useMutation";
 import { errorMessage } from "@/lib/api-client";
 import { cn } from "@/lib/cn";
@@ -38,7 +38,7 @@ function useCountdown(expiresAt: string | null): number {
  * que de laisser tenter un paiement que l'API refusera.
  */
 export function PaymentPanel({ booking, onPaid }: { booking: Booking; onPaid: (booking: Booking) => void }) {
-  const [provider, setProvider] = useState<MobileMoneyProvider>("orange_money");
+  const [provider, setProvider] = useState<MobileMoneyProvider>("wave");
   const [msisdn, setMsisdn] = useState(booking.customer_phone);
   const [failure, setFailure] = useState<string | null>(null);
 
@@ -95,7 +95,7 @@ export function PaymentPanel({ booking, onPaid }: { booking: Booking; onPaid: (b
         <form onSubmit={submit} noValidate className="space-y-5">
           <fieldset>
             <legend className="mb-3 text-sm font-semibold">Votre operateur</legend>
-            <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+            <div className="space-y-2.5">
               {MOBILE_MONEY_PROVIDERS.map((item) => {
                 const isActive = item.value === provider;
 
@@ -103,10 +103,8 @@ export function PaymentPanel({ booking, onPaid }: { booking: Booking; onPaid: (b
                   <label
                     key={item.value}
                     className={cn(
-                      "relative flex cursor-pointer flex-col items-center gap-2 rounded-sm border p-3 text-center text-xs font-bold transition-all",
-                      isActive
-                        ? "border-ink-700 bg-[var(--surface-muted)] shadow-card dark:border-ink-500"
-                        : "border-[var(--hairline)] bg-[var(--surface)] hover:border-brand-300",
+                      "flex cursor-pointer items-center gap-3 rounded-sm border p-3.5 transition-colors",
+                      isActive ? "border-ink-700 dark:border-ink-500" : "border-[var(--hairline)] hover:border-brand-300",
                     )}
                   >
                     <input
@@ -117,9 +115,24 @@ export function PaymentPanel({ booking, onPaid }: { booking: Booking; onPaid: (b
                       onChange={() => setProvider(item.value)}
                       className="sr-only"
                     />
-                    {/* eslint-disable-next-line @next/next/no-img-element -- logo de marque fixe, pas une image de contenu */}
-                    <img src={item.logo} alt="" width={item.logoWidth} height={item.logoHeight} className="h-8 w-auto max-w-[3.5rem] object-contain" />
-                    {item.label}
+                    <span
+                      className={cn(
+                        "flex h-9 w-9 shrink-0 items-center justify-center rounded-sm text-[11px] font-extrabold",
+                        item.badgeTextDark ? "text-ink-900" : "text-white",
+                      )}
+                      style={{ backgroundColor: item.swatch }}
+                    >
+                      {item.badge}
+                    </span>
+                    <span className="flex-1 text-sm font-bold">{item.label}</span>
+                    <span
+                      className={cn(
+                        "flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2",
+                        isActive ? "border-ink-700 bg-ink-700 text-white dark:border-ink-500 dark:bg-ink-500" : "border-[var(--field-border)]",
+                      )}
+                    >
+                      {isActive ? <IconCheck className="h-3 w-3" /> : null}
+                    </span>
                   </label>
                 );
               })}
@@ -144,8 +157,8 @@ export function PaymentPanel({ booking, onPaid }: { booking: Booking; onPaid: (b
           {failure ? <FormAlert>{failure}</FormAlert> : null}
           {payment.error ? <FormAlert>{errorMessage(payment.error)}</FormAlert> : null}
 
-          <Button type="submit" size="lg" className="w-full" isLoading={payment.isPending} disabled={isExpired}>
-            Payer {formatMoney(booking.total_amount)}
+          <Button type="submit" variant="accent" size="lg" className="w-full" isLoading={payment.isPending} disabled={isExpired}>
+            Payer maintenant
           </Button>
 
           <p className="flex items-center justify-center gap-1.5 text-xs text-[var(--muted)]">

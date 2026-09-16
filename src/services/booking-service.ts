@@ -19,6 +19,8 @@ export interface BookingInput {
   customer_phone: string;
   customer_email?: string | null;
   passengers: PassengerInput[];
+  /** Garantie remboursement optionnelle : son cout se deduit cote serveur, jamais de cette valeur. */
+  refund_guarantee?: boolean;
 }
 
 export interface CounterSaleInput extends BookingInput {

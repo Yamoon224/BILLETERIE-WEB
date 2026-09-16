@@ -3,13 +3,14 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
-import type { FormEvent } from "react";
+import type { FormEvent, ReactNode } from "react";
 import { Badge, Button, Card, CardBody, CardHeader, ErrorState, FormAlert, LoadingState, TextField } from "@/components/ui";
-import { IconBus, IconClock, IconMapPin, IconSeat, IconUser } from "@/components/ui/icons";
+import { IconBus, IconCheck, IconClock, IconMapPin, IconSeat, IconShield, IconUser } from "@/components/ui/icons";
 import { useAuth } from "@/features/auth/AuthContext";
 import { useAsyncData } from "@/hooks/useAsyncData";
 import { useMutation } from "@/hooks/useMutation";
 import { ApiError, errorMessage } from "@/lib/api-client";
+import { cn } from "@/lib/cn";
 import { formatDayLong, formatDuration, formatMoney, formatTime } from "@/lib/format";
 import { bookingService, tripService } from "@/services";
 import type { BookingInput } from "@/services/booking-service";
@@ -17,15 +18,22 @@ import type { Trip } from "@/types/api";
 import { BookingStepper } from "./BookingStepper";
 import { SeatPicker } from "./SeatPicker";
 
-type Step = "siege" | "passager";
+type Step = "siege" | "passager" | "options";
+
+/** Doit rester egal a `config('ticketing.refund_guarantee_fee')` cote API : le
+ *  total affiche avant la creation de la reservation doit annoncer exactement
+ *  ce que le serveur facturera, sans attendre une reponse reseau pour le savoir. */
+const REFUND_GUARANTEE_FEE = 300;
 
 /**
- * Tunnel de reservation : deux etapes visibles (siege, puis voyageurs et
- * coordonnees), mais une seule page chargee — passer de l'une a l'autre est
- * un changement d'etat local, pas un aller-retour reseau. Sur une connexion
- * 3G, chaque navigation de page est une occasion de perdre le voyageur ; le
- * fil d'etapes (`BookingStepper`) donne le meme repere visuel qu'un vrai
- * changement d'ecran sans en payer le cout reseau.
+ * Tunnel de reservation : trois etapes visibles (siege, voyageurs et
+ * coordonnees, options), mais une seule page chargee — passer de l'une a
+ * l'autre est un changement d'etat local, pas un aller-retour reseau. Sur une
+ * connexion 3G, chaque navigation de page est une occasion de perdre le
+ * voyageur ; le fil d'etapes (`BookingStepper`) donne le meme repere visuel
+ * qu'un vrai changement d'ecran sans en payer le cout reseau. Le paiement,
+ * lui, vit sur sa propre page (`/billets/[reference]`) : il exige une
+ * reservation deja creee cote API.
  */
 export function BookingFlow({ tripId, passengers: initialPassengers }: { tripId: string; passengers: number }) {
   const router = useRouter();
@@ -38,6 +46,9 @@ export function BookingFlow({ tripId, passengers: initialPassengers }: { tripId:
   const [passengerCount, setPassengerCount] = useState(initialPassengers);
   const [seats, setSeats] = useState<string[]>([]);
   const [names, setNames] = useState<Record<string, string>>({});
+  // Coche par defaut : c'est l'option qui protege le voyageur, celle qui
+  // demande un geste explicite est de s'en passer.
+  const [wantsGuarantee, setWantsGuarantee] = useState(true);
   // `null` signifie « pas encore touche » : la valeur affichee retombe alors
   // sur le compte connecte, qui peut arriver apres le premier rendu. Une
   // saisie, meme vide, l emporte ensuite toujours sur le pre-remplissage.
@@ -66,7 +77,9 @@ export function BookingFlow({ tripId, passengers: initialPassengers }: { tripId:
   }
 
   const trip = seatMap.trip;
-  const total = trip.price * seats.length;
+  const baseTotal = trip.price * seats.length;
+  const guaranteeFee = step === "options" && wantsGuarantee ? REFUND_GUARANTEE_FEE : 0;
+  const total = baseTotal + guaranteeFee;
   const maxPassengers = Math.min(10, seatMap.available);
 
   async function submit(event: FormEvent) {
@@ -83,6 +96,11 @@ export function BookingFlow({ tripId, passengers: initialPassengers }: { tripId:
       return;
     }
 
+    if (step === "passager") {
+      setStep("options");
+      return;
+    }
+
     const booking = await reservation.run({
       trip_id: trip.id,
       customer_name: customerName.trim(),
@@ -92,6 +110,7 @@ export function BookingFlow({ tripId, passengers: initialPassengers }: { tripId:
         seat_number: seat,
         name: (names[seat] ?? "").trim() || (index === 0 ? customerName.trim() : `Voyageur ${index + 1}`),
       })),
+      refund_guarantee: wantsGuarantee,
     });
 
     if (booking) {
@@ -115,13 +134,45 @@ export function BookingFlow({ tripId, passengers: initialPassengers }: { tripId:
   return (
     <div className="mx-auto max-w-6xl px-4 py-6 pb-32 sm:px-6 sm:py-8 lg:pb-8">
       <BookingStepper
-        current={step}
-        onBack={step === "siege" ? () => router.back() : () => setStep("siege")}
-        backLabel={step === "siege" ? "Retour aux departs" : "Retour au choix des sieges"}
+        current={step === "options" ? "paiement" : step}
+        onBack={
+          step === "siege"
+            ? () => router.back()
+            : step === "passager"
+              ? () => setStep("siege")
+              : () => setStep("passager")
+        }
+        backLabel={
+          step === "siege" ? "Retour aux departs" : step === "passager" ? "Retour au choix des sieges" : "Retour aux voyageurs"
+        }
       />
 
       <form onSubmit={submit} noValidate className="grid gap-6 lg:grid-cols-[1fr_22rem]">
         <div className="space-y-6">
+          {step === "options" ? (
+            <Card>
+              <CardHeader title="Ajoutez de la tranquillite" />
+              <CardBody className="space-y-3">
+                <GuaranteeOption
+                  selected={wantsGuarantee}
+                  onSelect={() => setWantsGuarantee(true)}
+                  icon={<IconShield className="h-4 w-4" />}
+                  title="Garantie remboursement 100 %"
+                  description="Annulez jusqu'a 1h avant le depart et recuperez l'integralite du montant."
+                  price={REFUND_GUARANTEE_FEE}
+                />
+                <GuaranteeOption
+                  selected={!wantsGuarantee}
+                  onSelect={() => setWantsGuarantee(false)}
+                  icon={null}
+                  title="Sans garantie"
+                  description="Billet non remboursable en cas d'annulation."
+                  price={0}
+                />
+              </CardBody>
+            </Card>
+          ) : null}
+
           {step === "siege" ? (
             <Card>
               <CardHeader
@@ -156,7 +207,9 @@ export function BookingFlow({ tripId, passengers: initialPassengers }: { tripId:
                 <SeatPicker seatMap={seatMap} selected={seats} max={passengerCount} onChange={setSeats} />
               </CardBody>
             </Card>
-          ) : (
+          ) : null}
+
+          {step === "passager" ? (
             <>
               <Card>
                 <CardHeader
@@ -217,23 +270,23 @@ export function BookingFlow({ tripId, passengers: initialPassengers }: { tripId:
                 </CardBody>
               </Card>
             </>
-          )}
+          ) : null}
         </div>
 
-        {/* Recapitulatif : colonne collante sur grand ecran, presente aux deux etapes. */}
+        {/* Recapitulatif : colonne collante sur grand ecran, presente a chaque etape. */}
         <aside className="hidden lg:block">
           <div className="sticky top-24 space-y-4">
-            <TripSummary trip={trip} seats={seats} total={total} />
+            <TripSummary trip={trip} seats={seats} total={total} guaranteeFee={guaranteeFee} />
             {localError ? <FormAlert>{localError}</FormAlert> : null}
             {reservationError ? <FormAlert>{reservationError}</FormAlert> : null}
             <Button type="submit" size="lg" className="w-full" isLoading={reservation.isPending} disabled={seats.length === 0}>
-              {step === "siege" ? "Continuer" : `Reserver — ${formatMoney(total)}`}
+              Continuer
             </Button>
-            {step === "siege" ? null : (
+            {step === "options" ? (
               <p className="text-center text-xs text-[var(--muted)]">
                 Vos places sont bloquees 15 minutes le temps du paiement.
               </p>
-            )}
+            ) : null}
           </div>
         </aside>
 
@@ -247,13 +300,18 @@ export function BookingFlow({ tripId, passengers: initialPassengers }: { tripId:
           <div className="flex items-center justify-between gap-3">
             <div>
               <p className="text-xs text-[var(--muted)]">
-                {seats.length} place{seats.length > 1 ? "s" : ""}
-                {seats.length ? ` · ${seats.join(", ")}` : ""}
+                {step === "siege"
+                  ? `Place${seats.length > 1 ? "s" : ""} ${seats.length ? seats.join(", ") : "—"} selectionnee${seats.length > 1 ? "s" : ""}`
+                  : step === "passager"
+                    ? `${passengerCount} voyageur${passengerCount > 1 ? "s" : ""}`
+                    : wantsGuarantee
+                      ? "Total avec garantie"
+                      : "Sans garantie"}
               </p>
               <p className="text-lg font-extrabold tabular-nums text-brand-700 dark:text-brand-400">{formatMoney(total)}</p>
             </div>
             <Button type="submit" size="lg" isLoading={reservation.isPending} disabled={seats.length === 0}>
-              {step === "siege" ? "Continuer" : "Reserver"}
+              Continuer
             </Button>
           </div>
         </div>
@@ -269,7 +327,62 @@ export function BookingFlow({ tripId, passengers: initialPassengers }: { tripId:
   );
 }
 
-function TripSummary({ trip, seats, total }: { trip: Trip; seats: string[]; total: number }) {
+function GuaranteeOption({
+  selected,
+  onSelect,
+  icon,
+  title,
+  description,
+  price,
+}: {
+  selected: boolean;
+  onSelect: () => void;
+  icon: ReactNode;
+  title: string;
+  description: string;
+  price: number;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onSelect}
+      aria-pressed={selected}
+      className={cn(
+        "flex w-full items-start gap-3 rounded-sm border p-3.5 text-left transition-colors",
+        selected ? "border-ink-700 dark:border-ink-500" : "border-[var(--hairline)] hover:border-brand-300",
+      )}
+    >
+      <span
+        className={cn(
+          "mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2",
+          selected ? "border-ink-700 bg-ink-700 text-white dark:border-ink-500 dark:bg-ink-500" : "border-[var(--field-border)]",
+        )}
+      >
+        {selected ? <IconCheck className="h-3 w-3" /> : null}
+      </span>
+      <span className="min-w-0 flex-1">
+        <span className="flex items-center gap-1.5 text-sm font-bold">
+          {icon}
+          {title}
+        </span>
+        <span className="mt-0.5 block text-xs leading-snug text-[var(--muted)]">{description}</span>
+      </span>
+      <span className="shrink-0 text-sm font-bold tabular-nums">{price > 0 ? formatMoney(price) : "0 F"}</span>
+    </button>
+  );
+}
+
+function TripSummary({
+  trip,
+  seats,
+  total,
+  guaranteeFee,
+}: {
+  trip: Trip;
+  seats: string[];
+  total: number;
+  guaranteeFee: number;
+}) {
   return (
     <Card>
       <CardHeader icon={<IconBus className="h-4 w-4" />} title="Votre trajet" />
@@ -310,6 +423,12 @@ function TripSummary({ trip, seats, total }: { trip: Trip; seats: string[]; tota
             <dt className="text-[var(--muted)]">Places</dt>
             <dd className="font-semibold">{seats.length ? seats.join(", ") : "—"}</dd>
           </div>
+          {guaranteeFee > 0 ? (
+            <div className="flex justify-between">
+              <dt className="text-[var(--muted)]">Garantie remboursement</dt>
+              <dd className="font-semibold tabular-nums">{formatMoney(guaranteeFee)}</dd>
+            </div>
+          ) : null}
           <div className="flex items-baseline justify-between border-t border-[var(--hairline)] pt-2">
             <dt className="font-bold">Total</dt>
             <dd className="text-xl font-extrabold tabular-nums text-brand-700 dark:text-brand-400">{formatMoney(total)}</dd>

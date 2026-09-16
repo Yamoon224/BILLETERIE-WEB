@@ -1,27 +1,45 @@
 import { Badge, Card, LinkButton } from "@/components/ui";
-import { IconArrowRight, IconBus, IconSeat } from "@/components/ui/icons";
+import { IconArrowRight, IconBus, IconHeadphones, IconSeat, IconWifi } from "@/components/ui/icons";
 import { cn } from "@/lib/cn";
 import { formatDuration, formatMoney, formatTime } from "@/lib/format";
+import { pseudoRating } from "@/lib/rating";
 import type { Trip } from "@/types/api";
 
 /**
  * Un depart dans la liste de resultats.
  *
- * L'ordre de lecture est celui du voyageur : l'heure d'abord, le prix ensuite,
- * la compagnie et le confort apres. Les places restantes ne s'affichent en
- * alerte que lorsqu'elles deviennent rares — un « 52 places » en orange ferait
- * du bruit sans rien apprendre.
+ * L'ordre de lecture est celui du voyageur : compagnie et note d'abord,
+ * l'heure et le prix ensuite. Les places restantes ne s'affichent en alerte
+ * que lorsqu'elles deviennent rares — un « 52 places » en orange ferait du
+ * bruit sans rien apprendre.
  */
 export function TripCard({ trip, passengers }: { trip: Trip; passengers: number }) {
   const available = trip.seats_available ?? trip.seat_capacity;
   const isFull = available < passengers;
   const isScarce = !isFull && available <= 5;
+  const rating = pseudoRating(trip.company_id);
+  // Equipements deduits de la classe du vehicule, seule donnee reelle de
+  // confort disponible : pas de wifi/casque affiche sans base pour l'affirmer.
+  const isComfortClass = trip.vehicle?.class === "vip" || trip.vehicle?.class === "comfort";
 
   return (
     <Card interactive accent={!isFull}>
       <div className="grid gap-4 p-4 sm:grid-cols-[1fr_auto] sm:items-center sm:p-5">
         <div className="min-w-0">
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <div className="flex flex-wrap items-center gap-2 text-xs">
+              <span className="font-bold text-stone-700 dark:text-stone-200">{trip.company?.name}</span>
+              {trip.vehicle ? <Badge tone={trip.vehicle.class === "vip" ? "brand" : "neutral"}>{trip.vehicle.class_label}</Badge> : null}
+            </div>
+            <span className="flex items-center gap-1.5 text-xs">
+              <span className="text-[var(--muted)]">{rating.reviews} avis</span>
+              <span className="rounded-sm bg-[var(--color-flag-green)] px-1.5 py-0.5 text-[11px] font-bold text-white">
+                {rating.score}
+              </span>
+            </span>
+          </div>
+
+          <div className="mt-2.5 flex items-center gap-3">
             <div className="text-center">
               <p className="text-2xl font-extrabold tabular-nums tracking-tight">{formatTime(trip.departs_at)}</p>
               <p className="text-xs font-medium text-[var(--muted)]">{trip.itinerary?.origin_city?.name}</p>
@@ -46,11 +64,6 @@ export function TripCard({ trip, passengers }: { trip: Trip; passengers: number 
             </div>
           </div>
 
-          <div className="mt-3 flex flex-wrap items-center gap-2 text-xs">
-            <span className="font-bold text-stone-700 dark:text-stone-200">{trip.company?.name}</span>
-            {trip.vehicle ? <Badge tone={trip.vehicle.class === "vip" ? "brand" : "neutral"}>{trip.vehicle.class_label}</Badge> : null}
-          </div>
-
           {trip.departure_station || trip.arrival_station ? (
             <p className="mt-1.5 text-xs leading-relaxed text-[var(--muted)]">
               {trip.departure_station?.name}
@@ -58,6 +71,11 @@ export function TripCard({ trip, passengers }: { trip: Trip; passengers: number 
               {trip.arrival_station?.name}
             </p>
           ) : null}
+
+          <div className="mt-2 flex items-center gap-2 text-brand-600 dark:text-brand-400">
+            <IconHeadphones className="h-3.5 w-3.5" />
+            {isComfortClass ? <IconWifi className="h-3.5 w-3.5" /> : null}
+          </div>
         </div>
 
         <div className="flex items-center justify-between gap-4 border-t border-[var(--hairline)] pt-3 sm:flex-col sm:items-end sm:border-0 sm:pt-0">
