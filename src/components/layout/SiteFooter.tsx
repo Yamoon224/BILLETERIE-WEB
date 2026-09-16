@@ -40,10 +40,10 @@ const SOCIAL_LINKS = [
  */
 export function SiteFooter() {
   return (
-    <footer className="no-print mt-16 bg-[#0f1d24] pb-20 text-stone-300 md:pb-0">
+    <footer className="no-print mt-16 bg-[#0e1a3a] pb-20 text-stone-300 md:pb-0">
       <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
         <span className="text-2xl font-extrabold tracking-tight text-white">
-          Ka<span className="grad-brand-text">ara</span>
+          Ka<span className="text-brand-300">ara</span>
         </span>
 
         <div className="mt-10 grid gap-8 sm:grid-cols-3">
