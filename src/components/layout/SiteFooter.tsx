@@ -44,9 +44,8 @@ export function SiteFooter() {
         </div>
       </div>
       <div className="flex h-1">
-        <span className="flex-1 bg-brand-500" />
-        <span className="flex-1 bg-white dark:bg-stone-200" />
-        <span className="flex-1 bg-[var(--color-flag-green)]" />
+        <span className="flex-[3] bg-[var(--color-flag-orange)]" />
+        <span className="flex-[2] bg-[var(--color-flag-green)]" />
       </div>
     </footer>
   );

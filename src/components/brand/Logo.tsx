@@ -4,9 +4,9 @@ import { cn } from "@/lib/cn";
  * Marque « Kaara » — « voyage » en langue baoule approchee, courte et facile a
  * dire au guichet.
  *
- * Le pictogramme reprend les trois bandes du drapeau ivoirien, inclinees en
- * route : orange, blanc, vert. Il reste lisible reduit a 32 px dans la barre
- * laterale repliee.
+ * Le pictogramme reprend deux bandes inclinees en route, orange et vert -
+ * heritage du drapeau ivoirien, sans le blanc. Il reste lisible reduit a
+ * 32 px dans la barre laterale repliee.
  */
 export function LogoMark({ size = "md", className }: { size?: "sm" | "md" | "lg"; className?: string }) {
   const dimension = { sm: "h-8 w-8", md: "h-9 w-9", lg: "h-12 w-12" }[size];
@@ -14,12 +14,10 @@ export function LogoMark({ size = "md", className }: { size?: "sm" | "md" | "lg"
   return (
     <span
       aria-hidden="true"
-      className={cn("grad-brand relative inline-flex shrink-0 items-center justify-center overflow-hidden rounded-sm shadow-card", dimension, className)}
+      className={cn("grad-logo relative inline-flex shrink-0 items-center justify-center overflow-hidden rounded-sm shadow-card", dimension, className)}
     >
       <svg viewBox="0 0 32 32" className="h-[70%] w-[70%]" fill="none">
-        <path d="M6 26 13 6h4L10 26Z" fill="#fff" />
-        <path d="M13 26 20 6h4l-7 20Z" fill="#fff" opacity="0.55" />
-        <path d="M20 26 26 9v17Z" fill="#009e60" />
+        <path d="M13 26 20 6h4l-7 20Z" fill="#009e60" />
       </svg>
     </span>
   );

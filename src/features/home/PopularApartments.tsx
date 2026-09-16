@@ -9,9 +9,9 @@ import { apartmentService } from "@/services";
 
 const GRADIENTS = [
   "linear-gradient(150deg,#2F9E68 0%,#1F7A4D 100%)",
-  "linear-gradient(150deg,#ff9a2e 0%,#f77f00 55%,#b35700 100%)",
+  "linear-gradient(150deg,#1cbbe8 0%,#00a6d6 55%,#036d8f 100%)",
   "linear-gradient(150deg,#3a2f27 0%,#211a15 100%)",
-  "linear-gradient(150deg,#db6d00 0%,#8a4300 100%)",
+  "linear-gradient(150deg,#0086b0 0%,#0a5570 100%)",
 ];
 
 /**

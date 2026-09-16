@@ -13,49 +13,55 @@
   --font-mono: ui-monospace, "SFMono-Regular", "Cascadia Code", Menlo, monospace;
 
   /*
-   * Orange du drapeau ivoirien (#F77F00), decline en une seule rampe.
-   * Le blanc est la seconde couleur de la charte : il porte les surfaces, et
-   * l'orange est reserve a ce qui doit attirer l'oeil - action principale,
-   * etat actif, prix.
+   * Cyan vif, decline en une seule rampe : le ciel, la mer, l'horizon des
+   * possibles. Le blanc reste la seconde couleur de la charte - il porte les
+   * surfaces - et ce cyan est reserve a ce qui doit attirer l'oeil : action
+   * principale, etat actif, prix. Le jaune et le rose fuchsia de la charte
+   * n'apparaissent qu'a travers `grad-brand` (voir plus bas) : jamais en
+   * rampe unie, pour qu'ils restent des accents et non un fond.
    */
-  --color-brand-50: #fff6eb;
-  --color-brand-100: #ffe9cc;
-  --color-brand-200: #ffd199;
-  --color-brand-300: #ffb45c;
-  --color-brand-400: #ff9a2e;
-  --color-brand-500: #f77f00;
-  --color-brand-600: #db6d00;
-  --color-brand-700: #b35700;
-  --color-brand-800: #8a4300;
-  --color-brand-900: #6b3500;
+  --color-brand-50: #eafbff;
+  --color-brand-100: #c9f3fd;
+  --color-brand-200: #97e6fb;
+  --color-brand-300: #59d3f4;
+  --color-brand-400: #1cbbe8;
+  --color-brand-500: #00a6d6;
+  --color-brand-600: #0086b0;
+  --color-brand-700: #036d8f;
+  --color-brand-800: #0a5570;
+  --color-brand-900: #0d4258;
 
-  /* Vert du drapeau, reserve aux etats de succes : embarquement autorise,
-     paiement encaisse. Il ne sert jamais de decoration. */
+  /* Vert, reserve aux etats de succes : embarquement autorise, paiement
+     encaisse. Il ne sert jamais de decoration. */
   --color-flag-green: #009e60;
+
+  /* Orange fixe, independant de la rampe de marque : ne sert qu'au liser
+     drapeau (logo, pied de page), cote a cote avec le vert ci-dessus. */
+  --color-flag-orange: #f77f00;
 }
 
 :root {
   color-scheme: light;
-  --canvas: #fbf8f4;
+  --canvas: #f4fbfd;
   --surface: #ffffff;
-  --surface-muted: #f6f1ea;
-  --foreground: #1c1917;
-  --muted: #6b635b;
-  --hairline: #ece5dc;
-  --card-shadow: 0 1px 2px rgb(28 25 23 / 0.05), 0 12px 28px -14px rgb(28 25 23 / 0.22);
-  --card-shadow-hover: 0 2px 4px rgb(28 25 23 / 0.06), 0 18px 38px -16px rgb(219 109 0 / 0.35);
+  --surface-muted: #e9f5f8;
+  --foreground: #12222b;
+  --muted: #57707a;
+  --hairline: #dcebef;
+  --card-shadow: 0 1px 2px rgb(10 30 38 / 0.05), 0 12px 28px -14px rgb(10 30 38 / 0.22);
+  --card-shadow-hover: 0 2px 4px rgb(10 30 38 / 0.06), 0 18px 38px -16px rgb(0 134 176 / 0.35);
 }
 
 .dark {
   color-scheme: dark;
-  --canvas: #0e0c0a;
-  --surface: #181512;
-  --surface-muted: #221e1a;
-  --foreground: #f3eee8;
-  --muted: #a8a097;
-  --hairline: #2c2621;
+  --canvas: #071219;
+  --surface: #0f1d24;
+  --surface-muted: #15262e;
+  --foreground: #e9f6fa;
+  --muted: #93aab2;
+  --hairline: #22343b;
   --card-shadow: 0 1px 2px rgb(0 0 0 / 0.5), 0 12px 30px -14px rgb(0 0 0 / 0.85);
-  --card-shadow-hover: 0 2px 6px rgb(0 0 0 / 0.55), 0 20px 42px -16px rgb(247 127 0 / 0.3);
+  --card-shadow-hover: 0 2px 6px rgb(0 0 0 / 0.55), 0 20px 42px -16px rgb(0 166 214 / 0.3);
 }
 
 /*
@@ -71,8 +77,8 @@
   --series-1: #db6d00;
   --series-2: #2a78d6;
   --series-3: #1baf7a;
-  --chart-grid: #ece5dc;
-  --chart-axis: #d9cfc3;
+  --chart-grid: #dcebef;
+  --chart-axis: #c9dee3;
   --meter-track: #ffe9cc;
 }
 
@@ -80,8 +86,8 @@
   --series-1: #db6d00;
   --series-2: #3987e5;
   --series-3: #199e70;
-  --chart-grid: #2c2621;
-  --chart-axis: #4a4038;
+  --chart-grid: #22343b;
+  --chart-axis: #2e4750;
   --meter-track: #3a2a1a;
 }
 
@@ -92,25 +98,34 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Le degrade de marque, toujours diagonal : une seule definition, reprise par
-   les boutons, les en-tetes de tableau, les liseres de cartes et l'etat actif. */
+/* La bande degradee multicolore de la charte - cyan, rose fuchsia, jaune -
+   toujours diagonale : une seule definition, reprise par les boutons, les
+   en-tetes de billet, les liseres de cartes et l'etat actif. Elle materialise
+   la trajectoire du voyage, jamais un simple fond decoratif. */
 @utility grad-brand {
-  background-image: linear-gradient(135deg, #ff9a2e 0%, #f77f00 50%, #db6d00 100%);
+  background-image: linear-gradient(135deg, #1cbbe8 0%, #d6259f 50%, #ffd100 100%);
 }
 
 @utility grad-brand-hover {
-  background-image: linear-gradient(135deg, #f77f00 0%, #db6d00 50%, #b35700 100%);
+  background-image: linear-gradient(135deg, #00a6d6 0%, #b01b82 50%, #e6b800 100%);
 }
 
 @utility grad-brand-soft {
-  background-image: linear-gradient(135deg, rgb(247 127 0 / 0.14) 0%, rgb(219 109 0 / 0.06) 100%);
+  background-image: linear-gradient(135deg, rgb(0 166 214 / 0.14) 0%, rgb(214 37 159 / 0.06) 100%);
 }
 
 @utility grad-brand-text {
-  background-image: linear-gradient(135deg, #f77f00 0%, #b35700 100%);
+  background-image: linear-gradient(135deg, #00a6d6 0%, #b01b82 100%);
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
+}
+
+/* Bandeau fixe du logo et du pied de page : orange + vert, cote a cote, sans
+   le blanc du drapeau. Independant de `grad-brand` afin que ce motif reste
+   stable meme si la rampe de marque evolue. */
+@utility grad-logo {
+  background-image: linear-gradient(135deg, var(--color-flag-orange) 0%, var(--color-flag-orange) 60%, var(--color-flag-green) 100%);
 }
 
 @utility shadow-card {
@@ -151,7 +166,7 @@ body {
 }
 
 ::selection {
-  background-color: rgb(247 127 0 / 0.24);
+  background-color: rgb(0 166 214 / 0.24);
 }
 
 /* ---------------------------------------------------------------------------
@@ -165,25 +180,25 @@ body {
  */
 
 :root {
-  --field-border: #d9cfc3;
-  --field-border-hover: #b8ab9c;
-  --field-border-focus: #f77f00;
+  --field-border: #c9dee3;
+  --field-border-hover: #9fbac2;
+  --field-border-focus: #00a6d6;
   --field-border-error: #e11d48;
-  --field-label: #7a7066;
-  --field-label-focus: #db6d00;
-  --field-placeholder: #a89d91;
-  --field-disabled-bg: #f6f1ea;
+  --field-label: #5e7a83;
+  --field-label-focus: #0086b0;
+  --field-placeholder: #85a0a8;
+  --field-disabled-bg: #e9f5f8;
 }
 
 .dark {
-  --field-border: #4a4038;
-  --field-border-hover: #6b5f54;
-  --field-border-focus: #ff9a2e;
+  --field-border: #2e4750;
+  --field-border-hover: #47646d;
+  --field-border-focus: #1cbbe8;
   --field-border-error: #fb7185;
-  --field-label: #a8a097;
-  --field-label-focus: #ffb45c;
-  --field-placeholder: #7a7066;
-  --field-disabled-bg: #221e1a;
+  --field-label: #93aab2;
+  --field-label-focus: #59d3f4;
+  --field-placeholder: #6b8890;
+  --field-disabled-bg: #15262e;
 }
 
 @layer components {

@@ -155,7 +155,7 @@ const DESTINATIONS = [
     from: "Abidjan",
     price: 6000,
     durationMinutes: 240,
-    gradient: "linear-gradient(150deg,#ff9a2e 0%,#f77f00 55%,#b35700 100%)",
+    gradient: "linear-gradient(150deg,#1cbbe8 0%,#00a6d6 55%,#036d8f 100%)",
   },
   {
     city: "Yamoussoukro",
@@ -169,7 +169,7 @@ const DESTINATIONS = [
     from: "Abidjan",
     price: 7500,
     durationMinutes: 330,
-    gradient: "linear-gradient(150deg,#db6d00 0%,#8a4300 100%)",
+    gradient: "linear-gradient(150deg,#0086b0 0%,#0a5570 100%)",
   },
   {
     city: "Korhogo",
@@ -190,7 +190,7 @@ const BANNERS: PromoBanner[] = [
     title: "Ligne Bonoua-Treichville : nouveaux departs 6h & 17h",
     subtitle: "Reservez votre place en deux minutes",
     href: "/",
-    gradient: "linear-gradient(150deg,#ff9a2e 0%,#f77f00 55%,#b35700 100%)",
+    gradient: "linear-gradient(150deg,#1cbbe8 0%,#00a6d6 55%,#036d8f 100%)",
   },
   {
     title: "Studio meuble a Assinie des 15 000 FCFA/nuit",

@@ -9,7 +9,7 @@ import { rentalVehicleService } from "@/services";
 
 const GRADIENTS = [
   "linear-gradient(150deg,#2C3E5C 0%,#1B2A41 100%)",
-  "linear-gradient(150deg,#db6d00 0%,#8a4300 100%)",
+  "linear-gradient(150deg,#0086b0 0%,#0a5570 100%)",
   "linear-gradient(150deg,#2F9E68 0%,#1F7A4D 100%)",
   "linear-gradient(150deg,#57493c 0%,#241d17 100%)",
 ];
