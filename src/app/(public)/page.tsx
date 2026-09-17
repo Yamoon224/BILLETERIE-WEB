@@ -101,11 +101,17 @@ const PROMISES = [
   },
 ];
 
-const PAYMENT_METHODS = [
-  { label: "Orange Money", src: "/payments/orange-money.jpg", width: 447, height: 447 },
-  { label: "MTN MoMo", src: "/payments/mtn-momo.jpg", width: 416, height: 203 },
-  { label: "Moov Money", src: "/payments/moov-money.png", width: 447, height: 447 },
-  { label: "Wave", src: "/payments/wave.jpg", width: 597, height: 335 },
+const SPOTLIGHT_CARDS = [
+  {
+    badge: "Kaara",
+    text: "Ligne Bonoua–Treichville : nouveaux départs 6h & 17h",
+    gradient: "linear-gradient(150deg,#1cbbe8 0%,#00b4e6 55%,#0089b3 100%)",
+  },
+  {
+    badge: "Publicité",
+    text: "Studio meublé à Assinie dès 15 000 FCFA/nuit",
+    gradient: "linear-gradient(150deg,#e6007e 0%,#b3005f 100%)",
+  },
 ];
 
 const DESTINATIONS = [
@@ -256,30 +262,28 @@ export default async function HomePage({ searchParams }: PageProps<"/">) {
             ))}
           </ol>
         </Card>
+      </section>
 
-        <div className="mt-5">
-          <p className="text-center text-xs font-semibold text-[var(--muted)]">Payez avec</p>
-          <div className="mt-3 flex flex-wrap items-center justify-center gap-3">
-            {PAYMENT_METHODS.map((method) => (
-              // Fond blanc fixe, y compris en theme sombre : ce sont des logos
-              // de marque en couleurs fixes, pas des icones qui suivent le
-              // theme — sur une surface sombre, Orange Money en particulier
-              // deviendrait illisible.
-              <span
-                key={method.label}
-                className="flex h-11 items-center rounded-sm border border-[var(--hairline)] bg-white px-3 shadow-card"
-              >
-                <img
-                  src={method.src}
-                  alt={method.label}
-                  width={method.width}
-                  height={method.height}
-                  className="h-7 w-auto object-contain"
-                  loading="lazy"
-                />
-              </span>
-            ))}
-          </div>
+      {/* A la une : espace promo Kaara + un premier emplacement publicitaire
+          pour les piliers pas encore reservables en ligne (Appartements,
+          Location auto) — contenu fixe pour l'instant, pas de vraie regie. */}
+      <section className="mx-auto max-w-6xl px-4 py-6 sm:px-6">
+        <h2 className="text-xl font-extrabold tracking-tight">À la une cette semaine</h2>
+        <p className="mt-1 text-sm text-[var(--muted)]">
+          Espace publicitaire — Appartements &amp; Location auto (aperçu, réservation à venir)
+        </p>
+
+        <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
+          {SPOTLIGHT_CARDS.map((card) => (
+            <div
+              key={card.text}
+              className="flex min-h-[140px] flex-col justify-between rounded-sm p-4 shadow-card"
+              style={{ backgroundImage: card.gradient }}
+            >
+              <span className="w-fit rounded-full bg-white/20 px-3 py-1 text-xs font-bold text-white">{card.badge}</span>
+              <p className="text-base font-extrabold leading-snug text-white">{card.text}</p>
+            </div>
+          ))}
         </div>
       </section>
 
