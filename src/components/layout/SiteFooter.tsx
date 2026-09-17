@@ -74,11 +74,6 @@ export function SiteFooter() {
           <p className="mt-6 text-xs text-stone-500">© 2026 Kaara — Mobilité &amp; tourisme en Côte d&apos;Ivoire</p>
         </div>
       </div>
-
-      <div className="flex h-1">
-        <span className="bg-[var(--color-flag-orange)]" style={{ width: "55%" }} />
-        <span className="bg-[var(--color-flag-green)]" style={{ width: "45%" }} />
-      </div>
     </footer>
   );
 }
