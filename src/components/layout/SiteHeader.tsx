@@ -89,6 +89,7 @@ export function SiteHeader() {
             </button>
           </div>
         </div>
+        <span aria-hidden="true" className="grad-brand block h-1 w-full" />
       </header>
 
       {/* Tiroir lateral : theme, mes billets, compte — tout ce qui n'est pas
