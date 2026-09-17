@@ -113,13 +113,15 @@ body {
 /* La bande degradee multicolore de la charte - cyan, rose fuchsia, jaune -
    toujours diagonale : une seule definition, reprise par les boutons, les
    en-tetes de billet, les liseres de cartes et l'etat actif. Elle materialise
-   la trajectoire du voyage, jamais un simple fond decoratif. */
+   la trajectoire du voyage, jamais un simple fond decoratif. Le cyan reste
+   uni sur les 40 premiers pourcents de la diagonale avant de basculer, pour
+   que la couleur de marque domine au lieu de se diluer des le depart. */
 @utility grad-brand {
-  background-image: linear-gradient(135deg, var(--color-brand-400) 0%, var(--color-fuchsia) 50%, var(--color-yellow) 100%);
+  background-image: linear-gradient(135deg, var(--color-brand-400) 0%, var(--color-brand-400) 40%, var(--color-fuchsia) 70%, var(--color-yellow) 100%);
 }
 
 @utility grad-brand-hover {
-  background-image: linear-gradient(135deg, var(--color-brand-600) 0%, var(--color-fuchsia-dark) 50%, var(--color-yellow-dark) 100%);
+  background-image: linear-gradient(135deg, var(--color-brand-600) 0%, var(--color-brand-600) 40%, var(--color-fuchsia-dark) 70%, var(--color-yellow-dark) 100%);
 }
 
 @utility grad-brand-soft {

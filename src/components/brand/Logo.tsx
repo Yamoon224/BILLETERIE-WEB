@@ -44,7 +44,7 @@ export function Logo({
             size === "lg" ? "text-2xl" : "text-lg",
           )}
         >
-          Kaa<span className={tone === "brand" ? "text-brand-300" : "grad-brand-text"}>ra</span>
+          Ka<span className="text-brand-300">ara</span>
         </span>
         {tagline ? (
           <span className="mt-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--muted)]">

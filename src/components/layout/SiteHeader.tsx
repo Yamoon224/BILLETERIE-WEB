@@ -1,22 +1,16 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Logo } from "@/components/brand/Logo";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
 import { Avatar, LinkButton } from "@/components/ui";
-import { IconChevronDown, IconHeart, IconMenu, IconTicket, IconUser } from "@/components/ui/icons";
+import { IconChevronDown, IconHeart, IconMenu, IconUser } from "@/components/ui/icons";
 import { homeFor, useAuth } from "@/features/auth/AuthContext";
 import { useInfoModal } from "@/features/info-modal/InfoModalProvider";
 import { cn } from "@/lib/cn";
 import { HELP_LINKS, PARTNER_LINKS, SERVICE_LINKS, TRAVELER_LINKS } from "./menuLinks";
 import type { MenuItem } from "./menuLinks";
-
-const MENU_LINKS = [
-  { href: "/", label: "Rechercher un trajet", icon: <IconTicket className="h-4 w-4" /> },
-  { href: "/mes-billets", label: "Mes billets", icon: <IconTicket className="h-4 w-4" /> },
-];
 
 const NAV_CATEGORIES: Array<{ id: string; heading: string; items: MenuItem[] }> = [
   { id: "services", heading: "Nos services", items: SERVICE_LINKS },
@@ -110,7 +104,6 @@ function NavCategory({
  * bouton burger, jamais ici.
  */
 export function SiteHeader() {
-  const pathname = usePathname();
   const { user } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [openCategories, setOpenCategories] = useState<string[]>(NAV_CATEGORIES.map((category) => category.id));
@@ -215,26 +208,7 @@ export function SiteHeader() {
         </div>
 
         <nav aria-label="Navigation" className="flex-1 overflow-y-auto p-3">
-          <ul className="flex flex-col gap-0.5">
-            {MENU_LINKS.map((link) => (
-              <li key={link.href}>
-                <Link
-                  href={link.href}
-                  onClick={closeMenu}
-                  aria-current={pathname === link.href ? "page" : undefined}
-                  className={cn(
-                    "flex items-center gap-3 rounded-sm px-3 py-3 text-sm font-semibold transition-colors",
-                    pathname === link.href ? "bg-white/10 text-brand-300" : "text-white/90 hover:bg-white/10",
-                  )}
-                >
-                  <span className="text-brand-300">{link.icon}</span>
-                  {link.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-
-          <div className="mt-3 border-t border-white/10">
+          <div>
             {NAV_CATEGORIES.map((category) => (
               <NavCategory
                 key={category.id}
