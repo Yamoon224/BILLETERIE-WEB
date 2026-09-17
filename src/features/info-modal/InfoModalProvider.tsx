@@ -2,7 +2,7 @@
 
 import { createContext, useCallback, useContext, useMemo, useState } from "react";
 import type { ReactNode } from "react";
-import { Button, Modal } from "@/components/ui";
+import { Modal } from "@/components/ui";
 
 interface InfoModalContextValue {
   openInfo: (title: string, text: string) => void;
@@ -35,9 +35,13 @@ export function InfoModalProvider({ children }: { children: ReactNode }) {
         title={content?.title ?? ""}
         size="sm"
         footer={
-          <Button variant="secondary" onClick={close}>
+          <button
+            type="button"
+            onClick={close}
+            className="w-full rounded-sm bg-[#0e1a3a] py-3 text-sm font-bold text-white transition-colors hover:bg-[#16234f]"
+          >
             Fermer
-          </Button>
+          </button>
         }
       >
         <p className="text-sm leading-relaxed text-[var(--muted)]">{content?.text}</p>

@@ -25,6 +25,21 @@ const NAV_CATEGORIES: Array<{ id: string; heading: string; items: MenuItem[] }> 
   { id: "aide", heading: "Aide", items: HELP_LINKS },
 ];
 
+/** "Actif" en cyan pour ce qui est vraiment reservable en ligne, "Bientôt" en gris pour le reste. */
+function MenuBadge({ badge }: { badge?: string }) {
+  if (!badge) return null;
+  return (
+    <span
+      className={cn(
+        "shrink-0 rounded-full px-2 py-0.5 text-[10px] font-bold",
+        badge === "Actif" ? "bg-brand-400 text-white" : "bg-stone-200 text-stone-500 dark:bg-stone-700 dark:text-stone-300",
+      )}
+    >
+      {badge}
+    </span>
+  );
+}
+
 /** Une section repliable du tiroir : toutes ouvertes par defaut, comme le reste du menu tient sur un seul ecran. */
 function NavCategory({
   heading,
@@ -64,9 +79,7 @@ function NavCategory({
                   className="flex items-center justify-between gap-2 rounded-sm px-3 py-2 text-sm text-stone-600 hover:bg-stone-100 dark:text-stone-300 dark:hover:bg-stone-800"
                 >
                   {item.label}
-                  {item.badge ? (
-                    <span className="rounded-full bg-brand-400 px-2 py-0.5 text-[10px] font-bold text-white">{item.badge}</span>
-                  ) : null}
+                  <MenuBadge badge={item.badge} />
                 </Link>
               </li>
             ) : (
@@ -77,6 +90,7 @@ function NavCategory({
                   className="flex w-full items-center justify-between gap-2 rounded-sm px-3 py-2 text-left text-sm text-stone-600 hover:bg-stone-100 dark:text-stone-300 dark:hover:bg-stone-800"
                 >
                   {item.label}
+                  <MenuBadge badge={item.badge} />
                 </button>
               </li>
             ),

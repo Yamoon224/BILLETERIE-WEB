@@ -4,18 +4,31 @@
  * eviter que les deux dérivent l'un de l'autre.
  */
 export type MenuLinkItem = { kind: "link"; label: string; href: string; badge?: string };
-export type MenuInfoItem = { kind: "info"; label: string; title: string; text: string };
+export type MenuInfoItem = { kind: "info"; label: string; title: string; text: string; badge?: string };
 export type MenuItem = MenuLinkItem | MenuInfoItem;
 
 export const SERVICE_LINKS: MenuItem[] = [
   { kind: "link", label: "Bus / Car", href: "/", badge: "Actif" },
-  { kind: "link", label: "Appartements", href: "/?onglet=appartements", badge: "Actif" },
-  { kind: "link", label: "Location auto", href: "/?onglet=location-auto", badge: "Actif" },
+  {
+    kind: "info",
+    label: "Appartements",
+    title: "Appartements",
+    text: "Résidences meublées à Assinie, Grand-Bassam, Jacqueville et San-Pédro. La réservation en ligne arrive bientôt sur Kaara.",
+    badge: "Bientôt",
+  },
+  {
+    kind: "info",
+    label: "Location auto",
+    title: "Location auto",
+    text: "Véhicules disponibles à l'aéroport d'Abidjan et en centre-ville. La réservation en ligne arrive bientôt sur Kaara.",
+    badge: "Bientôt",
+  },
   {
     kind: "info",
     label: "Aéroexpress",
     title: "Aéroexpress",
     text: "Liaison rapide entre l'aéroport Félix-Houphouët-Boigny et le centre d'Abidjan. Service en préparation.",
+    badge: "Bientôt",
   },
 ];
 
