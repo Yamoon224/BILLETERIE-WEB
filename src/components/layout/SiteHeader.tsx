@@ -186,20 +186,24 @@ export function SiteHeader() {
       </header>
 
       {/* Tiroir lateral : theme, mes billets, compte — tout ce qui n'est pas
-          l'action principale de l'en-tete. */}
+          l'action principale de l'en-tete.
+          Demarre sous l'en-tete (top-[69px] = hauteur de la barre + son
+          filet degrade + sa bordure) plutot qu'en haut de l'ecran : le logo,
+          le coeur et « Se connecter » restent visibles et cliquables meme
+          menu ouvert. */}
       {isMenuOpen ? (
         <button
           type="button"
           aria-label="Fermer le menu"
           onClick={closeMenu}
-          className="fixed inset-0 z-40 bg-stone-950/50 backdrop-blur-sm"
+          className="fixed inset-x-0 top-[69px] bottom-0 z-40 bg-stone-950/50"
         />
       ) : null}
 
       <aside
         aria-label="Menu"
         className={cn(
-          "fixed inset-y-0 right-0 z-50 flex h-dvh w-[85vw] max-w-xs flex-col bg-[#0e1a3a] shadow-card",
+          "fixed right-0 top-[69px] bottom-0 z-40 flex w-[85vw] max-w-xs flex-col bg-[#0e1a3a] shadow-card",
           "transition-transform duration-200 ease-out",
           isMenuOpen ? "translate-x-0" : "translate-x-full",
         )}
