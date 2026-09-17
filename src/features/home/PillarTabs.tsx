@@ -1,14 +1,12 @@
 import Link from "next/link";
-import type { ReactNode } from "react";
-import { IconBus, IconCar, IconHome } from "@/components/ui/icons";
 import { cn } from "@/lib/cn";
 
 export type Pillar = "bus" | "appartements" | "location-auto";
 
-const PILLARS: Array<{ key: Pillar; label: string; icon: ReactNode; href: string }> = [
-  { key: "bus", label: "Bus", icon: <IconBus className="h-5 w-5" />, href: "/" },
-  { key: "appartements", label: "Appartements", icon: <IconHome className="h-5 w-5" />, href: "/?onglet=appartements" },
-  { key: "location-auto", label: "Location auto", icon: <IconCar className="h-5 w-5" />, href: "/?onglet=location-auto" },
+const PILLARS: Array<{ key: Pillar; label: string; icon: string; href: string }> = [
+  { key: "bus", label: "Bus", icon: "🚍", href: "/" },
+  { key: "appartements", label: "Appartements", icon: "🏚️", href: "/?onglet=appartements" },
+  { key: "location-auto", label: "Location auto", icon: "🚘", href: "/?onglet=location-auto" },
 ];
 
 /**
@@ -44,9 +42,10 @@ export function PillarTabs({ active }: { active: Pillar }) {
             ) : null}
             <span
               className={cn(
-                "flex h-11 w-11 items-center justify-center rounded-2xl transition-colors",
-                isActive ? "bg-brand-400 text-white shadow-md" : "bg-[var(--surface-muted)] text-stone-500 dark:text-stone-400",
+                "flex h-11 w-11 items-center justify-center rounded-2xl text-xl transition-colors",
+                isActive ? "bg-brand-400 shadow-md" : "bg-[var(--surface-muted)]",
               )}
+              aria-hidden="true"
             >
               {pillar.icon}
             </span>

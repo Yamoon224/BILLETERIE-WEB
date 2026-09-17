@@ -2,14 +2,11 @@ import type { ReactNode } from "react";
 import { Card, CardBody } from "@/components/ui";
 import {
   IconArrowRight,
-  IconBuilding,
   IconCard,
   IconClock,
   IconMapPin,
   IconPhone,
   IconQrCode,
-  IconScan,
-  IconShield,
   IconTicket,
   IconWifiOff,
 } from "@/components/ui/icons";
@@ -19,10 +16,6 @@ import { PillarTabs } from "@/features/home/PillarTabs";
 import type { Pillar } from "@/features/home/PillarTabs";
 import { PopularApartments } from "@/features/home/PopularApartments";
 import { PopularRentalVehicles } from "@/features/home/PopularRentalVehicles";
-import { PromoBannerSlider } from "@/features/home/PromoBannerSlider";
-import type { PromoBanner } from "@/features/home/PromoBannerSlider";
-import { TrustBadgeGrid } from "@/features/home/TrustBadgeGrid";
-import type { TrustBadge } from "@/features/home/TrustBadgeGrid";
 import { ApartmentSearchForm } from "@/features/search/ApartmentSearchForm";
 import { RentalVehicleSearchForm } from "@/features/search/RentalVehicleSearchForm";
 import { TripSearchForm } from "@/features/search/TripSearchForm";
@@ -87,24 +80,6 @@ const STEPS_BY_PILLAR: Record<Pillar, Step[]> = {
   ],
 };
 
-const TRUST_BADGES_BY_PILLAR: Record<Pillar, TrustBadge[]> = {
-  bus: [
-    { icon: <IconShield className="h-5 w-5" />, title: "Paiement securise Mobile Money" },
-    { icon: <IconWifiOff className="h-5 w-5" />, title: "Billet QR, fonctionne en 2G/3G" },
-    { icon: <IconScan className="h-5 w-5" />, title: "Reservation en deux minutes" },
-  ],
-  appartements: [
-    { icon: <IconShield className="h-5 w-5" />, title: "Paiement securise Mobile Money" },
-    { icon: <IconScan className="h-5 w-5" />, title: "Annonces verifiees par nos partenaires" },
-    { icon: <IconWifiOff className="h-5 w-5" />, title: "Contact direct avec l'agence" },
-  ],
-  "location-auto": [
-    { icon: <IconShield className="h-5 w-5" />, title: "Paiement securise Mobile Money" },
-    { icon: <IconScan className="h-5 w-5" />, title: "Vehicules recents et entretenus" },
-    { icon: <IconWifiOff className="h-5 w-5" />, title: "Chauffeur disponible en option" },
-  ],
-};
-
 const LISTING_TITLE_BY_PILLAR: Record<Pillar, { title: string; subtitle?: string }> = {
   bus: { title: "Destinations populaires" },
   appartements: { title: "Les appartements", subtitle: "Quartiers prises : Assinie, Grand-Bassam, Jacqueville" },
@@ -164,32 +139,6 @@ const DESTINATIONS = [
   },
 ];
 
-const PARTNERS = [
-  { code: "UTB", name: "Union des Transports de Bouake" },
-  { code: "STC", name: "Societe de Transport Cotier" },
-];
-
-const BANNERS: PromoBanner[] = [
-  {
-    title: "Ligne Bonoua-Treichville : nouveaux departs 6h & 17h",
-    subtitle: "Reservez votre place en deux minutes",
-    href: "/",
-    gradient: "linear-gradient(150deg,#1cbbe8 0%,#00b4e6 55%,#036d8f 100%)",
-  },
-  {
-    title: "Studio meuble a Assinie des 15 000 FCFA/nuit",
-    subtitle: "Sejournez face a la lagune",
-    href: "/?onglet=appartements",
-    gradient: "linear-gradient(150deg,#2F9E68 0%,#1F7A4D 100%)",
-  },
-  {
-    title: "Location auto des 25 000 FCFA/jour a Abidjan",
-    subtitle: "Avec ou sans chauffeur",
-    href: "/?onglet=location-auto",
-    gradient: "linear-gradient(150deg,#2C3E5C 0%,#1B2A41 100%)",
-  },
-];
-
 function first(value: string | string[] | undefined): string | undefined {
   return Array.isArray(value) ? value[0] : value;
 }
@@ -210,7 +159,6 @@ export default async function HomePage({ searchParams }: PageProps<"/">) {
   const activeTab = pillarFrom(first(params.onglet));
 
   const steps = STEPS_BY_PILLAR[activeTab];
-  const trustBadges = TRUST_BADGES_BY_PILLAR[activeTab];
   const listing = LISTING_TITLE_BY_PILLAR[activeTab];
 
   return (
@@ -356,34 +304,6 @@ export default async function HomePage({ searchParams }: PageProps<"/">) {
 
           {activeTab === "appartements" ? <PopularApartments /> : null}
           {activeTab === "location-auto" ? <PopularRentalVehicles /> : null}
-        </div>
-      </section>
-
-      {/* Badges de confiance : dernier rappel avant les affiches publicitaires. */}
-      <section className="mx-auto max-w-6xl px-4 py-6 sm:px-6">
-        <TrustBadgeGrid badges={trustBadges} />
-      </section>
-
-      {/* Affiches publicitaires : un pilier a la fois, defilement automatique. */}
-      <section className="mx-auto max-w-6xl px-4 pb-6 sm:px-6">
-        <PromoBannerSlider banners={BANNERS} />
-      </section>
-
-      {/* Partenaires : cree la confiance sans texte superflu. */}
-      <section className="mx-auto max-w-6xl px-4 py-8 sm:px-6">
-        <h2 className="text-center text-sm font-bold uppercase tracking-wider text-[var(--muted)]">
-          Nos partenaires de confiance
-        </h2>
-
-        <div className="mt-5 flex flex-wrap items-center justify-center gap-6">
-          {PARTNERS.map((partner) => (
-            <div key={partner.code} className="flex items-center gap-2.5" title={partner.name}>
-              <span className="flex h-11 w-11 items-center justify-center rounded-sm border border-[var(--hairline)] bg-[var(--surface)] text-xs font-extrabold text-stone-500 shadow-card dark:text-stone-400">
-                <IconBuilding className="h-5 w-5" />
-              </span>
-              <span className="text-sm font-bold text-stone-500 dark:text-stone-400">{partner.code}</span>
-            </div>
-          ))}
         </div>
       </section>
     </>
