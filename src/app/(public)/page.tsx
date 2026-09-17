@@ -14,6 +14,7 @@ import {
   IconWifiOff,
 } from "@/components/ui/icons";
 import { formatDuration, formatMoney } from "@/lib/format";
+import { HeroCurves } from "@/features/home/HeroCurves";
 import { PillarTabs } from "@/features/home/PillarTabs";
 import type { Pillar } from "@/features/home/PillarTabs";
 import { PopularApartments } from "@/features/home/PopularApartments";
@@ -138,7 +139,7 @@ const DESTINATIONS = [
     from: "Abidjan",
     price: 6000,
     durationMinutes: 240,
-    gradient: "linear-gradient(150deg,#1cbbe8 0%,#00a6d6 55%,#036d8f 100%)",
+    gradient: "linear-gradient(150deg,#1cbbe8 0%,#00b4e6 55%,#036d8f 100%)",
   },
   {
     city: "Yamoussoukro",
@@ -152,7 +153,7 @@ const DESTINATIONS = [
     from: "Abidjan",
     price: 7500,
     durationMinutes: 330,
-    gradient: "linear-gradient(150deg,#0086b0 0%,#0a5570 100%)",
+    gradient: "linear-gradient(150deg,#0089b3 0%,#0a5570 100%)",
   },
   {
     city: "Korhogo",
@@ -173,7 +174,7 @@ const BANNERS: PromoBanner[] = [
     title: "Ligne Bonoua-Treichville : nouveaux departs 6h & 17h",
     subtitle: "Reservez votre place en deux minutes",
     href: "/",
-    gradient: "linear-gradient(150deg,#1cbbe8 0%,#00a6d6 55%,#036d8f 100%)",
+    gradient: "linear-gradient(150deg,#1cbbe8 0%,#00b4e6 55%,#036d8f 100%)",
   },
   {
     title: "Studio meuble a Assinie des 15 000 FCFA/nuit",
@@ -214,34 +215,41 @@ export default async function HomePage({ searchParams }: PageProps<"/">) {
 
   return (
     <>
-      <section className="mx-auto max-w-6xl px-4 pb-2 pt-6 sm:px-6 sm:pt-8">
-        <div className="mb-3 rounded-2xl bg-brand-400 px-4 py-3 text-sm font-bold text-white shadow-sm">
-          🔥 -20&nbsp;% sur votre 1er trajet reserve en ligne
-        </div>
+      <section className="relative overflow-hidden">
+        <HeroCurves />
+        <div className="relative mx-auto max-w-6xl px-4 pb-2 pt-6 sm:px-6 sm:pt-8">
+          <div className="mb-3 rounded-2xl bg-brand-400 px-4 py-3 text-sm font-bold text-white shadow-sm">
+            🔥 -20&nbsp;% sur votre 1er trajet reserve en ligne
+          </div>
 
-        <div className="mb-5 flex flex-col gap-2">
-          <span className="rounded-2xl bg-[#d6259f] px-4 py-3 text-sm font-bold text-white shadow-sm">🛡️ 100&nbsp;% ivoirien</span>
-          <span className="rounded-2xl bg-[#d6259f] px-4 py-3 text-sm font-bold text-white shadow-sm">🚌 Ligne pilote active</span>
-        </div>
+          <div className="mb-5 flex flex-col gap-2">
+            <span className="rounded-2xl border border-fuchsia/25 bg-fuchsia/15 px-4 py-3 text-sm font-bold text-fuchsia-dark backdrop-blur-sm dark:text-fuchsia">
+              🛡️ 100&nbsp;% ivoirien
+            </span>
+            <span className="rounded-2xl border border-fuchsia/25 bg-fuchsia/15 px-4 py-3 text-sm font-bold text-fuchsia-dark backdrop-blur-sm dark:text-fuchsia">
+              🚌 Ligne pilote active
+            </span>
+          </div>
 
-        <PillarTabs active={activeTab} />
+          <PillarTabs active={activeTab} />
 
-        <div className="mt-4 sm:mt-5">
-          {activeTab === "bus" ? <TripSearchForm layout="stacked" /> : null}
-          {activeTab === "appartements" ? (
-            <Card>
-              <CardBody className="p-4 sm:p-6">
-                <ApartmentSearchForm layout="stacked" />
-              </CardBody>
-            </Card>
-          ) : null}
-          {activeTab === "location-auto" ? (
-            <Card>
-              <CardBody className="p-4 sm:p-6">
-                <RentalVehicleSearchForm layout="stacked" />
-              </CardBody>
-            </Card>
-          ) : null}
+          <div className="mt-4 sm:mt-5">
+            {activeTab === "bus" ? <TripSearchForm layout="stacked" /> : null}
+            {activeTab === "appartements" ? (
+              <Card>
+                <CardBody className="p-4 sm:p-6">
+                  <ApartmentSearchForm layout="stacked" />
+                </CardBody>
+              </Card>
+            ) : null}
+            {activeTab === "location-auto" ? (
+              <Card>
+                <CardBody className="p-4 sm:p-6">
+                  <RentalVehicleSearchForm layout="stacked" />
+                </CardBody>
+              </Card>
+            ) : null}
+          </div>
         </div>
       </section>
 
@@ -251,7 +259,7 @@ export default async function HomePage({ searchParams }: PageProps<"/">) {
         <div className="mx-auto grid max-w-6xl grid-cols-3 gap-4 px-4 sm:px-6">
           {PROMISES.map((promise) => (
             <div key={promise.title} className="flex flex-col items-center gap-2 text-center">
-              <span className="text-[#d6259f]">{promise.icon}</span>
+              <span className="text-fuchsia">{promise.icon}</span>
               <span className="text-xs font-semibold leading-snug text-[var(--foreground)] sm:text-sm">{promise.title}</span>
             </div>
           ))}

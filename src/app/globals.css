@@ -25,11 +25,20 @@
   --color-brand-200: #97e6fb;
   --color-brand-300: #59d3f4;
   --color-brand-400: #1cbbe8;
-  --color-brand-500: #00a6d6;
-  --color-brand-600: #0086b0;
+  --color-brand-500: #00b4e6;
+  --color-brand-600: #0089b3;
   --color-brand-700: #036d8f;
   --color-brand-800: #0a5570;
   --color-brand-900: #0d4258;
+
+  /* Jaune et rose fuchsia de la charte : une seule teinte "vive" et une seule
+     teinte "sombre" chacun, jamais une rampe complete (voir la note sur
+     `grad-brand` plus bas) — ils ne servent qu'en accent ponctuel (badge,
+     trait de degrade) ou dans les etats hover des degrades de marque. */
+  --color-fuchsia: #e6007e;
+  --color-fuchsia-dark: #b3005f;
+  --color-yellow: #ffd400;
+  --color-yellow-dark: #d9a900;
 
   /* Vert, reserve aux etats de succes et de selection : siege choisi,
      embarquement autorise, paiement encaisse. Il ne sert jamais de
@@ -51,7 +60,7 @@
   --muted: #57707a;
   --hairline: #dcebef;
   --card-shadow: 0 1px 2px rgb(10 30 38 / 0.05), 0 12px 28px -14px rgb(10 30 38 / 0.22);
-  --card-shadow-hover: 0 2px 4px rgb(10 30 38 / 0.06), 0 18px 38px -16px rgb(0 134 176 / 0.35);
+  --card-shadow-hover: 0 2px 4px rgb(10 30 38 / 0.06), 0 18px 38px -16px rgb(0 137 179 / 0.35);
 }
 
 .dark {
@@ -63,7 +72,7 @@
   --muted: #93aab2;
   --hairline: #22343b;
   --card-shadow: 0 1px 2px rgb(0 0 0 / 0.5), 0 12px 30px -14px rgb(0 0 0 / 0.85);
-  --card-shadow-hover: 0 2px 6px rgb(0 0 0 / 0.55), 0 20px 42px -16px rgb(0 166 214 / 0.3);
+  --card-shadow-hover: 0 2px 6px rgb(0 0 0 / 0.55), 0 20px 42px -16px rgb(0 180 230 / 0.3);
 }
 
 /*
@@ -106,19 +115,19 @@ body {
    en-tetes de billet, les liseres de cartes et l'etat actif. Elle materialise
    la trajectoire du voyage, jamais un simple fond decoratif. */
 @utility grad-brand {
-  background-image: linear-gradient(135deg, #1cbbe8 0%, #d6259f 50%, #ffd100 100%);
+  background-image: linear-gradient(135deg, var(--color-brand-400) 0%, var(--color-fuchsia) 50%, var(--color-yellow) 100%);
 }
 
 @utility grad-brand-hover {
-  background-image: linear-gradient(135deg, #00a6d6 0%, #b01b82 50%, #e6b800 100%);
+  background-image: linear-gradient(135deg, var(--color-brand-600) 0%, var(--color-fuchsia-dark) 50%, var(--color-yellow-dark) 100%);
 }
 
 @utility grad-brand-soft {
-  background-image: linear-gradient(135deg, rgb(0 166 214 / 0.14) 0%, rgb(214 37 159 / 0.06) 100%);
+  background-image: linear-gradient(135deg, rgb(0 180 230 / 0.14) 0%, rgb(230 0 126 / 0.06) 100%);
 }
 
 @utility grad-brand-text {
-  background-image: linear-gradient(135deg, #00a6d6 0%, #b01b82 100%);
+  background-image: linear-gradient(135deg, var(--color-brand-500) 0%, var(--color-fuchsia-dark) 100%);
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
@@ -143,7 +152,7 @@ body {
    coin - le fuchsia central domine. Le premier tiers est donc tenu en cyan
    uni avant de basculer, pour que la couleur reste lisible meme reduite. */
 @utility grad-logo-brand {
-  background-image: linear-gradient(135deg, #1cbbe8 0%, #1cbbe8 30%, #d6259f 65%, #ffd100 100%);
+  background-image: linear-gradient(135deg, var(--color-brand-400) 0%, var(--color-brand-400) 30%, var(--color-fuchsia) 65%, var(--color-yellow) 100%);
 }
 
 @utility shadow-card {
@@ -184,7 +193,7 @@ body {
 }
 
 ::selection {
-  background-color: rgb(0 166 214 / 0.24);
+  background-color: rgb(0 180 230 / 0.24);
 }
 
 /* ---------------------------------------------------------------------------
@@ -200,10 +209,10 @@ body {
 :root {
   --field-border: #c9dee3;
   --field-border-hover: #9fbac2;
-  --field-border-focus: #00a6d6;
+  --field-border-focus: #00b4e6;
   --field-border-error: #e11d48;
   --field-label: #5e7a83;
-  --field-label-focus: #0086b0;
+  --field-label-focus: #0089b3;
   --field-placeholder: #85a0a8;
   --field-disabled-bg: #e9f5f8;
 }

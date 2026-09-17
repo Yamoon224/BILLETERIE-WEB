@@ -38,7 +38,7 @@ export function PillarTabs({ active }: { active: Pillar }) {
             )}
           >
             {isActive ? (
-              <span className="absolute -right-1.5 -top-1.5 rounded-full bg-[#d6259f] px-2 py-0.5 text-[10px] font-bold text-white shadow-sm">
+              <span className="absolute -right-1.5 -top-1.5 rounded-full bg-fuchsia px-2 py-0.5 text-[10px] font-bold text-white shadow-sm">
                 Actif
               </span>
             ) : null}

@@ -29,7 +29,7 @@ export function TripCard({ trip, passengers }: { trip: Trip; passengers: number 
           </div>
           <span className="flex items-center gap-1.5 text-sm">
             <span className="text-[var(--muted)]">{rating.reviews} avis</span>
-            <span className="rounded-md bg-[#ffd100] px-2 py-1 text-xs font-extrabold text-stone-900">{rating.score}</span>
+            <span className="rounded-md bg-yellow px-2 py-1 text-xs font-extrabold text-stone-900">{rating.score}</span>
           </span>
         </div>
 
