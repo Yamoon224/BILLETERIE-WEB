@@ -3,10 +3,10 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { Logo, LogoMark } from "@/components/brand/Logo";
+import { Logo } from "@/components/brand/Logo";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
 import { Avatar, LinkButton } from "@/components/ui";
-import { IconChevronDown, IconClose, IconHeart, IconMenu, IconTicket, IconUser } from "@/components/ui/icons";
+import { IconChevronDown, IconHeart, IconMenu, IconTicket, IconUser } from "@/components/ui/icons";
 import { homeFor, useAuth } from "@/features/auth/AuthContext";
 import { useInfoModal } from "@/features/info-modal/InfoModalProvider";
 import { cn } from "@/lib/cn";
@@ -32,7 +32,7 @@ function MenuBadge({ badge }: { badge?: string }) {
     <span
       className={cn(
         "shrink-0 rounded-full px-2 py-0.5 text-[10px] font-bold",
-        badge === "Actif" ? "bg-brand-400 text-white" : "bg-stone-200 text-stone-500 dark:bg-stone-700 dark:text-stone-300",
+        badge === "Actif" ? "bg-brand-400 text-white" : "bg-white/12 text-white/60",
       )}
     >
       {badge}
@@ -57,15 +57,15 @@ function NavCategory({
   const { openInfo } = useInfoModal();
 
   return (
-    <div className="border-b border-[var(--hairline)] py-1">
+    <div className="border-b border-white/10 py-1">
       <button
         type="button"
         onClick={onToggle}
         aria-expanded={isOpen}
-        className="flex w-full items-center justify-between px-3 py-2.5 text-left text-sm font-bold text-[var(--foreground)]"
+        className="flex w-full items-center justify-between px-3 py-2.5 text-left text-sm font-bold text-white"
       >
         {heading}
-        <IconChevronDown className={cn("h-3.5 w-3.5 text-[var(--muted)] transition-transform", isOpen ? "rotate-180" : "")} />
+        <IconChevronDown className={cn("h-3.5 w-3.5 text-white/50 transition-transform", isOpen ? "rotate-180" : "")} />
       </button>
 
       {isOpen ? (
@@ -76,7 +76,7 @@ function NavCategory({
                 <Link
                   href={item.href}
                   onClick={onNavigate}
-                  className="flex items-center justify-between gap-2 rounded-sm px-3 py-2 text-sm text-stone-600 hover:bg-stone-100 dark:text-stone-300 dark:hover:bg-stone-800"
+                  className="flex items-center justify-between gap-2 rounded-sm px-3 py-2 text-sm text-white/70 hover:bg-white/10"
                 >
                   {item.label}
                   <MenuBadge badge={item.badge} />
@@ -87,7 +87,7 @@ function NavCategory({
                 <button
                   type="button"
                   onClick={() => openInfo(item.title, item.text)}
-                  className="flex w-full items-center justify-between gap-2 rounded-sm px-3 py-2 text-left text-sm text-stone-600 hover:bg-stone-100 dark:text-stone-300 dark:hover:bg-stone-800"
+                  className="flex w-full items-center justify-between gap-2 rounded-sm px-3 py-2 text-left text-sm text-white/70 hover:bg-white/10"
                 >
                   {item.label}
                   <MenuBadge badge={item.badge} />
@@ -172,7 +172,7 @@ export function SiteHeader() {
 
             <button
               type="button"
-              onClick={() => setIsMenuOpen(true)}
+              onClick={() => setIsMenuOpen((open) => !open)}
               aria-label="Ouvrir le menu"
               aria-haspopup="true"
               aria-expanded={isMenuOpen}
@@ -199,21 +199,15 @@ export function SiteHeader() {
       <aside
         aria-label="Menu"
         className={cn(
-          "fixed inset-y-0 right-0 z-50 flex h-dvh w-[85vw] max-w-xs flex-col bg-[var(--surface)] shadow-card",
+          "fixed inset-y-0 right-0 z-50 flex h-dvh w-[85vw] max-w-xs flex-col bg-[#0e1a3a] shadow-card",
           "transition-transform duration-200 ease-out",
           isMenuOpen ? "translate-x-0" : "translate-x-full",
         )}
       >
-        <div className="flex h-16 shrink-0 items-center justify-between border-b border-[var(--hairline)] px-4">
-          <LogoMark size="sm" />
-          <button
-            type="button"
-            onClick={closeMenu}
-            aria-label="Fermer le menu"
-            className="rounded-sm p-2 text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-800"
-          >
-            <IconClose className="h-5 w-5" />
-          </button>
+        <div className="shrink-0 px-5 pb-2 pt-6">
+          <span className="text-[28px] font-extrabold leading-none tracking-tight text-white">
+            Ka<span className="text-brand-300">ara</span>
+          </span>
         </div>
 
         <nav aria-label="Navigation" className="flex-1 overflow-y-auto p-3">
@@ -226,19 +220,17 @@ export function SiteHeader() {
                   aria-current={pathname === link.href ? "page" : undefined}
                   className={cn(
                     "flex items-center gap-3 rounded-sm px-3 py-3 text-sm font-semibold transition-colors",
-                    pathname === link.href
-                      ? "grad-brand-soft text-brand-700 dark:text-brand-300"
-                      : "text-stone-700 hover:bg-stone-100 dark:text-stone-200 dark:hover:bg-stone-800",
+                    pathname === link.href ? "bg-white/10 text-brand-300" : "text-white/90 hover:bg-white/10",
                   )}
                 >
-                  <span className="text-brand-600 dark:text-brand-400">{link.icon}</span>
+                  <span className="text-brand-300">{link.icon}</span>
                   {link.label}
                 </Link>
               </li>
             ))}
           </ul>
 
-          <div className="mt-3 border-t border-[var(--hairline)]">
+          <div className="mt-3 border-t border-white/10">
             {NAV_CATEGORIES.map((category) => (
               <NavCategory
                 key={category.id}
@@ -251,17 +243,15 @@ export function SiteHeader() {
             ))}
           </div>
 
-          <div className="mt-5 border-t border-[var(--hairline)] pt-5">
-            <p className="px-3 pb-2 text-[10px] font-bold uppercase tracking-[0.14em] text-[var(--muted)]">
-              Apparence
-            </p>
+          <div className="mt-5 border-t border-white/10 pt-5">
+            <p className="px-3 pb-2 text-[10px] font-bold uppercase tracking-[0.14em] text-white/50">Apparence</p>
             <div className="px-3">
               <ThemeToggle showLabels />
             </div>
           </div>
         </nav>
 
-        <div className="shrink-0 border-t border-[var(--hairline)] p-3">
+        <div className="shrink-0 border-t border-white/10 p-3">
           {user ? (
             <LinkButton
               href={homeFor(user)}
