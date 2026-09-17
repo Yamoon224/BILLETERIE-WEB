@@ -1,6 +1,7 @@
 import { BottomNav } from "@/components/layout/BottomNav";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
+import { InfoModalProvider } from "@/features/info-modal/InfoModalProvider";
 
 /**
  * Coquille du site voyageur : en-tete court, contenu, pied de page.
@@ -11,11 +12,13 @@ import { SiteHeader } from "@/components/layout/SiteHeader";
  */
 export default function PublicLayout({ children }: LayoutProps<"/">) {
   return (
-    <div className="flex min-h-dvh flex-col">
-      <SiteHeader />
-      <main className="flex-1">{children}</main>
-      <SiteFooter />
-      <BottomNav />
-    </div>
+    <InfoModalProvider>
+      <div className="flex min-h-dvh flex-col">
+        <SiteHeader />
+        <main className="flex-1">{children}</main>
+        <SiteFooter />
+        <BottomNav />
+      </div>
+    </InfoModalProvider>
   );
 }

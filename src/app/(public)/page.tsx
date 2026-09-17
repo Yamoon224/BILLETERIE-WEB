@@ -171,10 +171,10 @@ export default async function HomePage({ searchParams }: PageProps<"/">) {
           </div>
 
           <div className="mb-5 flex flex-col gap-2">
-            <span className="rounded-2xl border border-fuchsia/25 bg-fuchsia/15 px-4 py-3 text-sm font-bold text-fuchsia-dark backdrop-blur-sm dark:text-fuchsia">
+            <span className="rounded-2xl border border-fuchsia/25 bg-fuchsia/15 px-4 py-3 text-sm font-bold text-fuchsia-dark dark:text-fuchsia">
               🛡️ 100&nbsp;% ivoirien
             </span>
-            <span className="rounded-2xl border border-fuchsia/25 bg-fuchsia/15 px-4 py-3 text-sm font-bold text-fuchsia-dark backdrop-blur-sm dark:text-fuchsia">
+            <span className="rounded-2xl border border-fuchsia/25 bg-fuchsia/15 px-4 py-3 text-sm font-bold text-fuchsia-dark dark:text-fuchsia">
               🚌 Ligne pilote active
             </span>
           </div>
@@ -199,6 +199,22 @@ export default async function HomePage({ searchParams }: PageProps<"/">) {
             ) : null}
           </div>
         </div>
+      </section>
+
+      {/* Video demo : aucun son, aucune donnee a charger en 2G — juste une
+          promesse visuelle du parcours de reservation avant le bandeau
+          d'arguments forts. */}
+      <section className="mx-auto max-w-6xl px-4 pb-2 sm:px-6">
+        <div className="flex aspect-video items-center justify-center rounded-sm bg-gradient-to-br from-[#0e1a3a] to-stone-900 shadow-card">
+          <span className="flex h-14 w-14 items-center justify-center rounded-full bg-white/15">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="white" aria-hidden="true">
+              <path d="M8 5v14l11-7z" />
+            </svg>
+          </span>
+        </div>
+        <p className="mt-2.5 text-center text-xs font-semibold text-[var(--muted)]">
+          Comment ça marche — en 15 secondes, sans son
+        </p>
       </section>
 
       {/* Arguments forts : bandeau clair, trois colonnes centrees — le
