@@ -1,12 +1,17 @@
+"use client";
+
 import Link from "next/link";
+import { APARTMENTS_INFO, RENTAL_AUTO_INFO } from "@/components/layout/menuLinks";
+import type { MenuInfoItem } from "@/components/layout/menuLinks";
+import { useInfoModal } from "@/features/info-modal/InfoModalProvider";
 import { cn } from "@/lib/cn";
 
 export type Pillar = "bus" | "appartements" | "location-auto";
 
-const PILLARS: Array<{ key: Pillar; label: string; icon: string; href: string }> = [
+const PILLARS: Array<{ key: Pillar; label: string; icon: string; href: string; info?: MenuInfoItem }> = [
   { key: "bus", label: "Bus", icon: "🚍", href: "/" },
-  { key: "appartements", label: "Appartements", icon: "🏚️", href: "/?onglet=appartements" },
-  { key: "location-auto", label: "Location auto", icon: "🚘", href: "/?onglet=location-auto" },
+  { key: "appartements", label: "Appartements", icon: "🏚️", href: "/?onglet=appartements", info: APARTMENTS_INFO },
+  { key: "location-auto", label: "Location auto", icon: "🚘", href: "/?onglet=location-auto", info: RENTAL_AUTO_INFO },
 ];
 
 /**
@@ -15,8 +20,15 @@ const PILLARS: Array<{ key: Pillar; label: string; icon: string; href: string }>
  * Un lien, pas un etat client : changer d'onglet change d'URL (`/`,
  * `/?onglet=appartements`…), ce qui rend chaque vue partageable et rejouable
  * apres un rechargement — meme logique que `TripSearchForm.searchHref`.
+ *
+ * Appartements et Location auto se parcourent deja (recherche, listing,
+ * contact direct du partenaire), mais la reservation en ligne n'est pas
+ * encore branchee : le tab navigue quand meme, et rappelle en plus ce
+ * qui manque via le meme popup d'information que le tiroir de menu.
  */
 export function PillarTabs({ active }: { active: Pillar }) {
+  const { openInfo } = useInfoModal();
+
   return (
     <div role="tablist" aria-label="Choisir un service" className="grid grid-cols-3 gap-2 sm:gap-3">
       {PILLARS.map((pillar) => {
@@ -28,6 +40,7 @@ export function PillarTabs({ active }: { active: Pillar }) {
             href={pillar.href}
             role="tab"
             aria-selected={isActive}
+            onClick={pillar.info ? () => openInfo(pillar.info!.title, pillar.info!.text) : undefined}
             className={cn(
               "relative flex flex-col items-center gap-2 rounded-2xl border px-2 py-3 text-center transition-colors",
               isActive

@@ -7,22 +7,27 @@ export type MenuLinkItem = { kind: "link"; label: string; href: string; badge?: 
 export type MenuInfoItem = { kind: "info"; label: string; title: string; text: string; badge?: string };
 export type MenuItem = MenuLinkItem | MenuInfoItem;
 
+/** Nommes individuellement pour etre reutilises tels quels par les tabs de la page d'accueil (PillarTabs). */
+export const APARTMENTS_INFO: MenuInfoItem = {
+  kind: "info",
+  label: "Appartements",
+  title: "Appartements",
+  text: "Résidences meublées à Assinie, Grand-Bassam, Jacqueville et San-Pédro. La réservation en ligne arrive bientôt sur Kaara.",
+  badge: "Bientôt",
+};
+
+export const RENTAL_AUTO_INFO: MenuInfoItem = {
+  kind: "info",
+  label: "Location auto",
+  title: "Location auto",
+  text: "Véhicules disponibles à l'aéroport d'Abidjan et en centre-ville. La réservation en ligne arrive bientôt sur Kaara.",
+  badge: "Bientôt",
+};
+
 export const SERVICE_LINKS: MenuItem[] = [
   { kind: "link", label: "Bus / Car", href: "/", badge: "Actif" },
-  {
-    kind: "info",
-    label: "Appartements",
-    title: "Appartements",
-    text: "Résidences meublées à Assinie, Grand-Bassam, Jacqueville et San-Pédro. La réservation en ligne arrive bientôt sur Kaara.",
-    badge: "Bientôt",
-  },
-  {
-    kind: "info",
-    label: "Location auto",
-    title: "Location auto",
-    text: "Véhicules disponibles à l'aéroport d'Abidjan et en centre-ville. La réservation en ligne arrive bientôt sur Kaara.",
-    badge: "Bientôt",
-  },
+  APARTMENTS_INFO,
+  RENTAL_AUTO_INFO,
   {
     kind: "info",
     label: "Aéroexpress",
