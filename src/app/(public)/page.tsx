@@ -119,14 +119,14 @@ export default async function HomePage({ searchParams }: PageProps<"/">) {
           <div className="mt-4 sm:mt-5">
             {activeTab === "bus" ? <TripSearchForm layout="stacked" /> : null}
             {activeTab === "appartements" ? (
-              <Card>
+              <Card className="theme-force-light">
                 <CardBody className="p-4 sm:p-6">
                   <ApartmentSearchForm layout="stacked" />
                 </CardBody>
               </Card>
             ) : null}
             {activeTab === "location-auto" ? (
-              <Card>
+              <Card className="theme-force-light">
                 <CardBody className="p-4 sm:p-6">
                   <RentalVehicleSearchForm layout="stacked" />
                 </CardBody>

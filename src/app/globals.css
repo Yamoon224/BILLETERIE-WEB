@@ -76,6 +76,36 @@
 }
 
 /*
+ * Ilot force en surface claire, quel que soit le theme ambiant : le panneau
+ * de recherche du Hero (voyageur) reste blanc meme en mode sombre, sur
+ * demande explicite (capture de maquette). Redeclare les memes jetons que
+ * `:root`, ce qui suffit a reblanchir tout ce qui les consomme en cascade
+ * (Card, champs a libelle flottant `.field-*`) sans dupliquer leurs styles.
+ * Les classes `dark:` de Tailwind restant branchees sur l'ancetre `.dark`
+ * (voir `@custom-variant` plus haut), elles continuent de s'appliquer a
+ * l'interieur de cet ilot : ne pas y placer d'enfant qui en porte.
+ */
+.theme-force-light {
+  color-scheme: light;
+  --canvas: #f4fbfd;
+  --surface: #ffffff;
+  --surface-muted: #e9f5f8;
+  --foreground: #12222b;
+  --muted: #57707a;
+  --hairline: #dcebef;
+  --card-shadow: 0 1px 2px rgb(10 30 38 / 0.05), 0 12px 28px -14px rgb(10 30 38 / 0.22);
+  --card-shadow-hover: 0 2px 4px rgb(10 30 38 / 0.06), 0 18px 38px -16px rgb(0 137 179 / 0.35);
+  --field-border: #c9dee3;
+  --field-border-hover: #9fbac2;
+  --field-border-focus: #00b4e6;
+  --field-border-error: #e11d48;
+  --field-label: #5e7a83;
+  --field-label-focus: #0089b3;
+  --field-placeholder: #85a0a8;
+  --field-disabled-bg: #e9f5f8;
+}
+
+/*
  * Couleurs des graphiques.
  *
  * Trois teintes categorielles, dans un ordre fixe valide en paires completes
