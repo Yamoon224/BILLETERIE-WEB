@@ -161,7 +161,7 @@ export function TripSearchForm({
               onClick={swap}
               aria-label="Inverser depart et arrivee"
               title="Inverser"
-              className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-[var(--hairline)] bg-[var(--surface-muted)] text-brand-500 transition-transform hover:rotate-180"
+              className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#0e1a3a] text-white transition-transform hover:rotate-180 hover:bg-[#16295c]"
             >
               <IconSwap className="h-4 w-4 rotate-90" />
             </button>

@@ -1,15 +1,5 @@
-import type { ReactNode } from "react";
 import { Card, CardBody } from "@/components/ui";
-import {
-  IconArrowRight,
-  IconCard,
-  IconClock,
-  IconMapPin,
-  IconPhone,
-  IconQrCode,
-  IconTicket,
-  IconWifiOff,
-} from "@/components/ui/icons";
+import { IconArrowRight, IconCard, IconClock, IconMapPin, IconQrCode, IconWifiOff } from "@/components/ui/icons";
 import { formatDuration, formatMoney } from "@/lib/format";
 import { HeroCurves } from "@/features/home/HeroCurves";
 import { PillarTabs } from "@/features/home/PillarTabs";
@@ -19,66 +9,6 @@ import { PopularRentalVehicles } from "@/features/home/PopularRentalVehicles";
 import { ApartmentSearchForm } from "@/features/search/ApartmentSearchForm";
 import { RentalVehicleSearchForm } from "@/features/search/RentalVehicleSearchForm";
 import { TripSearchForm } from "@/features/search/TripSearchForm";
-
-interface Step {
-  icon: ReactNode;
-  title: string;
-  text: string;
-}
-
-const STEPS_BY_PILLAR: Record<Pillar, Step[]> = {
-  bus: [
-    {
-      icon: <IconTicket className="h-5 w-5" />,
-      title: "Choisissez votre place",
-      text: "Comparez les horaires et reservez le siege qui vous convient.",
-    },
-    {
-      icon: <IconPhone className="h-5 w-5" />,
-      title: "Payez par mobile money",
-      text: "Orange Money, MTN MoMo, Moov Money ou Wave, depuis votre telephone.",
-    },
-    {
-      icon: <IconQrCode className="h-5 w-5" />,
-      title: "Recevez votre billet",
-      text: "Le QR code arrive par SMS, meme sans connexion a l'embarquement.",
-    },
-  ],
-  appartements: [
-    {
-      icon: <IconTicket className="h-5 w-5" />,
-      title: "Choisissez votre logement",
-      text: "Comparez les appartements meubles selon la ville, les dates et le budget.",
-    },
-    {
-      icon: <IconPhone className="h-5 w-5" />,
-      title: "Contactez le partenaire",
-      text: "Le telephone et le WhatsApp de l'agence ou du proprietaire vous sont communiques.",
-    },
-    {
-      icon: <IconQrCode className="h-5 w-5" />,
-      title: "Confirmez votre sejour",
-      text: "Reservation en ligne bientot disponible : la confirmation se fait pour l'instant directement avec le partenaire.",
-    },
-  ],
-  "location-auto": [
-    {
-      icon: <IconTicket className="h-5 w-5" />,
-      title: "Choisissez votre vehicule",
-      text: "Comparez les modeles disponibles selon la ville et les dates de location.",
-    },
-    {
-      icon: <IconPhone className="h-5 w-5" />,
-      title: "Contactez l'agence",
-      text: "Le telephone et le WhatsApp du loueur vous sont communiques pour organiser la prise en charge.",
-    },
-    {
-      icon: <IconQrCode className="h-5 w-5" />,
-      title: "Recuperez votre vehicule",
-      text: "Reservation en ligne bientot disponible : la remise des cles se fait pour l'instant directement avec l'agence.",
-    },
-  ],
-};
 
 const LISTING_TITLE_BY_PILLAR: Record<Pillar, { title: string; subtitle?: string }> = {
   bus: { title: "Destinations populaires" },
@@ -157,21 +87,19 @@ function pillarFrom(value: string | undefined): Pillar {
  * Accueil Kaara : trois piliers (Bus, Appartements, Location auto) en tabs.
  *
  * L'onglet actif vient de l'URL (`?onglet=...`), pas d'un etat client : la
- * recherche, le "comment ca marche" et les sections de decouverte s'adaptent
- * tous au meme parametre, servi cote serveur.
+ * recherche et les sections de decouverte s'adaptent toutes au meme
+ * parametre, servi cote serveur.
  */
 export default async function HomePage({ searchParams }: PageProps<"/">) {
   const params = await searchParams;
   const activeTab = pillarFrom(first(params.onglet));
 
-  const steps = STEPS_BY_PILLAR[activeTab];
   const listing = LISTING_TITLE_BY_PILLAR[activeTab];
 
   return (
     <>
-      <section className="relative overflow-hidden">
-        <HeroCurves />
-        <div className="relative mx-auto max-w-6xl px-4 pb-2 pt-6 sm:px-6 sm:pt-8">
+      <section>
+        <div className="mx-auto max-w-6xl px-4 pb-2 pt-6 sm:px-6 sm:pt-8">
           <div className="mb-3 rounded-2xl bg-brand-400 px-4 py-3 text-sm font-bold text-white shadow-sm">
             🔥 -20&nbsp;% sur votre 1er trajet reserve en ligne
           </div>
@@ -236,54 +164,29 @@ export default async function HomePage({ searchParams }: PageProps<"/">) {
         </div>
       </section>
 
-      {/* Comment ca marche : adaptatif par pilier. */}
-      <section className="mx-auto max-w-6xl px-4 py-6 sm:px-6">
-        <h2 className="text-xl font-extrabold tracking-tight">Comment ca marche</h2>
-        <span aria-hidden="true" className="grad-brand mt-3 block h-[3px] w-12 rounded-full" />
-
-        <Card className="mt-5">
-          <ol>
-            {steps.map((step, index) => (
-              <li
-                key={step.title}
-                className={index > 0 ? "flex items-center gap-3.5 border-t border-[var(--hairline)] p-4" : "flex items-center gap-3.5 p-4"}
-              >
-                <span className="grad-brand flex h-10 w-10 shrink-0 items-center justify-center rounded-sm text-white shadow-card">
-                  {step.icon}
-                </span>
-                <div className="min-w-0">
-                  <p className="text-sm font-bold">
-                    <span className="mr-1.5 text-brand-500">0{index + 1}.</span>
-                    {step.title}
-                  </p>
-                  <p className="mt-0.5 text-xs leading-relaxed text-[var(--muted)]">{step.text}</p>
-                </div>
-              </li>
-            ))}
-          </ol>
-        </Card>
-      </section>
-
       {/* A la une : espace promo Kaara + un premier emplacement publicitaire
           pour les piliers pas encore reservables en ligne (Appartements,
           Location auto) — contenu fixe pour l'instant, pas de vraie regie. */}
-      <section className="mx-auto max-w-6xl px-4 py-6 sm:px-6">
-        <h2 className="text-xl font-extrabold tracking-tight">À la une cette semaine</h2>
-        <p className="mt-1 text-sm text-[var(--muted)]">
-          Espace publicitaire — Appartements &amp; Location auto (aperçu, réservation à venir)
-        </p>
+      <section className="relative overflow-hidden">
+        <HeroCurves />
+        <div className="relative mx-auto max-w-6xl px-4 py-6 sm:px-6">
+          <h2 className="text-xl font-extrabold tracking-tight">À la une cette semaine</h2>
+          <p className="mt-1 text-sm text-[var(--muted)]">
+            Espace publicitaire — Appartements &amp; Location auto (aperçu, réservation à venir)
+          </p>
 
-        <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
-          {SPOTLIGHT_CARDS.map((card) => (
-            <div
-              key={card.text}
-              className="flex min-h-[140px] flex-col justify-between rounded-sm p-4 shadow-card"
-              style={{ backgroundImage: card.gradient }}
-            >
-              <span className="w-fit rounded-full bg-white/20 px-3 py-1 text-xs font-bold text-white">{card.badge}</span>
-              <p className="text-base font-extrabold leading-snug text-white">{card.text}</p>
-            </div>
-          ))}
+          <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
+            {SPOTLIGHT_CARDS.map((card) => (
+              <div
+                key={card.text}
+                className="flex min-h-[140px] flex-col justify-between rounded-sm p-4 shadow-card"
+                style={{ backgroundImage: card.gradient }}
+              >
+                <span className="w-fit rounded-full bg-white/20 px-3 py-1 text-xs font-bold text-white">{card.badge}</span>
+                <p className="text-base font-extrabold leading-snug text-white">{card.text}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 

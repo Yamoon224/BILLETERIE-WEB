@@ -1,7 +1,9 @@
 /**
- * Traits decoratifs du hero d'accueil : la trajectoire du voyage, en fond,
- * jamais interactive. Degrades bases sur les memes jetons que `grad-brand`
- * (cyan, fuchsia, jaune) pour rester coherente si la charte evolue.
+ * Traits decoratifs en fond de la section "A la une" (cartes de promotion) :
+ * la trajectoire du voyage, jamais interactive. Degrades bases sur les memes
+ * jetons que `grad-brand` (cyan, fuchsia, jaune) pour rester coherente si la
+ * charte evolue. A poser dans une section `relative overflow-hidden`, avec
+ * le contenu reel dans un enfant `relative` pour rester au-dessus.
  */
 export function HeroCurves() {
   return (
