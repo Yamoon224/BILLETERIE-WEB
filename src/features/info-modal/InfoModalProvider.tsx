@@ -18,7 +18,7 @@ const InfoModalContext = createContext<InfoModalContextValue | null>(null);
  *
  * Carte blanche fixe (pas de bandeau degrade, pas de bordure de section) :
  * c'est un simple encart d'information, pas une boite de dialogue applicative
- * — deliberement plus sobre que le `Modal` partage du design system.
+ * - deliberement plus sobre que le `Modal` partage du design system.
  */
 export function InfoModalProvider({ children }: { children: ReactNode }) {
   const [content, setContent] = useState<{ title: string; text: string } | null>(null);

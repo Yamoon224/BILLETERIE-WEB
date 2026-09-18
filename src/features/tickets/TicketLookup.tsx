@@ -14,7 +14,7 @@ import { bookingService } from "@/services";
 
 /**
  * Retrouver un billet : par reference pour tout le monde, et par liste pour un
- * voyageur connecte. La reference suffit — un achat sans compte doit rester
+ * voyageur connecte. La reference suffit - un achat sans compte doit rester
  * consultable, c'est le cas le plus frequent.
  */
 export function TicketLookup() {

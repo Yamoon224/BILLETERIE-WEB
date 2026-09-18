@@ -13,7 +13,7 @@ export interface ValidateTicketInput {
  *
  * Un refus (409, 404, 422) n'est pas une erreur technique : l'API renvoie le
  * verdict dans le corps. On le relit donc depuis l'erreur plutot que de le
- * laisser remonter comme une exception — l'agent doit voir « billet deja
+ * laisser remonter comme une exception - l'agent doit voir « billet deja
  * utilise a 06:12 », pas « erreur 409 ».
  */
 export async function validate(input: ValidateTicketInput): Promise<ScanResult> {

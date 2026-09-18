@@ -42,7 +42,7 @@ export function StationList() {
   const columns: Array<Column<Station>> = [
     { key: "name", header: "Gare", sortKey: "name", cell: (station) => <span className="font-semibold">{station.name}</span> },
     { key: "city", header: "Ville", sortKey: "city", cell: (station) => station.city?.name },
-    { key: "address", header: "Adresse", hideOnMobile: true, cell: (station) => <span className="text-sm text-[var(--muted)]">{station.address ?? "—"}</span> },
+    { key: "address", header: "Adresse", hideOnMobile: true, cell: (station) => <span className="text-sm text-[var(--muted)]">{station.address ?? "-"}</span> },
     { key: "owner", header: "Exploitation", cell: (station) => (station.is_shared ? <Badge tone="info">Partagee</Badge> : <Badge>{station.company?.name}</Badge>) },
     { key: "state", header: "Etat", sortKey: "is_active", hideOnMobile: true, cell: (station) => <Badge tone={station.is_active ? "success" : "neutral"}>{station.is_active ? "Active" : "Inactive"}</Badge> },
     {

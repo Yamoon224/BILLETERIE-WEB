@@ -52,7 +52,7 @@ async function loadSellableTrips(): Promise<{ trips: Trip[]; savedAt: string | n
  *
  * Le flux est concu pour une file d'attente : choisir le depart, toucher les
  * places, encaisser, imprimer, recommencer. L'ecran se reinitialise apres chaque
- * vente sans quitter le depart selectionne — le client suivant part presque
+ * vente sans quitter le depart selectionne - le client suivant part presque
  * toujours par le meme car.
  *
  * **Hors ligne.** Si la requete echoue faute de reseau (et non pour un refus
@@ -237,7 +237,7 @@ export function CounterSale() {
 
         {effectiveSeatMap ? (
           <Card>
-            <CardHeader title="Places" description={`${effectiveSeatMap.available} libres sur ${effectiveSeatMap.capacity} — touchez les places a vendre.`} />
+            <CardHeader title="Places" description={`${effectiveSeatMap.available} libres sur ${effectiveSeatMap.capacity} - touchez les places a vendre.`} />
             <CardBody>
               <SeatPicker seatMap={effectiveSeatMap} selected={seats} max={20} onChange={setSeats} />
             </CardBody>
@@ -311,7 +311,7 @@ export function CounterSale() {
               <dl className="space-y-1.5 rounded-sm bg-[var(--surface-muted)] p-3 text-sm">
                 <div className="flex justify-between">
                   <dt className="text-[var(--muted)]">Places</dt>
-                  <dd className="font-semibold">{seats.length ? seats.join(", ") : "—"}</dd>
+                  <dd className="font-semibold">{seats.length ? seats.join(", ") : "-"}</dd>
                 </div>
                 <div className="flex items-baseline justify-between">
                   <dt className="font-bold">A encaisser</dt>

@@ -20,7 +20,7 @@ describe("formatDuration", () => {
     expect(formatDuration(330)).toBe("5 h 30");
     expect(formatDuration(300)).toBe("5 h");
     expect(formatDuration(45)).toBe("45 min");
-    expect(formatDuration(null)).toBe("—");
+    expect(formatDuration(null)).toBe("-");
   });
 });
 

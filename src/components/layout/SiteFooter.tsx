@@ -19,7 +19,7 @@ const SOCIAL_LINKS = [
 
 /**
  * Pied de page voyageur : fond sombre fixe, independant du theme clair/sombre
- * de reste du site — c'est un socle marketing, pas une surface applicative.
+ * de reste du site - c'est un socle marketing, pas une surface applicative.
  *
  * Les liens "Voyageurs" / "Partenaires" / "Aide" partagent leur contenu avec
  * les memes categories du tiroir de navigation (menuLinks.ts) : une
@@ -71,7 +71,7 @@ export function SiteFooter() {
               </a>
             ))}
           </div>
-          <p className="mt-6 text-xs text-stone-500">© 2026 Kaara — Mobilité &amp; tourisme en Côte d&apos;Ivoire</p>
+          <p className="mt-6 text-xs text-stone-500">© 2026 Kaara - Mobilité &amp; tourisme en Côte d&apos;Ivoire</p>
         </div>
       </div>
     </footer>

@@ -2,7 +2,7 @@ import type { SVGProps } from "react";
 
 /**
  * Jeu d'icones maison, trait unique (1.7 px, arrondi), heritant de
- * `currentColor` — donc du theme.
+ * `currentColor` - donc du theme.
  *
  * Ecrit a la main plutot qu'importe d'une librairie : l'interface n'a besoin
  * que de quelques dizaines de pictogrammes, et une dependance de plusieurs
@@ -553,7 +553,7 @@ export function IconHeart(props: IconProps) {
 
 /*
  * Marques sociales : glyphes pleins (fill), pas le trait unique du reste du
- * jeu — ce sont des logos de tiers reconnaissables a leur silhouette, pas des
+ * jeu - ce sont des logos de tiers reconnaissables a leur silhouette, pas des
  * pictogrammes d'interface.
  */
 

@@ -27,7 +27,7 @@ const REFUND_GUARANTEE_FEE = 300;
 
 /**
  * Tunnel de reservation : trois etapes visibles (siege, voyageurs et
- * coordonnees, options), mais une seule page chargee — passer de l'une a
+ * coordonnees, options), mais une seule page chargee - passer de l'une a
  * l'autre est un changement d'etat local, pas un aller-retour reseau. Sur une
  * connexion 3G, chaque navigation de page est une occasion de perdre le
  * voyageur ; le fil d'etapes (`BookingStepper`) donne le meme repere visuel
@@ -221,7 +221,7 @@ export function BookingFlow({ tripId, passengers: initialPassengers }: { tripId:
                   {seats.map((seat, index) => (
                     <TextField
                       key={seat}
-                      label={`Voyageur ${index + 1} — place ${seat}`}
+                      label={`Voyageur ${index + 1} - place ${seat}`}
                       placeholder="Prenom et nom"
                       value={names[seat] ?? ""}
                       onChange={(event) => setNames((current) => ({ ...current, [seat]: event.target.value }))}
@@ -301,7 +301,7 @@ export function BookingFlow({ tripId, passengers: initialPassengers }: { tripId:
             <div>
               <p className="text-xs text-[var(--muted)]">
                 {step === "siege"
-                  ? `Place${seats.length > 1 ? "s" : ""} ${seats.length ? seats.join(", ") : "—"} selectionnee${seats.length > 1 ? "s" : ""}`
+                  ? `Place${seats.length > 1 ? "s" : ""} ${seats.length ? seats.join(", ") : "-"} selectionnee${seats.length > 1 ? "s" : ""}`
                   : step === "passager"
                     ? `${passengerCount} voyageur${passengerCount > 1 ? "s" : ""}`
                     : wantsGuarantee
@@ -421,7 +421,7 @@ function TripSummary({
           </div>
           <div className="flex justify-between">
             <dt className="text-[var(--muted)]">Places</dt>
-            <dd className="font-semibold">{seats.length ? seats.join(", ") : "—"}</dd>
+            <dd className="font-semibold">{seats.length ? seats.join(", ") : "-"}</dd>
           </div>
           {guaranteeFee > 0 ? (
             <div className="flex justify-between">

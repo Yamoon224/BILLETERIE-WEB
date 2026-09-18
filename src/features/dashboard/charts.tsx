@@ -206,7 +206,7 @@ export function ShareBar({ items, total }: { items: ShareItem[]; total: number }
             <span className="flex shrink-0 items-baseline gap-2">
               <span className="font-bold tabular-nums">{formatMoney(item.amount)}</span>
               <span className="w-10 text-right text-xs tabular-nums text-[var(--muted)]">
-                {total > 0 ? formatPercent(item.amount / total) : "—"}
+                {total > 0 ? formatPercent(item.amount / total) : "-"}
               </span>
             </span>
           </li>

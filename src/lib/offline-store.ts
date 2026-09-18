@@ -8,7 +8,7 @@ import type { SeatMap, Ticket, Trip } from "@/types/api";
  * une synchronisation correcte au retour du reseau. Trois choses doivent donc
  * survivre a une coupure et a un rechargement de page :
  *
- *  1. **le necessaire pour vendre** — les departs du jour et leur plan de salle,
+ *  1. **le necessaire pour vendre** - les departs du jour et leur plan de salle,
  *     mis en cache a chaque chargement en ligne ;
  *  2. **les ventes realisees hors ligne**, chacune avec une reference client
  *     attribuee *avant* l'envoi : c'est elle qui rend la synchronisation
@@ -18,7 +18,7 @@ import type { SeatMap, Ticket, Trip } from "@/types/api";
  *
  * `localStorage` et non IndexedDB : les volumes sont faibles (une journee de
  * guichet tient en quelques centaines de ko) et l'API synchrone rend chaque
- * ecriture immediatement durable — une vente enregistree ne peut pas se perdre
+ * ecriture immediatement durable - une vente enregistree ne peut pas se perdre
  * dans une transaction asynchrone interrompue par la fermeture de l'onglet.
  *
  * **Limite assumee du web** : la signature des QR codes n'est pas verifiee hors

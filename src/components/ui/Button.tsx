@@ -32,7 +32,7 @@ const SIZE_CLASSES: Record<ButtonSize, string> = {
 
 /**
  * Habillage partage par le bouton et par le lien qui doit lui ressembler. Un
- * lien de navigation reste un `<a>` — clic milieu, ouverture en onglet —, il
+ * lien de navigation reste un `<a>` - clic milieu, ouverture en onglet -, il
  * reprend seulement ces classes.
  */
 export function buttonClasses({

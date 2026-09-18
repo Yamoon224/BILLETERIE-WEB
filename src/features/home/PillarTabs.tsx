@@ -24,7 +24,7 @@ const TAB_CLASS = "relative flex flex-col items-center gap-2 rounded-2xl border 
  * Les 3 piliers de la plateforme, en tabs.
  *
  * Seul Bus est un lien : changer d'onglet change d'URL (`/`), ce qui rend la
- * vue partageable et rejouable apres un rechargement — meme logique que
+ * vue partageable et rejouable apres un rechargement - meme logique que
  * `TripSearchForm.searchHref`.
  *
  * Appartements et Location auto n'ont pas encore de contenu a montrer (pas de

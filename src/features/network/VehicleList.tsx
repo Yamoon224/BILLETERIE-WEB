@@ -38,7 +38,7 @@ export function VehicleList() {
 
   const columns: Array<Column<Vehicle>> = [
     { key: "registration", header: "Immatriculation", sortKey: "registration", cell: (vehicle) => <span className="font-mono font-bold">{vehicle.registration}</span> },
-    { key: "model", header: "Modele", sortKey: "model", hideOnMobile: true, cell: (vehicle) => vehicle.model ?? "—" },
+    { key: "model", header: "Modele", sortKey: "model", hideOnMobile: true, cell: (vehicle) => vehicle.model ?? "-" },
     { key: "class", header: "Classe", sortKey: "class", cell: (vehicle) => <Badge tone={vehicle.class === "vip" ? "brand" : "neutral"}>{vehicle.class_label}</Badge> },
     {
       key: "capacity",
@@ -50,7 +50,7 @@ export function VehicleList() {
         </span>
       ),
     },
-    { key: "company", header: "Compagnie", hideOnMobile: true, cell: (vehicle) => vehicle.company?.name ?? "—" },
+    { key: "company", header: "Compagnie", hideOnMobile: true, cell: (vehicle) => vehicle.company?.name ?? "-" },
     { key: "state", header: "Etat", sortKey: "is_active", cell: (vehicle) => <Badge tone={vehicle.is_active ? "success" : "neutral"}>{vehicle.is_active ? "Actif" : "Inactif"}</Badge> },
     {
       key: "actions",

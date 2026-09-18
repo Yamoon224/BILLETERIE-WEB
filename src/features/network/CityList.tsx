@@ -34,7 +34,7 @@ export function CityList() {
   const columns: Array<Column<City>> = [
     { key: "name", header: "Ville", sortKey: "name", cell: (city) => <span className="font-semibold">{city.name}</span> },
     { key: "slug", header: "Identifiant d'URL", hideOnMobile: true, cell: (city) => <span className="font-mono text-xs">{city.slug}</span> },
-    { key: "region", header: "Region", sortKey: "region", cell: (city) => city.region ?? "—" },
+    { key: "region", header: "Region", sortKey: "region", cell: (city) => city.region ?? "-" },
     { key: "stations", header: "Gares", hideOnMobile: true, className: "tabular-nums", cell: (city) => city.stations_count ?? 0 },
     { key: "state", header: "Etat", sortKey: "is_active", cell: (city) => <Badge tone={city.is_active ? "success" : "neutral"}>{city.is_active ? "Desservie" : "Inactive"}</Badge> },
     {

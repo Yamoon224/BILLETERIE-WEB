@@ -13,7 +13,7 @@ import type { Ticket, Trip } from "@/types/api";
  *
  * `amount` est le montant a afficher en « Total paye » : le total de la
  * reservation pour un seul billet (garantie remboursement incluse), le prix
- * de ce seul siege pour une reservation a plusieurs voyageurs — additionner
+ * de ce seul siege pour une reservation a plusieurs voyageurs - additionner
  * le total de la famille sur chacun de ses billets induirait en erreur.
  */
 export function TicketCard({ ticket, trip, amount }: { ticket: Ticket; trip: Trip; amount: number }) {
@@ -56,7 +56,7 @@ export function TicketCard({ ticket, trip, amount }: { ticket: Ticket; trip: Tri
           </div>
           <div>
             <dt className="inline text-[var(--muted)]">Place : </dt>
-            <dd className="inline font-bold">N° {ticket.seat_number ?? "—"}</dd>
+            <dd className="inline font-bold">N° {ticket.seat_number ?? "-"}</dd>
           </div>
           <div>
             <dt className="inline text-[var(--muted)]">Total paye : </dt>

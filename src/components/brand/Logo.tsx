@@ -1,7 +1,7 @@
 import { cn } from "@/lib/cn";
 
 /**
- * Marque « Kaara » — « voyage » en langue baoule approchee, courte et facile a
+ * Marque « Kaara » - « voyage » en langue baoule approchee, courte et facile a
  * dire au guichet.
  *
  * Le pictogramme est un simple carre partage en diagonale, orange et vert -

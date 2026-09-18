@@ -10,7 +10,7 @@ import { ProfileView } from "./ProfileView";
 /**
  * Page compte du site voyageur : identite, mot de passe, theme,
  * deconnexion. Reutilise `ProfileView`, deja generique pour tout compte
- * connecte — l'espace back-office n'en est qu'un des deux points d'entree.
+ * connecte - l'espace back-office n'en est qu'un des deux points d'entree.
  */
 export function PublicAccountView() {
   const { user, isInitialising, logout } = useAuth();

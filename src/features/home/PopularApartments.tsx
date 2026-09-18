@@ -16,7 +16,7 @@ const GRADIENTS = [
 
 /**
  * Appartements mis en avant : donnee reelle (`is_featured=true`), pas un
- * decor. Silencieuse en cas d'echec ou de catalogue vide — c'est une section
+ * decor. Silencieuse en cas d'echec ou de catalogue vide - c'est une section
  * de decouverte, pas un parcours critique, et une erreur affichee ici
  * inquieterait pour rien un voyageur venu chercher un bus.
  */

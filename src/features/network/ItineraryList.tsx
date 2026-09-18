@@ -40,9 +40,9 @@ export function ItineraryList() {
     { key: "origin", header: "Depart", sortKey: "origin", cell: (item) => <span className="font-semibold">{item.origin_city?.name}</span> },
     { key: "destination", header: "Arrivee", sortKey: "destination", cell: (item) => <span className="font-semibold">{item.destination_city?.name}</span> },
     { key: "duration", header: "Duree", sortKey: "duration", hideOnMobile: true, cell: (item) => formatDuration(item.duration_minutes) },
-    { key: "distance", header: "Distance", sortKey: "distance", hideOnMobile: true, cell: (item) => (item.distance_km ? `${item.distance_km} km` : "—") },
+    { key: "distance", header: "Distance", sortKey: "distance", hideOnMobile: true, cell: (item) => (item.distance_km ? `${item.distance_km} km` : "-") },
     { key: "price", header: "Tarif", sortKey: "price", className: "tabular-nums font-semibold", cell: (item) => formatMoney(item.base_price) },
-    { key: "company", header: "Compagnie", hideOnMobile: true, cell: (item) => item.company?.name ?? "—" },
+    { key: "company", header: "Compagnie", hideOnMobile: true, cell: (item) => item.company?.name ?? "-" },
     { key: "state", header: "Etat", sortKey: "is_active", cell: (item) => <Badge tone={item.is_active ? "success" : "neutral"}>{item.is_active ? "Actif" : "Inactif"}</Badge> },
     {
       key: "actions",

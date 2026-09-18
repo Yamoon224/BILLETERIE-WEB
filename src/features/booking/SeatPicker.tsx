@@ -8,7 +8,7 @@ import type { SeatMap } from "@/types/api";
  *
  * Chaque place est un vrai bouton : navigable au clavier, annonce par les
  * lecteurs d'ecran (« place 12A, libre »). Le couloir est dessine a la position
- * rendue par l'API — le frontend ne reimplemente aucune regle de plan.
+ * rendue par l'API - le frontend ne reimplemente aucune regle de plan.
  *
  * Quand le nombre de places choisies atteint le nombre de voyageurs, un nouveau
  * clic remplace la plus ancienne selection plutot que d'etre refuse : le

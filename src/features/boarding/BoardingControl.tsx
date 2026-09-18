@@ -248,7 +248,7 @@ export function BoardingControl() {
                   <ul className="mt-1 list-disc pl-4">
                     {queue.rejectedScans.map((item) => (
                       <li key={item.code}>
-                        {item.code} — {item.reason}
+                        {item.code} - {item.reason}
                       </li>
                     ))}
                   </ul>
@@ -304,7 +304,7 @@ function VerdictPanel({ verdict, isChecking }: { verdict: Verdict | null; isChec
         <p className="text-2xl font-extrabold">{label}</p>
         {ticket ? (
           <p className="mt-1 text-lg">
-            Place <strong>{ticket.seat_number ?? "—"}</strong> · {ticket.passenger_name}
+            Place <strong>{ticket.seat_number ?? "-"}</strong> · {ticket.passenger_name}
           </p>
         ) : null}
         {verdict.source === "online" && verdict.result.previously_scanned_at ? (

@@ -45,7 +45,7 @@ function toDate(value: string | null | undefined): Date | null {
 /** « lun. 14 sept. » */
 export function formatDayShort(value: string | null | undefined): string {
   const date = toDate(value);
-  if (!date) return "—";
+  if (!date) return "-";
 
   return new Intl.DateTimeFormat(LOCALE, {
     weekday: "short",
@@ -54,18 +54,18 @@ export function formatDayShort(value: string | null | undefined): string {
   }).format(date);
 }
 
-/** « 14 sept » — libelle compact d'une puce de date, sans jour de semaine. */
+/** « 14 sept » - libelle compact d'une puce de date, sans jour de semaine. */
 export function formatDayCompact(value: string | null | undefined): string {
   const date = toDate(value);
-  if (!date) return "—";
+  if (!date) return "-";
 
   return new Intl.DateTimeFormat(LOCALE, { day: "numeric", month: "short" }).format(date).replace(/\.$/, "");
 }
 
-/** « lun » — jour de semaine seul, sans point, pour un sous-titre compact. */
+/** « lun » - jour de semaine seul, sans point, pour un sous-titre compact. */
 export function formatWeekdayShort(value: string | null | undefined): string {
   const date = toDate(value);
-  if (!date) return "—";
+  if (!date) return "-";
 
   return new Intl.DateTimeFormat(LOCALE, { weekday: "short" }).format(date).replace(/\.$/, "");
 }
@@ -73,7 +73,7 @@ export function formatWeekdayShort(value: string | null | undefined): string {
 /** « lundi 14 septembre 2026 » */
 export function formatDayLong(value: string | null | undefined): string {
   const date = toDate(value);
-  if (!date) return "—";
+  if (!date) return "-";
 
   return new Intl.DateTimeFormat(LOCALE, {
     weekday: "long",
@@ -85,29 +85,29 @@ export function formatDayLong(value: string | null | undefined): string {
 
 export function formatDate(value: string | null | undefined): string {
   const date = toDate(value);
-  if (!date) return "—";
+  if (!date) return "-";
 
   return new Intl.DateTimeFormat(LOCALE, { dateStyle: "medium" }).format(date);
 }
 
-/** « 06:30 » — l'heure de depart, lue avant tout le reste. */
+/** « 06:30 » - l'heure de depart, lue avant tout le reste. */
 export function formatTime(value: string | null | undefined): string {
   const date = toDate(value);
-  if (!date) return "—";
+  if (!date) return "-";
 
   return new Intl.DateTimeFormat(LOCALE, { hour: "2-digit", minute: "2-digit" }).format(date);
 }
 
 export function formatDateTime(value: string | null | undefined): string {
   const date = toDate(value);
-  if (!date) return "—";
+  if (!date) return "-";
 
   return new Intl.DateTimeFormat(LOCALE, { dateStyle: "medium", timeStyle: "short" }).format(date);
 }
 
 /** Duree lisible : 330 minutes → « 5 h 30 ». */
 export function formatDuration(minutes: number | null | undefined): string {
-  if (minutes === null || minutes === undefined) return "—";
+  if (minutes === null || minutes === undefined) return "-";
 
   const hours = Math.floor(minutes / 60);
   const rest = minutes % 60;

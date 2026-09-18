@@ -3,7 +3,7 @@
  *
  * Ecrits a la main plutot que generes : le frontend ne consomme qu'une partie
  * du contrat. En contrepartie, les unions de statuts reprennent exactement les
- * enums PHP — toute divergence se voit a la compilation.
+ * enums PHP - toute divergence se voit a la compilation.
  */
 
 // --- Enveloppes ---------------------------------------------------------------

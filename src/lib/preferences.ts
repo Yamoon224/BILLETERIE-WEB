@@ -5,7 +5,7 @@
  * Elles vivent hors de React : le rendu serveur ne les connait pas, un autre
  * onglet peut les modifier, et le stockage peut etre bloque. Elles sont donc
  * exposees comme un magasin externe abonnable, lu avec `useSyncExternalStore`,
- * plutot que recopiees dans un etat au montage — ce qui provoquerait un rendu
+ * plutot que recopiees dans un etat au montage - ce qui provoquerait un rendu
  * en cascade a chaque chargement.
  */
 

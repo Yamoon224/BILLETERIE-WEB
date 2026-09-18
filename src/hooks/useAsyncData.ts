@@ -6,7 +6,7 @@ export interface AsyncState<T> {
   data: T | null;
   isLoading: boolean;
   error: unknown;
-  /** Relance la requete — apres une mutation, par exemple. */
+  /** Relance la requete - apres une mutation, par exemple. */
   reload: () => void;
 }
 
@@ -20,7 +20,7 @@ export interface AsyncState<T> {
  *  - `isLoading` est **derive** plutot que stocke : un drapeau stocke finit
  *    toujours par se desynchroniser sur un cas limite ;
  *  - une reponse obsolete est ignoree : c'est la derniere requete demandee qui
- *    gagne, pas la derniere arrivee — ce qui compte sur un reseau mobile ou
+ *    gagne, pas la derniere arrivee - ce qui compte sur un reseau mobile ou
  *    les reponses se croisent.
  *
  * @param loader  doit etre stable (useCallback)

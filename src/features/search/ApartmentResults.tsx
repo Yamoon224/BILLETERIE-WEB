@@ -15,7 +15,7 @@ import type { ApartmentSearchCriteria } from "./ApartmentSearchForm";
  *
  * La ville arrive dans l'URL sous forme de slug (comme la recherche de bus) ;
  * elle est resolue en identifiant aupres du meme referentiel de villes avant
- * d'interroger le catalogue — un seul appel compose, pour que l'ecran reste
+ * d'interroger le catalogue - un seul appel compose, pour que l'ecran reste
  * un chargement unique plutot que deux requetes en cascade visibles.
  */
 export function ApartmentResults({ criteria }: { criteria: ApartmentSearchCriteria }) {

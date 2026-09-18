@@ -7,7 +7,7 @@ import { readPreference, subscribePreference, writePreference } from "@/lib/pref
  * Lit une preference persistee et la tient a jour.
  *
  * Le rendu serveur et la premiere passe d'hydratation utilisent la valeur par
- * defaut — seul moyen d'eviter une divergence, le serveur n'ayant aucun acces
+ * defaut - seul moyen d'eviter une divergence, le serveur n'ayant aucun acces
  * au stockage du navigateur. Le script inline du theme a deja evite tout
  * clignotement visuel.
  */

@@ -65,7 +65,7 @@ export function UserList() {
         </div>
       ),
     },
-    { key: "company", header: "Compagnie", hideOnMobile: true, cell: (user) => user.company?.name ?? "—" },
+    { key: "company", header: "Compagnie", hideOnMobile: true, cell: (user) => user.company?.name ?? "-" },
     { key: "last_login_at", header: "Derniere connexion", sortKey: "last_login_at", hideOnMobile: true, cell: (user) => <span className="text-sm">{formatDateTime(user.last_login_at)}</span> },
     { key: "state", header: "Etat", sortKey: "is_active", cell: (user) => <Badge tone={user.is_active ? "success" : "neutral"}>{user.is_active ? "Actif" : "Desactive"}</Badge> },
     {

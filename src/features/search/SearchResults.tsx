@@ -27,7 +27,7 @@ function shiftDate(isoDate: string, days: number): string {
  *
  * Le bandeau de dates permet de passer au jour voisin en un geste, prix a
  * l'appui : quand le car du samedi est complet, la question suivante est
- * toujours « et dimanche, c'est plus cher ? » — y repondre sans rejouer la
+ * toujours « et dimanche, c'est plus cher ? » - y repondre sans rejouer la
  * recherche evite un aller-retour.
  */
 export function SearchResults({ criteria }: { criteria: SearchCriteria }) {
@@ -137,7 +137,7 @@ export function SearchResults({ criteria }: { criteria: SearchCriteria }) {
             >
               <span className="text-sm font-bold capitalize">{formatDayCompact(day)}</span>
               <span className={cn("text-xs font-medium", isActive ? "text-white/75" : "text-[var(--muted)]")}>
-                {price !== null ? `${formatNumber(price)} F` : "—"}
+                {price !== null ? `${formatNumber(price)} F` : "-"}
               </span>
             </Link>
           );

@@ -27,7 +27,7 @@ function changes(log: AuditLog): string {
     .join(" · ");
 }
 
-/** Journal d'audit, en lecture seule — aucune action d'ecriture n'existe. */
+/** Journal d'audit, en lecture seule - aucune action d'ecriture n'existe. */
 export function AuditList() {
   const [search, setSearch] = useState("");
   const [event, setEvent] = useState("");
@@ -44,7 +44,7 @@ export function AuditList() {
     { key: "event", header: "Evenement", cell: (log) => <Badge tone={EVENT_TONE[log.event ?? ""] ?? "neutral"}>{log.event_label}</Badge> },
     { key: "subject", header: "Objet", cell: (log) => <span className="font-semibold">{log.subject_label}</span> },
     { key: "causer", header: "Auteur", cell: (log) => log.causer_label },
-    { key: "changes", header: "Changements", hideOnMobile: true, cell: (log) => <span className="block max-w-xl truncate font-mono text-xs text-[var(--muted)]">{changes(log) || "—"}</span> },
+    { key: "changes", header: "Changements", hideOnMobile: true, cell: (log) => <span className="block max-w-xl truncate font-mono text-xs text-[var(--muted)]">{changes(log) || "-"}</span> },
   ];
 
   return (

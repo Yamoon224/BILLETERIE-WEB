@@ -80,8 +80,8 @@ export function clearToken(): void {
  *
  * Les jetons expirent cote backend. Sans traitement central, chaque ecran
  * decouvrirait le 401 separement et afficherait une erreur en restant, en
- * apparence, connecte. Le jeton est donc efface ici — seul endroit qui voit
- * passer toutes les reponses — et l'abonne referme la session.
+ * apparence, connecte. Le jeton est donc efface ici - seul endroit qui voit
+ * passer toutes les reponses - et l'abonne referme la session.
  */
 type UnauthenticatedListener = () => void;
 

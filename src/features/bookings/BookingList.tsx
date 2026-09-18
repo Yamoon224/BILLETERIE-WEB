@@ -213,7 +213,7 @@ function BookingDetailDialog({ bookingId, onClose, onChanged }: { bookingId: str
                 {booking.tickets?.map((ticket) => (
                   <li key={ticket.id} className="flex items-center justify-between gap-3 px-3 py-2">
                     <span>
-                      <span className="font-extrabold text-brand-700 dark:text-brand-400">{ticket.seat_number ?? "—"}</span> · {ticket.passenger_name}
+                      <span className="font-extrabold text-brand-700 dark:text-brand-400">{ticket.seat_number ?? "-"}</span> · {ticket.passenger_name}
                       <span className="ml-2 font-mono text-xs text-[var(--muted)]">{ticket.code}</span>
                     </span>
                     <Badge tone={TICKET_TONE[ticket.status]}>{ticket.is_scanned ? `Embarque ${formatTime(ticket.scanned_at)}` : ticket.status_label}</Badge>

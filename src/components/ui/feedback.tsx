@@ -5,8 +5,8 @@ import { Button } from "./Button";
 import { IconAlert, IconCheckCircle, IconRefresh, IconSearch } from "./icons";
 
 /**
- * Les etats qu'un ecran de donnees doit savoir montrer — chargement, erreur,
- * vide — et le bandeau de message d'un formulaire. Factorises pour se
+ * Les etats qu'un ecran de donnees doit savoir montrer - chargement, erreur,
+ * vide - et le bandeau de message d'un formulaire. Factorises pour se
  * ressembler partout : un voyageur qui reconnait un ecran vide au premier coup
  * d'oeil ne se demande pas si l'application a plante.
  */

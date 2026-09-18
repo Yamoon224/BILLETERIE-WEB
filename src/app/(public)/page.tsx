@@ -98,8 +98,9 @@ export default async function HomePage({ searchParams }: PageProps<"/">) {
 
   return (
     <>
-      <section>
-        <div className="mx-auto max-w-6xl px-4 pb-2 pt-6 sm:px-6 sm:pt-8">
+      <section className="relative overflow-hidden">
+        <HeroCurves />
+        <div className="relative mx-auto max-w-6xl px-4 pb-2 pt-6 sm:px-6 sm:pt-8">
           <div className="mb-3 rounded-2xl bg-brand-400 px-4 py-3 text-sm font-bold text-white shadow-sm">
             🔥 -20&nbsp;% sur votre 1er trajet reserve en ligne
           </div>
@@ -135,7 +136,7 @@ export default async function HomePage({ searchParams }: PageProps<"/">) {
         </div>
       </section>
 
-      {/* Video demo : aucun son, aucune donnee a charger en 2G — juste une
+      {/* Video demo : aucun son, aucune donnee a charger en 2G - juste une
           promesse visuelle du parcours de reservation avant le bandeau
           d'arguments forts. */}
       <section className="mx-auto max-w-6xl px-4 pb-2 sm:px-6">
@@ -147,11 +148,11 @@ export default async function HomePage({ searchParams }: PageProps<"/">) {
           </span>
         </div>
         <p className="mt-2.5 text-center text-xs font-semibold text-[var(--muted)]">
-          Comment ça marche — en 15 secondes, sans son
+          Comment ça marche - en 15 secondes, sans son
         </p>
       </section>
 
-      {/* Arguments forts : bandeau clair, trois colonnes centrees — le
+      {/* Arguments forts : bandeau clair, trois colonnes centrees - le
           dernier rappel avant que le voyageur ne lance sa recherche. */}
       <section className="mt-6 bg-[var(--surface-muted)] py-8">
         <div className="mx-auto grid max-w-6xl grid-cols-3 gap-4 px-4 sm:px-6">
@@ -166,27 +167,24 @@ export default async function HomePage({ searchParams }: PageProps<"/">) {
 
       {/* A la une : espace promo Kaara + un premier emplacement publicitaire
           pour les piliers pas encore reservables en ligne (Appartements,
-          Location auto) — contenu fixe pour l'instant, pas de vraie regie. */}
-      <section className="relative overflow-hidden">
-        <HeroCurves />
-        <div className="relative mx-auto max-w-6xl px-4 py-6 sm:px-6">
-          <h2 className="text-xl font-extrabold tracking-tight">À la une cette semaine</h2>
-          <p className="mt-1 text-sm text-[var(--muted)]">
-            Espace publicitaire — Appartements &amp; Location auto (aperçu, réservation à venir)
-          </p>
+          Location auto) - contenu fixe pour l'instant, pas de vraie regie. */}
+      <section className="mx-auto max-w-6xl px-4 py-6 sm:px-6">
+        <h2 className="text-xl font-extrabold tracking-tight">À la une cette semaine</h2>
+        <p className="mt-1 text-sm text-[var(--muted)]">
+          Espace publicitaire - Appartements &amp; Location auto (aperçu, réservation à venir)
+        </p>
 
-          <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
-            {SPOTLIGHT_CARDS.map((card) => (
-              <div
-                key={card.text}
-                className="flex min-h-[140px] flex-col justify-between rounded-sm p-4 shadow-card"
-                style={{ backgroundImage: card.gradient }}
-              >
-                <span className="w-fit rounded-full bg-white/20 px-3 py-1 text-xs font-bold text-white">{card.badge}</span>
-                <p className="text-base font-extrabold leading-snug text-white">{card.text}</p>
-              </div>
-            ))}
-          </div>
+        <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
+          {SPOTLIGHT_CARDS.map((card) => (
+            <div
+              key={card.text}
+              className="flex min-h-[140px] flex-col justify-between rounded-2xl p-4 shadow-card"
+              style={{ backgroundImage: card.gradient }}
+            >
+              <span className="w-fit rounded-full bg-white/20 px-3 py-1 text-xs font-bold text-white">{card.badge}</span>
+              <p className="text-base font-extrabold leading-snug text-white">{card.text}</p>
+            </div>
+          ))}
         </div>
       </section>
 
@@ -204,7 +202,7 @@ export default async function HomePage({ searchParams }: PageProps<"/">) {
               {DESTINATIONS.map((destination) => (
                 <div
                   key={destination.city}
-                  className="relative w-[15rem] shrink-0 overflow-hidden rounded-sm shadow-card sm:w-auto"
+                  className="relative w-[15rem] shrink-0 overflow-hidden rounded-2xl shadow-card sm:w-auto"
                   style={{ backgroundImage: destination.gradient }}
                 >
                   <div className="flex h-36 flex-col justify-between p-4 text-white">

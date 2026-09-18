@@ -9,8 +9,8 @@ const GRADIENT = "linear-gradient(150deg,#2F9E68 0%,#1F7A4D 100%)";
  * Une fiche appartement dans la liste de resultats.
  *
  * Pas de bouton "Reserver" : ce catalogue n'a pas encore de reservation en
- * ligne (voir README backend). Le contact direct avec le partenaire — appel
- * ou WhatsApp — est donc l'action principale, pas un pense-bete en petit.
+ * ligne (voir README backend). Le contact direct avec le partenaire - appel
+ * ou WhatsApp - est donc l'action principale, pas un pense-bete en petit.
  */
 export function ApartmentCard({ apartment }: { apartment: Apartment }) {
   const phone = apartment.partner?.phone ?? null;

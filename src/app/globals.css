@@ -33,7 +33,7 @@
 
   /* Jaune et rose fuchsia de la charte : une seule teinte "vive" et une seule
      teinte "sombre" chacun, jamais une rampe complete (voir la note sur
-     `grad-brand` plus bas) — ils ne servent qu'en accent ponctuel (badge,
+     `grad-brand` plus bas) - ils ne servent qu'en accent ponctuel (badge,
      trait de degrade) ou dans les etats hover des degrades de marque. */
   --color-fuchsia: #e6007e;
   --color-fuchsia-dark: #b3005f;
