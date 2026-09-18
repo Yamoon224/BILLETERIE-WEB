@@ -98,7 +98,7 @@ export default async function HomePage({ searchParams }: PageProps<"/">) {
 
   return (
     <>
-      <section className="relative overflow-hidden">
+      <section className="relative overflow-hidden dark:bg-[#0e1a3a]">
         <HeroCurves />
         <div className="relative mx-auto max-w-6xl px-4 pb-2 pt-6 sm:px-6 sm:pt-8">
           <div className="mb-3 rounded-2xl bg-brand-400 px-4 py-3 text-sm font-bold text-white shadow-sm">
@@ -106,10 +106,10 @@ export default async function HomePage({ searchParams }: PageProps<"/">) {
           </div>
 
           <div className="mb-5 flex flex-col gap-2">
-            <span className="rounded-2xl border border-fuchsia/25 bg-fuchsia/15 px-4 py-3 text-sm font-bold text-fuchsia-dark dark:text-fuchsia">
+            <span className="rounded-2xl border border-fuchsia/25 bg-fuchsia/15 px-4 py-3 text-sm font-bold text-fuchsia-dark dark:border-white/10 dark:bg-white/10 dark:text-white">
               🛡️ 100&nbsp;% ivoirien
             </span>
-            <span className="rounded-2xl border border-fuchsia/25 bg-fuchsia/15 px-4 py-3 text-sm font-bold text-fuchsia-dark dark:text-fuchsia">
+            <span className="rounded-2xl border border-fuchsia/25 bg-fuchsia/15 px-4 py-3 text-sm font-bold text-fuchsia-dark dark:border-white/10 dark:bg-white/10 dark:text-white">
               🚌 Ligne pilote active
             </span>
           </div>

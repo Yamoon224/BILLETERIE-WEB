@@ -137,16 +137,16 @@ export function TripSearchForm({
     // champ de formulaire classique.
     return (
       <form onSubmit={submit} noValidate aria-label="Rechercher un trajet" className="flex flex-col gap-3">
-        <div className="overflow-hidden rounded-2xl border border-[var(--hairline)] bg-[var(--surface)] shadow-card">
+        <div className="overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-card">
           <div className="flex items-center gap-3 px-4 py-3">
             <label className="min-w-0 flex-1">
-              <span className="block text-xs text-[var(--muted)]">D&apos;où</span>
+              <span className="block text-xs text-stone-500">D&apos;où</span>
               <select
                 value={origin}
                 onChange={(event) => setOrigin(event.target.value)}
                 disabled={isLoading}
                 required
-                className="mt-0.5 block w-full cursor-pointer appearance-none bg-transparent text-lg font-extrabold text-stone-900 focus:outline-none dark:text-stone-50"
+                className="mt-0.5 block w-full cursor-pointer appearance-none bg-transparent text-lg font-extrabold text-stone-900 focus:outline-none"
               >
                 <option value="">{isLoading ? "Chargement…" : "Choisir une ville"}</option>
                 {cityOptions.map((city) => (
@@ -167,15 +167,15 @@ export function TripSearchForm({
             </button>
           </div>
 
-          <div className="border-t border-[var(--hairline)] px-4 py-3">
+          <div className="border-t border-stone-200 px-4 py-3">
             <label>
-              <span className="block text-xs text-[var(--muted)]">Où</span>
+              <span className="block text-xs text-stone-500">Où</span>
               <select
                 value={destination}
                 onChange={(event) => setDestination(event.target.value)}
                 disabled={isLoading}
                 required
-                className="mt-0.5 block w-full cursor-pointer appearance-none bg-transparent text-lg font-extrabold text-stone-900 focus:outline-none dark:text-stone-50"
+                className="mt-0.5 block w-full cursor-pointer appearance-none bg-transparent text-lg font-extrabold text-stone-900 focus:outline-none"
               >
                 <option value="">{isLoading ? "Chargement…" : "Choisir une ville"}</option>
                 {cityOptions.map((city) => (
@@ -187,10 +187,10 @@ export function TripSearchForm({
             </label>
           </div>
 
-          <div className="grid grid-cols-2 divide-x divide-[var(--hairline)] border-t border-[var(--hairline)]">
+          <div className="grid grid-cols-2 divide-x divide-stone-200 border-t border-stone-200">
             <label className="relative px-4 py-3">
-              <span className="block text-xs text-[var(--muted)]">Quand</span>
-              <span className="mt-0.5 block text-lg font-extrabold capitalize text-stone-900 dark:text-stone-50">
+              <span className="block text-xs text-stone-500">Quand</span>
+              <span className="mt-0.5 block text-lg font-extrabold capitalize text-stone-900">
                 {formatDayCompact(date)}
               </span>
               <input
@@ -204,8 +204,8 @@ export function TripSearchForm({
               />
             </label>
             <button type="button" onClick={() => setIsPassengersOpen(true)} className="px-4 py-3 text-left">
-              <span className="block text-xs text-[var(--muted)]">Qui va</span>
-              <span className="mt-0.5 block text-lg font-extrabold text-stone-900 dark:text-stone-50">{passengers}</span>
+              <span className="block text-xs text-stone-500">Qui va</span>
+              <span className="mt-0.5 block text-lg font-extrabold text-stone-900">{passengers}</span>
             </button>
           </div>
         </div>

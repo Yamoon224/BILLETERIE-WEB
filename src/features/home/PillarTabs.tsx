@@ -62,7 +62,9 @@ export function PillarTabs({ active }: { active: Pillar }) {
 
         const tabClassName = cn(
           TAB_CLASS,
-          isActive ? "border-transparent bg-brand-50 dark:bg-brand-500/10" : "border-[var(--hairline)] bg-[var(--surface)] hover:border-brand-300",
+          isActive
+            ? "border-transparent bg-brand-50 dark:bg-transparent"
+            : "border-[var(--hairline)] bg-[var(--surface)] hover:border-brand-300 dark:border-transparent dark:bg-transparent",
         );
 
         if (pillar.key === "bus") {
