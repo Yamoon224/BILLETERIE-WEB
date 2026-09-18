@@ -20,7 +20,7 @@ export function TripCard({ trip, passengers }: { trip: Trip; passengers: number 
   const isComfortClass = trip.vehicle?.class === "vip" || trip.vehicle?.class === "comfort";
 
   return (
-    <Card interactive accent={false} className="rounded-2xl">
+    <Card interactive accent={false}>
       <div className="p-4 sm:p-5">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div className="flex flex-wrap items-center gap-2">

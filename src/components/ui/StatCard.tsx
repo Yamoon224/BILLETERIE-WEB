@@ -34,7 +34,7 @@ export function StatCard({
   icon?: ReactNode;
 }) {
   return (
-    <div className="group flex flex-col overflow-hidden rounded-sm border border-[var(--hairline)] bg-[var(--surface)] shadow-card transition-all duration-200 hover:-translate-y-0.5 hover:shadow-card-hover">
+    <div className="group flex flex-col overflow-hidden rounded-2xl border border-[var(--hairline)] bg-[var(--surface)] shadow-card transition-all duration-200 hover:-translate-y-0.5 hover:shadow-card-hover">
       <div className="flex flex-1 items-start justify-between gap-3 px-4 py-4 sm:px-5">
         <div className="min-w-0">
           <p className="text-[11px] font-bold uppercase tracking-wider text-[var(--muted)]">{label}</p>

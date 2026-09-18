@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import { cn } from "@/lib/cn";
 
 /**
- * Carte : coins rounded-sm, ombre franche, lisere orange en pied.
+ * Carte : coins rounded-2xl, ombre franche, lisere orange en pied.
  *
  * Le lisere est un enfant de flux, pas un calque : il ne recouvre jamais la
  * derniere ligne d'un tableau ni une barre de pagination.
@@ -22,7 +22,7 @@ export function Card({
   return (
     <section
       className={cn(
-        "flex flex-col overflow-hidden rounded-sm border border-[var(--hairline)] bg-[var(--surface)] shadow-card",
+        "flex flex-col overflow-hidden rounded-2xl border border-[var(--hairline)] bg-[var(--surface)] shadow-card",
         interactive && "transition-all duration-200 hover:-translate-y-0.5 hover:shadow-card-hover",
         className,
       )}

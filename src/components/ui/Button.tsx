@@ -45,7 +45,7 @@ export function buttonClasses({
   className?: string;
 } = {}): string {
   return cn(
-    "inline-flex items-center justify-center rounded-sm font-semibold whitespace-nowrap select-none",
+    "inline-flex items-center justify-center rounded-2xl font-semibold whitespace-nowrap select-none",
     "transition-all duration-150",
     "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-500",
     "disabled:cursor-not-allowed disabled:opacity-55 disabled:shadow-none disabled:active:translate-y-0",

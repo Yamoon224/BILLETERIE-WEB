@@ -57,7 +57,7 @@ export function RentalVehicleCard({ vehicle }: { vehicle: RentalVehicle }) {
               {phone ? (
                 <a
                   href={`tel:${phone}`}
-                  className="inline-flex h-9 items-center gap-1.5 rounded-sm bg-[var(--surface-muted)] px-3 text-xs font-semibold text-stone-700 hover:bg-brand-50 hover:text-brand-700 dark:text-stone-200 dark:hover:bg-stone-800 dark:hover:text-brand-300"
+                  className="inline-flex h-9 items-center gap-1.5 rounded-2xl bg-[var(--surface-muted)] px-3 text-xs font-semibold text-stone-700 hover:bg-brand-50 hover:text-brand-700 dark:text-stone-200 dark:hover:bg-stone-800 dark:hover:text-brand-300"
                 >
                   <IconPhone className="h-3.5 w-3.5" /> Appeler
                 </a>
@@ -67,7 +67,7 @@ export function RentalVehicleCard({ vehicle }: { vehicle: RentalVehicle }) {
                   href={`https://wa.me/${whatsapp.replace(/[^0-9]/g, "")}`}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex h-9 items-center gap-1.5 rounded-sm grad-brand px-3 text-xs font-semibold text-white shadow-sm hover:grad-brand-hover"
+                  className="inline-flex h-9 items-center gap-1.5 rounded-2xl grad-brand px-3 text-xs font-semibold text-white shadow-sm hover:grad-brand-hover"
                 >
                   <IconChat className="h-3.5 w-3.5" /> WhatsApp
                 </a>

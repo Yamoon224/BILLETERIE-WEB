@@ -20,7 +20,7 @@ export function TicketCard({ ticket, trip, amount }: { ticket: Ticket; trip: Tri
   const showStatus = ticket.status !== "issued" || ticket.is_scanned;
 
   return (
-    <article className="overflow-hidden rounded-sm border border-[var(--hairline)] bg-[var(--surface)] shadow-card print:break-inside-avoid print:shadow-none">
+    <article className="overflow-hidden rounded-2xl border border-[var(--hairline)] bg-[var(--surface)] shadow-card print:break-inside-avoid print:shadow-none">
       <div className="grad-brand flex items-center justify-between px-4 py-2.5 text-white">
         <span className="text-sm font-bold">
           {trip.itinerary?.origin_city?.name} → {trip.itinerary?.destination_city?.name}
