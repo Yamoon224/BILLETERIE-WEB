@@ -1,5 +1,6 @@
+import type { ReactNode } from "react";
 import { Card, CardBody } from "@/components/ui";
-import { IconArrowRight, IconCard, IconClock, IconMapPin, IconQrCode, IconWifiOff } from "@/components/ui/icons";
+import { IconArrowRight, IconCard, IconClock, IconMapPin, IconPhone, IconQrCode, IconTicket, IconWifiOff } from "@/components/ui/icons";
 import { formatDuration, formatMoney } from "@/lib/format";
 import { HeroCurves } from "@/features/home/HeroCurves";
 import { PillarTabs } from "@/features/home/PillarTabs";
@@ -9,6 +10,66 @@ import { PopularRentalVehicles } from "@/features/home/PopularRentalVehicles";
 import { ApartmentSearchForm } from "@/features/search/ApartmentSearchForm";
 import { RentalVehicleSearchForm } from "@/features/search/RentalVehicleSearchForm";
 import { TripSearchForm } from "@/features/search/TripSearchForm";
+
+interface Step {
+  icon: ReactNode;
+  title: string;
+  text: string;
+}
+
+const STEPS_BY_PILLAR: Record<Pillar, Step[]> = {
+  bus: [
+    {
+      icon: <IconTicket className="h-5 w-5" />,
+      title: "Choisissez votre place",
+      text: "Comparez les horaires et reservez le siege qui vous convient.",
+    },
+    {
+      icon: <IconPhone className="h-5 w-5" />,
+      title: "Payez par mobile money",
+      text: "Orange Money, MTN MoMo, Moov Money ou Wave, depuis votre telephone.",
+    },
+    {
+      icon: <IconQrCode className="h-5 w-5" />,
+      title: "Recevez votre billet",
+      text: "Le QR code arrive par SMS, meme sans connexion a l'embarquement.",
+    },
+  ],
+  appartements: [
+    {
+      icon: <IconTicket className="h-5 w-5" />,
+      title: "Choisissez votre logement",
+      text: "Comparez les appartements meubles selon la ville, les dates et le budget.",
+    },
+    {
+      icon: <IconPhone className="h-5 w-5" />,
+      title: "Contactez le partenaire",
+      text: "Le telephone et le WhatsApp de l'agence ou du proprietaire vous sont communiques.",
+    },
+    {
+      icon: <IconQrCode className="h-5 w-5" />,
+      title: "Confirmez votre sejour",
+      text: "Reservation en ligne bientot disponible : la confirmation se fait pour l'instant directement avec le partenaire.",
+    },
+  ],
+  "location-auto": [
+    {
+      icon: <IconTicket className="h-5 w-5" />,
+      title: "Choisissez votre vehicule",
+      text: "Comparez les modeles disponibles selon la ville et les dates de location.",
+    },
+    {
+      icon: <IconPhone className="h-5 w-5" />,
+      title: "Contactez l'agence",
+      text: "Le telephone et le WhatsApp du loueur vous sont communiques pour organiser la prise en charge.",
+    },
+    {
+      icon: <IconQrCode className="h-5 w-5" />,
+      title: "Recuperez votre vehicule",
+      text: "Reservation en ligne bientot disponible : la remise des cles se fait pour l'instant directement avec l'agence.",
+    },
+  ],
+};
 
 const LISTING_TITLE_BY_PILLAR: Record<Pillar, { title: string; subtitle?: string }> = {
   bus: { title: "Destinations populaires" },
@@ -94,6 +155,7 @@ export default async function HomePage({ searchParams }: PageProps<"/">) {
   const params = await searchParams;
   const activeTab = pillarFrom(first(params.onglet));
 
+  const steps = STEPS_BY_PILLAR[activeTab];
   const listing = LISTING_TITLE_BY_PILLAR[activeTab];
 
   return (
@@ -133,9 +195,9 @@ export default async function HomePage({ searchParams }: PageProps<"/">) {
         </div>
       </section>
 
-      {/* Video demo : aucun son, aucune donnee a charger en 2G - juste une
-          promesse visuelle du parcours de reservation avant le bandeau
-          d'arguments forts. */}
+      {/* Video demo (desactivee) : aucun son, aucune donnee a charger en 2G -
+          juste une promesse visuelle du parcours de reservation avant le
+          bandeau d'arguments forts.
       <section className="mx-auto max-w-6xl px-4 pb-2 sm:px-6">
         <div className="flex aspect-video items-center justify-center rounded-sm bg-gradient-to-br from-[#0e1a3a] to-stone-900 shadow-card">
           <span className="flex h-14 w-14 items-center justify-center rounded-full bg-white/15">
@@ -147,6 +209,35 @@ export default async function HomePage({ searchParams }: PageProps<"/">) {
         <p className="mt-2.5 text-center text-xs font-semibold text-[var(--muted)]">
           Comment ça marche - en 15 secondes, sans son
         </p>
+      </section>
+      */}
+
+      {/* Comment ca marche : adaptatif par pilier. */}
+      <section className="mx-auto max-w-6xl px-4 py-6 sm:px-6">
+        <h2 className="text-xl font-extrabold tracking-tight">Comment ça marche</h2>
+        <span aria-hidden="true" className="grad-brand mt-3 block h-[3px] w-12 rounded-full" />
+
+        <Card className="mt-5">
+          <ol>
+            {steps.map((step, index) => (
+              <li
+                key={step.title}
+                className={index > 0 ? "flex items-center gap-3.5 border-t border-[var(--hairline)] p-4" : "flex items-center gap-3.5 p-4"}
+              >
+                <span className="grad-brand flex h-10 w-10 shrink-0 items-center justify-center rounded-sm text-white shadow-card">
+                  {step.icon}
+                </span>
+                <div className="min-w-0">
+                  <p className="text-sm font-bold">
+                    <span className="mr-1.5 text-brand-500">0{index + 1}.</span>
+                    {step.title}
+                  </p>
+                  <p className="mt-0.5 text-xs leading-relaxed text-[var(--muted)]">{step.text}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </Card>
       </section>
 
       {/* Arguments forts : bandeau clair, trois colonnes centrees - le
