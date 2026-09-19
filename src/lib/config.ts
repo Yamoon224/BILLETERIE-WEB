@@ -26,4 +26,11 @@ export const config = {
 
   /** Nombre maximal de voyageurs par reservation en ligne (aligne sur l'API). */
   maxPassengersOnline: 10,
+
+  /**
+   * Ligne pilote, seule reservable en ligne pour l'instant : preselectionnee
+   * dans la recherche de bus. Ce sont des slugs de villes ; si l'API ne les
+   * connait pas, la recherche retombe sur « Choisir une ville ».
+   */
+  pilotLine: { origin: "bonoua", destination: "treichville" },
 } as const;

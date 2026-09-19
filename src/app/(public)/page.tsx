@@ -168,7 +168,7 @@ export default async function HomePage({ searchParams }: PageProps<"/">) {
           </div>
 
           <div className="mb-5 flex flex-col gap-2">
-            <span className="rounded-2xl border border-fuchsia/25 bg-fuchsia/15 px-4 py-3 text-sm font-bold text-fuchsia-dark dark:border-white/10 dark:bg-white/10 dark:text-white">
+            <span className="rounded-2xl border border-[#f9bfdf] bg-[#fbd9ec] px-4 py-3 text-sm font-bold text-fuchsia-dark dark:border-[#33405f] dark:bg-[#26314e] dark:text-white">
               🛡️ 100&nbsp;% ivoirien
             </span>
           </div>

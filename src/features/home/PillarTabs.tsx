@@ -14,7 +14,7 @@ type PillarDef =
 
 const PILLARS: PillarDef[] = [
   { key: "bus", label: "Bus", icon: "🚍", href: "/" },
-  { key: "appartements", label: "Appartements", icon: "🏚️", info: APARTMENTS_INFO },
+  { key: "appartements", label: "Appartements", icon: "🏢", info: APARTMENTS_INFO },
   { key: "location-auto", label: "Location auto", icon: "🚘", info: RENTAL_AUTO_INFO },
 ];
 

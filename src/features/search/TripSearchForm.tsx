@@ -46,12 +46,21 @@ export function TripSearchForm({
   const loadCities = useCallback(() => tripService.cityOptions(), []);
   const { data: cities, isLoading } = useAsyncData(loadCities);
 
-  const [origin, setOrigin] = useState(initial?.origin ?? "");
-  const [destination, setDestination] = useState(initial?.destination ?? "");
+  const [selectedOrigin, setOrigin] = useState(initial?.origin ?? config.pilotLine.origin);
+  const [selectedDestination, setDestination] = useState(initial?.destination ?? config.pilotLine.destination);
   const [date, setDate] = useState(initial?.date ?? todayIso(1));
   const [passengers, setPassengers] = useState(initial?.passengers ?? 1);
   const [error, setError] = useState<string | null>(null);
   const [isPassengersOpen, setIsPassengersOpen] = useState(false);
+
+  const cityOptions = cities ?? [];
+
+  // Une ville par defaut que l'API ne connait pas (base pas encore alimentee)
+  // ne doit pas rester dans l'etat : le <select> afficherait « Choisir une
+  // ville » alors que la recherche partirait avec un slug fantome.
+  const knownCity = (slug: string) => (cityOptions.some((city) => city.slug === slug) ? slug : "");
+  const origin = knownCity(selectedOrigin);
+  const destination = knownCity(selectedDestination);
 
   function swap() {
     setOrigin(destination);
@@ -74,8 +83,6 @@ export function TripSearchForm({
     setError(null);
     router.push(searchHref({ origin, destination, date, passengers }));
   }
-
-  const cityOptions = cities ?? [];
 
   const originField = (
     <SelectField
