@@ -67,7 +67,7 @@ export function RentalVehicleCard({ vehicle }: { vehicle: RentalVehicle }) {
                   href={`https://wa.me/${whatsapp.replace(/[^0-9]/g, "")}`}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex h-9 items-center gap-1.5 rounded-2xl grad-brand px-3 text-xs font-semibold text-white shadow-sm hover:grad-brand-hover"
+                  className="inline-flex h-9 items-center gap-1.5 rounded-2xl bg-[#0e1a3a] px-3 text-xs font-semibold text-white shadow-sm transition-colors hover:bg-[#16295c]"
                 >
                   <IconChat className="h-3.5 w-3.5" /> WhatsApp
                 </a>

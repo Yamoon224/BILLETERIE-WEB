@@ -66,7 +66,7 @@ export function InfoModalProvider({ children }: { children: ReactNode }) {
         <button
           type="button"
           onClick={close}
-          className="mt-4 w-full rounded-[11px] bg-[#0e1a3a] py-3 text-[13px] font-bold text-white transition-colors hover:bg-[#16234f]"
+          className="mt-4 w-full rounded-[11px] bg-[#0e1a3a] py-3 text-[13px] font-bold text-white transition-colors hover:bg-[#16295c]"
         >
           Fermer
         </button>

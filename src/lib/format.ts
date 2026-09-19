@@ -23,6 +23,11 @@ export function formatMoney(amount: number, currency = "XOF"): string {
   return currency === "XOF" ? `${formatted} F CFA` : `${formatted} ${currency}`;
 }
 
+/** « 2 000 F » - la forme courte d'un montant, pour une barre de validation ou la place manque. */
+export function formatFrancs(amount: number): string {
+  return `${new Intl.NumberFormat(LOCALE, { maximumFractionDigits: 0 }).format(amount)} F`;
+}
+
 /** Nombre entier avec separateur de milliers. */
 export function formatNumber(value: number): string {
   return new Intl.NumberFormat(LOCALE).format(value);

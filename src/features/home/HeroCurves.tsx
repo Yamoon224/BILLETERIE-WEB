@@ -26,7 +26,7 @@ export function HeroCurves() {
           <stop offset="100%" style={{ stopColor: "var(--color-fuchsia)" }} />
         </linearGradient>
         <filter id="hero-trail-glow" x="-50%" y="-50%" width="200%" height="200%">
-          <feGaussianBlur stdDeviation="4" result="blur" />
+          <feGaussianBlur stdDeviation="2.5" result="blur" />
           <feMerge>
             <feMergeNode in="blur" />
             <feMergeNode in="SourceGraphic" />
@@ -38,25 +38,25 @@ export function HeroCurves() {
           d="M-60,120 C220,20 380,300 660,150 S 1140,40 1260,190"
           fill="none"
           stroke="url(#hero-trail-1)"
-          strokeWidth="5"
+          strokeWidth="2.5"
         />
         <path
           d="M-60,240 C260,140 440,380 760,260 S 1220,180 1320,320"
           fill="none"
           stroke="url(#hero-trail-2)"
-          strokeWidth="4.5"
+          strokeWidth="2"
           opacity="0.85"
         />
         <path
           d="M-60,360 C280,300 460,440 720,380 S 1180,300 1320,380"
           fill="none"
           stroke="url(#hero-trail-1)"
-          strokeWidth="3.5"
+          strokeWidth="1.5"
           opacity="0.7"
         />
-        <circle cx="660" cy="150" r="6" style={{ fill: "var(--color-yellow)" }} />
-        <circle cx="760" cy="260" r="5.5" style={{ fill: "var(--color-fuchsia)" }} />
-        <circle cx="720" cy="380" r="4.5" style={{ fill: "var(--color-brand-500)" }} />
+        <circle cx="660" cy="150" r="4" style={{ fill: "var(--color-yellow)" }} />
+        <circle cx="760" cy="260" r="3.5" style={{ fill: "var(--color-fuchsia)" }} />
+        <circle cx="720" cy="380" r="3" style={{ fill: "var(--color-brand-500)" }} />
       </g>
     </svg>
   );

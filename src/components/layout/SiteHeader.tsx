@@ -139,7 +139,7 @@ export function SiteHeader() {
               <>
                 <LinkButton
                   href={homeFor(user)}
-                  variant="secondary"
+                  variant="outline"
                   size="sm"
                   icon={<IconUser className="h-3.5 w-3.5" />}
                   className="hidden sm:inline-flex"
@@ -233,7 +233,7 @@ export function SiteHeader() {
           {user ? (
             <LinkButton
               href={homeFor(user)}
-              variant="secondary"
+              variant="outline"
               className="w-full"
               icon={<IconUser className="h-4 w-4" />}
               onClick={closeMenu}
@@ -242,10 +242,10 @@ export function SiteHeader() {
             </LinkButton>
           ) : (
             <div className="flex flex-col gap-2">
-              <LinkButton href="/connexion" className="w-full" onClick={closeMenu}>
+              <LinkButton href="/connexion" variant="brand" className="w-full" onClick={closeMenu}>
                 Se connecter
               </LinkButton>
-              <LinkButton href="/inscription" variant="secondary" className="w-full" onClick={closeMenu}>
+              <LinkButton href="/inscription" variant="outline" className="w-full" onClick={closeMenu}>
                 Creer un compte
               </LinkButton>
             </div>

@@ -328,6 +328,8 @@ export interface PassengerInput {
   seat_number: string;
   name: string;
   phone?: string | null;
+  /** Piece d'identite, facultative : conservee sur le billet, jamais renvoyee par l'API. */
+  id_number?: string | null;
 }
 
 export interface ScanResult {

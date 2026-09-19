@@ -4,18 +4,20 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 import type { FormEvent, ReactNode } from "react";
-import { Badge, Button, Card, CardBody, CardHeader, ErrorState, FormAlert, LoadingState, TextField } from "@/components/ui";
-import { IconBus, IconCheck, IconClock, IconMapPin, IconSeat, IconShield, IconUser } from "@/components/ui/icons";
+import { Badge, Button, Card, CardBody, CardHeader, ErrorState, FormAlert, LoadingState } from "@/components/ui";
+import { IconBus, IconCheck, IconClock, IconMapPin, IconSeat, IconShield } from "@/components/ui/icons";
 import { useAuth } from "@/features/auth/AuthContext";
 import { useAsyncData } from "@/hooks/useAsyncData";
 import { useMutation } from "@/hooks/useMutation";
 import { ApiError, errorMessage } from "@/lib/api-client";
 import { cn } from "@/lib/cn";
-import { formatDayLong, formatDuration, formatMoney, formatTime } from "@/lib/format";
+import { formatDayLong, formatDuration, formatFrancs, formatMoney, formatTime } from "@/lib/format";
 import { bookingService, tripService } from "@/services";
 import type { BookingInput } from "@/services/booking-service";
 import type { Trip } from "@/types/api";
 import { BookingStepper } from "./BookingStepper";
+import { EMPTY_TRAVELER, PassengerStep, RouteRecap } from "./PassengerStep";
+import type { Traveler } from "./PassengerStep";
 import { SeatPicker } from "./SeatPicker";
 
 type Step = "siege" | "passager" | "options";
@@ -24,6 +26,10 @@ type Step = "siege" | "passager" | "options";
  *  total affiche avant la creation de la reservation doit annoncer exactement
  *  ce que le serveur facturera, sans attendre une reponse reseau pour le savoir. */
 const REFUND_GUARANTEE_FEE = 300;
+
+function fullName({ firstName, lastName }: Traveler): string {
+  return `${firstName.trim()} ${lastName.trim()}`.trim();
+}
 
 /**
  * Tunnel de reservation : trois etapes visibles (siege, voyageurs et
@@ -45,21 +51,21 @@ export function BookingFlow({ tripId, passengers: initialPassengers }: { tripId:
   const [step, setStep] = useState<Step>("siege");
   const [passengerCount, setPassengerCount] = useState(initialPassengers);
   const [seats, setSeats] = useState<string[]>([]);
-  const [names, setNames] = useState<Record<string, string>>({});
+  // Un voyageur par place, dans l'ordre : le premier est celui qui achete et
+  // recoit le billet.
+  const [travelers, setTravelers] = useState<Traveler[]>([]);
+  const [idNumber, setIdNumber] = useState("");
+  const [showFieldErrors, setShowFieldErrors] = useState(false);
   // Coche par defaut : c'est l'option qui protege le voyageur, celle qui
   // demande un geste explicite est de s'en passer.
   const [wantsGuarantee, setWantsGuarantee] = useState(true);
   // `null` signifie « pas encore touche » : la valeur affichee retombe alors
   // sur le compte connecte, qui peut arriver apres le premier rendu. Une
   // saisie, meme vide, l emporte ensuite toujours sur le pre-remplissage.
-  const [customerNameInput, setCustomerName] = useState<string | null>(null);
   const [customerPhoneInput, setCustomerPhone] = useState<string | null>(null);
-  const [customerEmailInput, setCustomerEmail] = useState<string | null>(null);
   const [localError, setLocalError] = useState<string | null>(null);
 
-  const customerName = customerNameInput ?? user?.name ?? "";
   const customerPhone = customerPhoneInput ?? user?.phone ?? "";
-  const customerEmail = customerEmailInput ?? user?.email ?? "";
 
   const reserveAction = useCallback((input: BookingInput) => bookingService.reserve(input), []);
   const reservation = useMutation(reserveAction);
@@ -81,6 +87,7 @@ export function BookingFlow({ tripId, passengers: initialPassengers }: { tripId:
   const guaranteeFee = step === "options" && wantsGuarantee ? REFUND_GUARANTEE_FEE : 0;
   const total = baseTotal + guaranteeFee;
   const maxPassengers = Math.min(10, seatMap.available);
+  const buyer = travelers[0] ?? EMPTY_TRAVELER;
 
   async function submit(event: FormEvent) {
     event.preventDefault();
@@ -97,18 +104,26 @@ export function BookingFlow({ tripId, passengers: initialPassengers }: { tripId:
     }
 
     if (step === "passager") {
+      if (!buyer.lastName.trim() || !buyer.firstName.trim() || !customerPhone.trim()) {
+        setShowFieldErrors(true);
+        setLocalError("Renseignez le nom, le prénom et le téléphone du passager.");
+        return;
+      }
+
       setStep("options");
       return;
     }
 
     const booking = await reservation.run({
       trip_id: trip.id,
-      customer_name: customerName.trim(),
+      customer_name: fullName(buyer),
       customer_phone: customerPhone.trim(),
-      customer_email: customerEmail.trim() || null,
+      customer_email: user?.email ?? null,
       passengers: seats.map((seat, index) => ({
         seat_number: seat,
-        name: (names[seat] ?? "").trim() || (index === 0 ? customerName.trim() : `Voyageur ${index + 1}`),
+        name: fullName(travelers[index] ?? EMPTY_TRAVELER) || `Voyageur ${index + 1}`,
+        // La piece d'identite n'est demandee que pour le premier passager.
+        id_number: index === 0 ? idNumber.trim() || null : null,
       })),
       refund_guarantee: wantsGuarantee,
     });
@@ -210,66 +225,25 @@ export function BookingFlow({ tripId, passengers: initialPassengers }: { tripId:
           ) : null}
 
           {step === "passager" ? (
-            <>
-              <Card>
-                <CardHeader
-                  icon={<IconUser className="h-4 w-4" />}
-                  title="Voyageurs"
-                  description="Le nom figure sur le billet. Il peut vous etre demande a l'embarquement."
-                />
-                <CardBody className="grid gap-4 sm:grid-cols-2">
-                  {seats.map((seat, index) => (
-                    <TextField
-                      key={seat}
-                      label={`Voyageur ${index + 1} - place ${seat}`}
-                      placeholder="Prenom et nom"
-                      value={names[seat] ?? ""}
-                      onChange={(event) => setNames((current) => ({ ...current, [seat]: event.target.value }))}
-                      autoComplete={index === 0 ? "name" : "off"}
-                    />
-                  ))}
-                </CardBody>
-              </Card>
-
-              <Card>
-                <CardHeader
-                  title="Vos coordonnees"
-                  description="Le billet vous est envoye par SMS sur ce numero. Verifiez-le bien."
-                />
-                <CardBody className="grid gap-4 sm:grid-cols-2">
-                  <TextField
-                    label="Nom complet"
-                    placeholder="Awa Kone"
-                    value={customerName}
-                    onChange={(event) => setCustomerName(event.target.value)}
-                    errors={reservation.fieldErrors.customer_name}
-                    autoComplete="name"
-                    required
-                  />
-                  <TextField
-                    label="Telephone"
-                    type="tel"
-                    inputMode="tel"
-                    placeholder="+225 07 00 00 00 00"
-                    value={customerPhone}
-                    onChange={(event) => setCustomerPhone(event.target.value)}
-                    errors={reservation.fieldErrors.customer_phone}
-                    autoComplete="tel"
-                    required
-                  />
-                  <TextField
-                    label="E-mail (facultatif)"
-                    type="email"
-                    placeholder="vous@exemple.ci"
-                    value={customerEmail}
-                    onChange={(event) => setCustomerEmail(event.target.value)}
-                    errors={reservation.fieldErrors.customer_email}
-                    autoComplete="email"
-                    fieldClassName="sm:col-span-2"
-                  />
-                </CardBody>
-              </Card>
-            </>
+            <div className="space-y-3.5">
+              <RouteRecap trip={trip} seats={seats} />
+              <PassengerStep
+                seats={seats}
+                travelers={travelers}
+                onTravelerChange={(index, traveler) =>
+                  setTravelers((current) => {
+                    const next = [...current];
+                    next[index] = traveler;
+                    return next;
+                  })
+                }
+                phone={customerPhone}
+                onPhoneChange={setCustomerPhone}
+                idNumber={idNumber}
+                onIdNumberChange={setIdNumber}
+                showErrors={showFieldErrors}
+              />
+            </div>
           ) : null}
         </div>
 
@@ -291,7 +265,7 @@ export function BookingFlow({ tripId, passengers: initialPassengers }: { tripId:
         </aside>
 
         {/* Barre de validation collee en bas sur telephone. */}
-        <div className="fixed inset-x-0 bottom-0 z-20 border-t border-[var(--hairline)] bg-[var(--surface)]/95 p-3 shadow-card backdrop-blur lg:hidden">
+        <div className="fixed inset-x-0 bottom-0 z-20 border-t border-[#eae3dc] bg-[var(--surface)] px-4 pb-3.5 pt-3 dark:border-[var(--hairline)] lg:hidden">
           {localError || reservationError ? (
             <p role="alert" className="mb-2 text-xs font-medium text-rose-600">
               {localError ?? reservationError}
@@ -299,16 +273,16 @@ export function BookingFlow({ tripId, passengers: initialPassengers }: { tripId:
           ) : null}
           <div className="flex items-center justify-between gap-3">
             <div>
-              <p className="text-xs text-[var(--muted)]">
+              <p className="text-[17px] font-extrabold tabular-nums text-[#1b2a41] dark:text-[var(--foreground)]">{formatFrancs(total)}</p>
+              <p className="text-[10.5px] text-[#6b7280] dark:text-[var(--muted)]">
                 {step === "siege"
-                  ? `Place${seats.length > 1 ? "s" : ""} ${seats.length ? seats.join(", ") : "-"} selectionnee${seats.length > 1 ? "s" : ""}`
+                  ? `Place${seats.length > 1 ? "s" : ""} ${seats.length ? seats.join(", ") : "-"} sélectionnée${seats.length > 1 ? "s" : ""}`
                   : step === "passager"
-                    ? `${passengerCount} voyageur${passengerCount > 1 ? "s" : ""}`
+                    ? `${passengerCount} passager${passengerCount > 1 ? "s" : ""}`
                     : wantsGuarantee
                       ? "Total avec garantie"
                       : "Sans garantie"}
               </p>
-              <p className="text-lg font-extrabold tabular-nums text-brand-700 dark:text-brand-400">{formatMoney(total)}</p>
             </div>
             <Button type="submit" size="lg" isLoading={reservation.isPending} disabled={seats.length === 0}>
               Continuer

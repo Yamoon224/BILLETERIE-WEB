@@ -2,18 +2,21 @@ import { forwardRef } from "react";
 import type { ButtonHTMLAttributes, ReactNode } from "react";
 import { cn } from "@/lib/cn";
 
-export type ButtonVariant = "primary" | "secondary" | "danger" | "ghost";
+export type ButtonVariant = "primary" | "secondary" | "danger" | "ghost" | "brand" | "outline";
 export type ButtonSize = "sm" | "md" | "lg" | "icon";
 
+const NAVY_CLASSES = "bg-[#0e1a3a] text-white shadow-sm hover:bg-[#16295c] hover:shadow-md active:translate-y-px";
+
 /**
- * La bande degradee de marque n'apparait qu'en diagonale sur l'action
- * principale : c'est ce qui la rend reconnaissable d'un ecran a l'autre, du
- * tunnel de reservation au guichet.
+ * Les boutons du site sont bleu nuit unis. `brand` (degrade de marque) et
+ * `outline` (contour clair) ne servent que dans l'en-tete du site voyageur,
+ * qui garde son propre habillage.
  */
 const VARIANT_CLASSES: Record<ButtonVariant, string> = {
-  primary:
-    "grad-brand text-white shadow-sm hover:grad-brand-hover hover:shadow-md active:translate-y-px",
-  secondary:
+  primary: NAVY_CLASSES,
+  secondary: NAVY_CLASSES,
+  brand: "grad-brand text-white shadow-sm hover:grad-brand-hover hover:shadow-md active:translate-y-px",
+  outline:
     "bg-[var(--surface)] text-stone-700 ring-1 ring-inset ring-stone-300 hover:bg-brand-50 hover:text-brand-700 hover:ring-brand-300 dark:text-stone-200 dark:ring-stone-600 dark:hover:bg-stone-800 dark:hover:text-brand-300 dark:hover:ring-brand-700",
   danger:
     "bg-rose-600 text-white shadow-sm hover:bg-rose-700 active:translate-y-px disabled:hover:bg-rose-600",

@@ -73,7 +73,7 @@ export function TripCard({ trip, passengers }: { trip: Trip; passengers: number 
           ) : (
             <Link
               href={`/reservation/${trip.id}?voyageurs=${passengers}`}
-              className="inline-flex h-11 shrink-0 items-center justify-center rounded-full bg-brand-400 px-7 text-sm font-bold text-white shadow-sm transition-colors hover:bg-brand-500 active:translate-y-px"
+              className="inline-flex h-11 shrink-0 items-center justify-center rounded-full bg-[#0e1a3a] px-7 text-sm font-bold text-white shadow-sm transition-colors hover:bg-[#16295c] active:translate-y-px"
             >
               Choisir
             </Link>

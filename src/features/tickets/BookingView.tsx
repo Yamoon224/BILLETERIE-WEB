@@ -2,7 +2,7 @@
 
 import { useCallback, useState } from "react";
 import { Badge, Button, Card, CardBody, ErrorState, FormAlert, LinkButton, LoadingState } from "@/components/ui";
-import { IconCheckCircle, IconPrinter, IconRefresh, IconSearch } from "@/components/ui/icons";
+import { IconCheckCircle, IconPrinter, IconSearch } from "@/components/ui/icons";
 import { useAsyncData } from "@/hooks/useAsyncData";
 import { ApiError } from "@/lib/api-client";
 import { formatDateTime, formatMoney } from "@/lib/format";
@@ -92,24 +92,8 @@ export function BookingView({ reference }: { reference: string }) {
       ) : null}
 
       {isPayable ? (
-        <div className="grid gap-6 lg:grid-cols-[1fr_20rem]">
+        <div className="mx-auto max-w-xl">
           <PaymentPanel booking={booking} onPaid={setPaid} />
-          <Card>
-            <CardBody className="space-y-3 text-sm">
-              <p className="font-bold">Places reservees</p>
-              <ul className="space-y-2">
-                {tickets.map((ticket) => (
-                  <li key={ticket.id} className="flex justify-between gap-2">
-                    <span className="truncate">{ticket.passenger_name}</span>
-                    <span className="font-extrabold text-brand-700 dark:text-brand-400">{ticket.seat_number}</span>
-                  </li>
-                ))}
-              </ul>
-              <Button variant="ghost" size="sm" onClick={reload} icon={<IconRefresh className="h-3.5 w-3.5" />}>
-                Actualiser le statut
-              </Button>
-            </CardBody>
-          </Card>
         </div>
       ) : null}
 
