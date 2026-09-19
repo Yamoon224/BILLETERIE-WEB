@@ -12,6 +12,7 @@ export * as bookingService from "./booking-service";
 export * as favoriteService from "./favorite-service";
 export * as ticketService from "./ticket-service";
 export * as networkService from "./network-service";
+export * as routeGridService from "./route-grid-service";
 export * as reportService from "./report-service";
 export * as userService from "./user-service";
 export * as apartmentService from "./apartment-service";

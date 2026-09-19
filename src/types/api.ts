@@ -111,6 +111,27 @@ export interface City extends CityRef {
   created_at: string | null;
 }
 
+/**
+ * Ligne de la grille des trajets : les informations montrees pour une liaison
+ * pas encore reservable en ligne (prix indicatif, duree, horaires habituels).
+ */
+export interface RouteGridEntry {
+  id: string;
+  origin_city_id: string;
+  destination_city_id: string;
+  origin_city?: CityRef;
+  destination_city?: CityRef;
+  company_name: string | null;
+  price: number;
+  currency: string;
+  distance_km: number | null;
+  duration_minutes: number | null;
+  departure_times: string[];
+  notes: string | null;
+  is_active: boolean;
+  created_at: string | null;
+}
+
 export interface Favorite {
   id: string;
   origin_city: CityRef;
