@@ -27,7 +27,7 @@ export function BottomNav() {
   return (
     <nav
       aria-label="Navigation principale"
-      className="no-print fixed inset-x-0 bottom-0 z-30 flex border-t border-[var(--hairline)] bg-[var(--surface)]/95 backdrop-blur-md md:hidden"
+      className="no-print fixed inset-x-0 bottom-0 z-30 flex border-t border-[var(--hairline)] bg-[var(--surface)] md:hidden"
       style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
     >
       {TABS.map((tab) => {

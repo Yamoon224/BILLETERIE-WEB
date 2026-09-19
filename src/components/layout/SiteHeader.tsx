@@ -120,7 +120,7 @@ export function SiteHeader() {
 
   return (
     <>
-      <header className="no-print sticky top-0 z-30 border-b border-[var(--hairline)] bg-[var(--surface)]/85 backdrop-blur-md">
+      <header className="no-print sticky top-0 z-30 border-b border-[var(--hairline)] bg-[var(--surface)]">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-3 px-4 sm:px-6">
           <Link href="/" className="rounded-sm" aria-label="Kaara, accueil">
             <Logo tone="brand" />
