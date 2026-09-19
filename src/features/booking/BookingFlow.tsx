@@ -192,7 +192,7 @@ export function BookingFlow({ tripId, passengers: initialPassengers }: { tripId:
             <Card>
               <CardHeader
                 icon={<IconSeat className="h-4 w-4" />}
-                title="Choisissez vos places"
+                title="Choisissez votre place"
                 description={`${seatMap.available} place${seatMap.available > 1 ? "s" : ""} libre${seatMap.available > 1 ? "s" : ""} sur ${seatMap.capacity}.`}
                 actions={
                   <div className="flex items-center gap-2 text-sm">
@@ -258,7 +258,7 @@ export function BookingFlow({ tripId, passengers: initialPassengers }: { tripId:
             </Button>
             {step === "options" ? (
               <p className="text-center text-xs text-[var(--muted)]">
-                Vos places sont bloquees 15 minutes le temps du paiement.
+                votre place sont bloquees 15 minutes le temps du paiement.
               </p>
             ) : null}
           </div>
