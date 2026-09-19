@@ -130,7 +130,7 @@ export function SiteHeader() {
             <Link
               href="/favoris"
               aria-label="Mes favoris"
-              className="inline-flex h-9 w-9 items-center justify-center rounded-full text-stone-500 ring-1 ring-inset ring-stone-200 hover:bg-stone-100 dark:text-stone-300 dark:ring-stone-700 dark:hover:bg-stone-800"
+              className="hidden h-9 w-9 items-center justify-center rounded-full text-stone-500 ring-1 md:inline-flex ring-inset ring-stone-200 hover:bg-stone-100 dark:text-stone-300 dark:ring-stone-700 dark:hover:bg-stone-800"
             >
               <IconHeart className="h-4 w-4" />
             </Link>
@@ -182,7 +182,7 @@ export function SiteHeader() {
           l'action principale de l'en-tete.
           Demarre sous l'en-tete (top-[69px] = hauteur de la barre + son
           filet degrade + sa bordure) plutot qu'en haut de l'ecran : le logo,
-          le coeur et « Se connecter » restent visibles et cliquables meme
+          « Se connecter » (et le coeur sur ecran large) restent visibles et cliquables meme
           menu ouvert. */}
       {isMenuOpen ? (
         <button
