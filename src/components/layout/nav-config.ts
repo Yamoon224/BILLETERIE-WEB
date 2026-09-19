@@ -106,6 +106,14 @@ export const NAV_ITEMS: NavItem[] = [
     group: "Referentiel",
   },
   {
+    href: "/espace/grille-trajets",
+    label: "Grille des trajets",
+    description: "Prix, horaires et durees affiches avant l'ouverture a la vente",
+    permission: "platform.manage",
+    icon: IconRoute,
+    group: "Referentiel",
+  },
+  {
     href: "/espace/compagnies",
     label: "Compagnies",
     description: "Partenaires et commissions",

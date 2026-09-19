@@ -11,6 +11,8 @@ import { useAsyncData } from "@/hooks/useAsyncData";
 import { cn } from "@/lib/cn";
 import { formatDayCompact, formatNumber, formatWeekdayShort, todayIso } from "@/lib/format";
 import { tripService } from "@/services";
+import { isPilotLine } from "./pilot-line";
+import { RouteGridResults } from "./RouteGridResults";
 import { TripCard } from "./TripCard";
 import { searchHref } from "./TripSearchForm";
 import type { SearchCriteria } from "./TripSearchForm";
@@ -25,12 +27,28 @@ function shiftDate(isoDate: string, days: number): string {
 /**
  * Resultats de recherche.
  *
+ * Seule la ligne pilote se reserve en ligne : toute autre liaison affiche sa
+ * fiche de la grille des trajets, avec « Bientot disponible ». Le choix se
+ * fait ici, avant tout appel, pour ne pas interroger des departs que le
+ * voyageur ne pourra pas reserver.
+ */
+export function SearchResults({ criteria }: { criteria: SearchCriteria }) {
+  return isPilotLine(criteria.origin, criteria.destination) ? (
+    <BookableTripResults criteria={criteria} />
+  ) : (
+    <RouteGridResults criteria={criteria} />
+  );
+}
+
+/**
+ * Departs reservables de la ligne pilote.
+ *
  * Le bandeau de dates permet de passer au jour voisin en un geste, prix a
  * l'appui : quand le car du samedi est complet, la question suivante est
  * toujours « et dimanche, c'est plus cher ? » - y repondre sans rejouer la
  * recherche evite un aller-retour.
  */
-export function SearchResults({ criteria }: { criteria: SearchCriteria }) {
+function BookableTripResults({ criteria }: { criteria: SearchCriteria }) {
   const router = useRouter();
 
   const loader = useCallback(
