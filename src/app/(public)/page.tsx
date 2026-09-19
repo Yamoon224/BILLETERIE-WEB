@@ -109,9 +109,6 @@ export default async function HomePage({ searchParams }: PageProps<"/">) {
             <span className="rounded-2xl border border-fuchsia/25 bg-fuchsia/15 px-4 py-3 text-sm font-bold text-fuchsia-dark dark:border-white/10 dark:bg-white/10 dark:text-white">
               🛡️ 100&nbsp;% ivoirien
             </span>
-            <span className="rounded-2xl border border-fuchsia/25 bg-fuchsia/15 px-4 py-3 text-sm font-bold text-fuchsia-dark dark:border-white/10 dark:bg-white/10 dark:text-white">
-              🚌 Ligne pilote active
-            </span>
           </div>
 
           <PillarTabs active={activeTab} />
