@@ -81,9 +81,9 @@ export function LoginScreen({ next }: { next?: string }) {
         <RoleLoginCard
           title="Espace Compagnies"
           description="Suivez vos ventes et gerez vos lignes"
-          identifierLabel="Email ou telephone professionnel"
+          identifierLabel="Identifiant compagnie ou email"
           identifierType="text"
-          identifierPlaceholder="contact@stc-express.ci"
+          identifierPlaceholder="STC ou contact@stc-express.ci"
           destinationLabel="l'Espace Compagnies"
           footer="Votre compagnie n'est pas encore inscrite ? Nous contacter"
           next={next}
@@ -106,12 +106,12 @@ function useLoginSubmit(next: string | undefined) {
   const [succeeded, setSucceeded] = useState(false);
   const [error, setError] = useState<unknown>(null);
 
-  async function submit(identifier: string, password: string) {
+  async function submit(identifier: string, password: string, code?: string) {
     setIsPending(true);
     setError(null);
 
     try {
-      const user = await login(identifier, password);
+      const user = await login(identifier, password, code);
       setSucceeded(true);
       // Laisse voir la confirmation avant de quitter l'ecran, plutot qu'une
       // redirection instantanee qui donnerait l'impression d'un saut brutal.
@@ -125,7 +125,11 @@ function useLoginSubmit(next: string | undefined) {
   }
 
   const message =
-    error instanceof ApiError ? (error.fieldErrors.login?.[0] ?? errorMessage(error)) : error ? errorMessage(error) : null;
+    error instanceof ApiError
+      ? (error.fieldErrors.login?.[0] ?? error.fieldErrors.code?.[0] ?? errorMessage(error))
+      : error
+        ? errorMessage(error)
+        : null;
 
   return { submit, isPending, succeeded, message };
 }
@@ -330,7 +334,7 @@ function RoleLoginCard({
   );
 }
 
-/** Connexion admin : logo verrouille, champ 2FA visuel en attendant son support cote API. */
+/** Connexion admin : logo verrouille, code 2FA verifie cote API pour les comptes qui l'ont active. */
 function AdminLogin({ next }: { next?: string }) {
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
@@ -339,7 +343,7 @@ function AdminLogin({ next }: { next?: string }) {
 
   function handleSubmit(event: FormEvent) {
     event.preventDefault();
-    submit(identifier.trim(), password);
+    submit(identifier.trim(), password, code.trim() || undefined);
   }
 
   return (
@@ -375,7 +379,7 @@ function AdminLogin({ next }: { next?: string }) {
               autoComplete="current-password"
               required
             />
-            {/* Non verifie cote API pour l'instant : le champ reste visuel en attendant le support 2FA du backend. */}
+            {/* Ignore cote API pour un compte qui n'a pas active la 2FA : ce champ ne bloque donc jamais un admin qui n'a pas encore configure son application d'authentification. */}
             <LoginInput
               label="Code de verification (2FA)"
               type="text"
