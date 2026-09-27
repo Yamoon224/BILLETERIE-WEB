@@ -25,7 +25,7 @@ export function TicketLookup() {
   function submit(event: FormEvent) {
     event.preventDefault();
     const value = reference.trim().toUpperCase().replace(/\s+/g, "");
-    if (value) router.push(`/billets/${encodeURIComponent(value)}`);
+    if (value) router.push(`/tickets/${encodeURIComponent(value)}`);
   }
 
   return (
@@ -63,7 +63,7 @@ export function TicketLookup() {
         <MyBookings />
       ) : (
         <p className="text-center text-sm text-[var(--muted)]">
-          <Link href="/connexion?next=/mes-billets" className="font-semibold text-brand-600">
+          <Link href="/login?next=/my-tickets" className="font-semibold text-brand-600">
             Connectez-vous
           </Link>{" "}
           pour retrouver toutes vos reservations sans saisir de reference.
@@ -89,7 +89,7 @@ function MyBookings() {
           {data.data.map((booking) => (
             <li key={booking.id}>
               <Link
-                href={`/billets/${booking.reference}`}
+                href={`/tickets/${booking.reference}`}
                 className="flex items-center justify-between gap-4 px-4 py-3 transition-colors hover:bg-brand-50/60 sm:px-5 dark:hover:bg-stone-800/50"
               >
                 <div className="min-w-0">

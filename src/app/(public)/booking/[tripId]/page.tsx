@@ -3,7 +3,7 @@ import { BookingFlow } from "@/features/booking/BookingFlow";
 
 export const metadata: Metadata = { title: "Reservation" };
 
-export default async function ReservationPage({ params, searchParams }: PageProps<"/reservation/[tripId]">) {
+export default async function ReservationPage({ params, searchParams }: PageProps<"/booking/[tripId]">) {
   const { tripId } = await params;
   const query = await searchParams;
 

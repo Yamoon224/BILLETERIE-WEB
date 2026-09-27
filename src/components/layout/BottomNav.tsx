@@ -7,9 +7,9 @@ import { cn } from "@/lib/cn";
 
 const TABS = [
   { href: "/", label: "Recherche", icon: IconSearch },
-  { href: "/mes-billets", label: "Reservations", icon: IconCalendar },
-  { href: "/favoris", label: "Favoris", icon: IconHeart },
-  { href: "/profil", label: "Profil", icon: IconUser },
+  { href: "/my-tickets", label: "Reservations", icon: IconCalendar },
+  { href: "/favorites", label: "Favoris", icon: IconHeart },
+  { href: "/profile", label: "Profil", icon: IconUser },
 ];
 
 /**
@@ -22,7 +22,7 @@ const TABS = [
 export function BottomNav() {
   const pathname = usePathname();
 
-  if (pathname.startsWith("/reservation")) return null;
+  if (pathname.startsWith("/booking")) return null;
 
   return (
     <nav
@@ -32,7 +32,7 @@ export function BottomNav() {
     >
       {TABS.map((tab) => {
         const isActive =
-          tab.href === "/" ? pathname === "/" || pathname.startsWith("/recherche") : pathname.startsWith(tab.href);
+          tab.href === "/" ? pathname === "/" || pathname.startsWith("/search") : pathname.startsWith(tab.href);
         const Icon = tab.icon;
 
         return (

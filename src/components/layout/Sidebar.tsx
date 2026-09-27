@@ -127,7 +127,7 @@ export function Sidebar({
 
         {user ? (
           <Link
-            href="/espace/profil"
+            href="/dashboard/profile"
             onClick={onCloseMobile}
             title={isCollapsed ? "Mon profil" : undefined}
             className={cn(

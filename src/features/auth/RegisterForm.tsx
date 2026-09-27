@@ -32,7 +32,7 @@ export function RegisterForm() {
 
     try {
       await register({ ...form, phone: form.phone.trim() || undefined });
-      router.replace("/mes-billets");
+      router.replace("/my-tickets");
     } catch (caught) {
       setError(caught);
       setIsPending(false);
@@ -101,7 +101,7 @@ export function RegisterForm() {
 
       <p className="text-center text-sm text-[var(--muted)]">
         Deja inscrit ?{" "}
-        <Link href="/connexion" className="font-semibold text-brand-600">
+        <Link href="/login" className="font-semibold text-brand-600">
           Se connecter
         </Link>
       </p>

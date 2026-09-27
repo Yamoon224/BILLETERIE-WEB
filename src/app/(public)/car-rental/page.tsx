@@ -9,7 +9,7 @@ function first(value: string | string[] | undefined): string | undefined {
   return Array.isArray(value) ? value[0] : value;
 }
 
-export default async function RentalVehiclesSearchPage({ searchParams }: PageProps<"/location-auto">) {
+export default async function RentalVehiclesSearchPage({ searchParams }: PageProps<"/car-rental">) {
   const params = await searchParams;
 
   const citySlug = first(params.ville);

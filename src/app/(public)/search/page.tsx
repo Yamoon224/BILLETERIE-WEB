@@ -14,7 +14,7 @@ function first(value: string | string[] | undefined): string | undefined {
  * reste partageable par URL, et le client n'a pas a attendre l'hydratation pour
  * savoir quoi chercher.
  */
-export default async function SearchPage({ searchParams }: PageProps<"/recherche">) {
+export default async function SearchPage({ searchParams }: PageProps<"/search">) {
   const params = await searchParams;
 
   const origin = first(params.depart);

@@ -24,7 +24,7 @@ export function apartmentSearchHref(criteria: ApartmentSearchCriteria): string {
     voyageurs: String(criteria.guests),
   });
 
-  return `/appartements?${params.toString()}`;
+  return `/apartments?${params.toString()}`;
 }
 
 /**

@@ -40,7 +40,7 @@ export function BookingView({ reference }: { reference: string }) {
               <p className="mt-2 text-sm text-[var(--muted)]">
                 Verifiez la reference recue par SMS (elle commence par « RES- »).
               </p>
-              <LinkButton href="/mes-billets" variant="secondary" className="mt-5" icon={<IconSearch className="h-4 w-4" />}>
+              <LinkButton href="/my-tickets" variant="secondary" className="mt-5" icon={<IconSearch className="h-4 w-4" />}>
                 Saisir une autre reference
               </LinkButton>
             </CardBody>

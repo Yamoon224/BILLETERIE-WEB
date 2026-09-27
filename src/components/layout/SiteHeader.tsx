@@ -128,7 +128,7 @@ export function SiteHeader() {
 
           <div className="flex items-center gap-2">
             <Link
-              href="/favoris"
+              href="/favorites"
               aria-label="Mes favoris"
               className="hidden h-9 w-9 items-center justify-center rounded-full text-stone-500 ring-1 md:inline-flex ring-inset ring-stone-200 hover:bg-stone-100 dark:text-stone-300 dark:ring-stone-700 dark:hover:bg-stone-800"
             >
@@ -156,7 +156,7 @@ export function SiteHeader() {
               </>
             ) : (
               <Link
-                href="/connexion"
+                href="/login"
                 className="inline-flex h-8 items-center justify-center whitespace-nowrap rounded-full bg-brand-400 px-3 text-xs font-semibold text-white shadow-sm transition-colors hover:bg-brand-500 active:translate-y-px sm:px-4"
               >
                 Se connecter
@@ -242,10 +242,10 @@ export function SiteHeader() {
             </LinkButton>
           ) : (
             <div className="flex flex-col gap-2">
-              <LinkButton href="/connexion" variant="brand" className="w-full" onClick={closeMenu}>
+              <LinkButton href="/login" variant="brand" className="w-full" onClick={closeMenu}>
                 Se connecter
               </LinkButton>
-              <LinkButton href="/inscription" variant="outline" className="w-full" onClick={closeMenu}>
+              <LinkButton href="/register" variant="outline" className="w-full" onClick={closeMenu}>
                 Creer un compte
               </LinkButton>
             </div>

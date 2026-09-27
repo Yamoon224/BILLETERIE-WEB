@@ -38,7 +38,7 @@ function fullName({ firstName, lastName }: Traveler): string {
  * connexion 3G, chaque navigation de page est une occasion de perdre le
  * voyageur ; le fil d'etapes (`BookingStepper`) donne le meme repere visuel
  * qu'un vrai changement d'ecran sans en payer le cout reseau. Le paiement,
- * lui, vit sur sa propre page (`/billets/[reference]`) : il exige une
+ * lui, vit sur sa propre page (`/tickets/[reference]`) : il exige une
  * reservation deja creee cote API.
  */
 export function BookingFlow({ tripId, passengers: initialPassengers }: { tripId: string; passengers: number }) {
@@ -129,7 +129,7 @@ export function BookingFlow({ tripId, passengers: initialPassengers }: { tripId:
     });
 
     if (booking) {
-      router.push(`/billets/${booking.reference}`);
+      router.push(`/tickets/${booking.reference}`);
     } else {
       // Une place prise entre-temps : on rafraichit le plan plutot que de
       // laisser le voyageur retenter sur une place qui n'existe plus.
@@ -293,7 +293,7 @@ export function BookingFlow({ tripId, passengers: initialPassengers }: { tripId:
 
       <p className="mt-6 text-center text-xs text-[var(--muted)]">
         En reservant, vous acceptez les conditions de transport de la compagnie.{" "}
-        <Link href="/mes-billets" className="font-semibold text-brand-600">
+        <Link href="/my-tickets" className="font-semibold text-brand-600">
           Deja un billet ?
         </Link>
       </p>

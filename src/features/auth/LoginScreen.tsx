@@ -241,7 +241,7 @@ function PublicLogin({ next }: { next?: string }) {
             </div>
 
             <Link
-              href="/inscription"
+              href="/register"
               className="w-full rounded-xl border border-[var(--hairline)] bg-[var(--surface)] py-3 text-center text-sm font-bold text-[var(--foreground)] transition-colors hover:border-brand-300"
             >
               Creer un compte

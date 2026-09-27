@@ -22,7 +22,7 @@ export function rentalVehicleSearchHref(criteria: RentalVehicleSearchCriteria): 
     retour: criteria.returnDate,
   });
 
-  return `/location-auto?${params.toString()}`;
+  return `/car-rental?${params.toString()}`;
 }
 
 /** Formulaire de recherche de vehicule de location. */

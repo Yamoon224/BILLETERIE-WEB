@@ -33,8 +33,8 @@ export default function SpaceLayout({ children }: { children: React.ReactNode })
 
   useEffect(() => {
     if (isInitialising) return;
-    if (user === null) router.replace(`/connexion?next=${encodeURIComponent(pathname)}`);
-    else if (!isBackOffice) router.replace("/mes-billets");
+    if (user === null) router.replace(`/login?next=${encodeURIComponent(pathname)}`);
+    else if (!isBackOffice) router.replace("/my-tickets");
   }, [isInitialising, user, isBackOffice, router, pathname]);
 
   if (isInitialising) return <LoadingState label="Verification de la session…" className="min-h-dvh" />;

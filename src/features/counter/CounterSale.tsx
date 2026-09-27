@@ -371,7 +371,7 @@ function ReceiptCard({ receipt, onClose }: { receipt: Receipt; onClose: () => vo
                 variant="secondary"
                 size="sm"
                 icon={<IconPrinter className="h-3.5 w-3.5" />}
-                onClick={() => window.open(`/billets/${receipt.booking.reference}`, "_blank", "noopener")}
+                onClick={() => window.open(`/tickets/${receipt.booking.reference}`, "_blank", "noopener")}
               >
                 Imprimer les billets
               </Button>

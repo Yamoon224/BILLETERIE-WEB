@@ -30,8 +30,8 @@ export function FavoritesView() {
           Connectez-vous pour enregistrer vos trajets habituels et les retrouver en un geste.
         </p>
         <div className="mt-6 flex flex-col gap-2 sm:flex-row sm:justify-center">
-          <LinkButton href="/connexion?next=/favoris">Se connecter</LinkButton>
-          <LinkButton href="/inscription" variant="secondary">
+          <LinkButton href="/login?next=/favorites">Se connecter</LinkButton>
+          <LinkButton href="/register" variant="secondary">
             Creer un compte
           </LinkButton>
         </div>

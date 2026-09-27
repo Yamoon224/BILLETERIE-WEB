@@ -25,7 +25,7 @@ export function searchHref(criteria: SearchCriteria): string {
     voyageurs: String(criteria.passengers),
   });
 
-  return `/recherche?${params.toString()}`;
+  return `/search?${params.toString()}`;
 }
 
 /**

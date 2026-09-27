@@ -34,7 +34,7 @@ export interface NavItem {
 
 export const NAV_ITEMS: NavItem[] = [
   {
-    href: "/espace",
+    href: "/dashboard",
     label: "Tableau de bord",
     description: "Ventes, recettes par moyen de paiement, remplissage",
     permission: "reports.view",
@@ -42,7 +42,7 @@ export const NAV_ITEMS: NavItem[] = [
     group: "Activite",
   },
   {
-    href: "/espace/guichet",
+    href: "/dashboard/counter",
     label: "Guichet",
     description: "Vente au comptoir, en ligne ou hors ligne",
     permission: "sales.create",
@@ -50,7 +50,7 @@ export const NAV_ITEMS: NavItem[] = [
     group: "Activite",
   },
   {
-    href: "/espace/embarquement",
+    href: "/dashboard/boarding",
     label: "Embarquement",
     description: "Controle des billets a la porte du car",
     permission: "tickets.validate",
@@ -58,7 +58,7 @@ export const NAV_ITEMS: NavItem[] = [
     group: "Activite",
   },
   {
-    href: "/espace/reservations",
+    href: "/dashboard/bookings",
     label: "Reservations",
     description: "Toutes les ventes, en ligne et au guichet",
     permission: "bookings.view",
@@ -66,7 +66,7 @@ export const NAV_ITEMS: NavItem[] = [
     group: "Exploitation",
   },
   {
-    href: "/espace/departs",
+    href: "/dashboard/departures",
     label: "Departs",
     description: "Programmation des horaires et suivi des departs",
     permission: "trips.view",
@@ -74,7 +74,7 @@ export const NAV_ITEMS: NavItem[] = [
     group: "Exploitation",
   },
   {
-    href: "/espace/itineraires",
+    href: "/dashboard/routes",
     label: "Itineraires",
     description: "Liaisons exploitees et tarifs de reference",
     permission: "network.view",
@@ -82,7 +82,7 @@ export const NAV_ITEMS: NavItem[] = [
     group: "Referentiel",
   },
   {
-    href: "/espace/vehicules",
+    href: "/dashboard/vehicles",
     label: "Vehicules",
     description: "Parc, capacite et plan de salle",
     permission: "network.view",
@@ -90,7 +90,7 @@ export const NAV_ITEMS: NavItem[] = [
     group: "Referentiel",
   },
   {
-    href: "/espace/gares",
+    href: "/dashboard/stations",
     label: "Gares",
     description: "Gares routieres et points d'embarquement",
     permission: "network.view",
@@ -98,7 +98,7 @@ export const NAV_ITEMS: NavItem[] = [
     group: "Referentiel",
   },
   {
-    href: "/espace/villes",
+    href: "/dashboard/cities",
     label: "Villes",
     description: "Villes desservies, partagees par toutes les compagnies",
     permission: "platform.manage",
@@ -106,7 +106,7 @@ export const NAV_ITEMS: NavItem[] = [
     group: "Referentiel",
   },
   {
-    href: "/espace/grille-trajets",
+    href: "/dashboard/route-grid",
     label: "Grille des trajets",
     description: "Prix, horaires et durees affiches avant l'ouverture a la vente",
     permission: "platform.manage",
@@ -114,7 +114,7 @@ export const NAV_ITEMS: NavItem[] = [
     group: "Referentiel",
   },
   {
-    href: "/espace/compagnies",
+    href: "/dashboard/companies",
     label: "Compagnies",
     description: "Partenaires et commissions",
     permission: "network.view",
@@ -122,7 +122,7 @@ export const NAV_ITEMS: NavItem[] = [
     group: "Administration",
   },
   {
-    href: "/espace/utilisateurs",
+    href: "/dashboard/users",
     label: "Utilisateurs",
     description: "Comptes, roles et separation des taches",
     permission: "users.view",
@@ -130,7 +130,7 @@ export const NAV_ITEMS: NavItem[] = [
     group: "Administration",
   },
   {
-    href: "/espace/journal",
+    href: "/dashboard/audit-log",
     label: "Journal d'audit",
     description: "Qui a change quoi, et quand",
     permission: "audit.view",
@@ -140,8 +140,8 @@ export const NAV_ITEMS: NavItem[] = [
 ];
 
 export function findNavItem(pathname: string): NavItem | undefined {
-  // L'entree la plus specifique l'emporte : « /espace » ne doit pas capter
-  // « /espace/guichet ».
+  // L'entree la plus specifique l'emporte : « /dashboard » ne doit pas capter
+  // « /dashboard/counter ».
   return [...NAV_ITEMS]
     .sort((a, b) => b.href.length - a.href.length)
     .find((item) => pathname === item.href || pathname.startsWith(`${item.href}/`));

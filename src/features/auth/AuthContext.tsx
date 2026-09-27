@@ -121,9 +121,9 @@ export function useAuth(): AuthContextValue {
  * cliquer chacun pour rien au premier geste de la journee.
  */
 export function homeFor(user: AuthenticatedUser): string {
-  if (user.permissions.includes("reports.view")) return "/espace";
-  if (user.permissions.includes("sales.create")) return "/espace/guichet";
-  if (user.permissions.includes("tickets.validate")) return "/espace/embarquement";
+  if (user.permissions.includes("reports.view")) return "/dashboard";
+  if (user.permissions.includes("sales.create")) return "/dashboard/counter";
+  if (user.permissions.includes("tickets.validate")) return "/dashboard/boarding";
 
-  return "/mes-billets";
+  return "/my-tickets";
 }

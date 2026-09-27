@@ -28,7 +28,7 @@ export function Topbar({ onOpenNavigation, onToggleSidebar }: { onOpenNavigation
   async function leave() {
     setIsLeaving(true);
     await logout().catch(() => undefined);
-    router.replace("/connexion");
+    router.replace("/login");
   }
 
   return (

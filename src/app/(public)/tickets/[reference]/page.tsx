@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-export default async function TicketPage({ params }: PageProps<"/billets/[reference]">) {
+export default async function TicketPage({ params }: PageProps<"/tickets/[reference]">) {
   const { reference } = await params;
 
   return <BookingView reference={decodeURIComponent(reference)} />;
