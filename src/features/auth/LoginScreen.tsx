@@ -134,7 +134,8 @@ function useLoginSubmit(next: string | undefined) {
   return { submit, isPending, succeeded, message };
 }
 
-function LoginInput({ label, className, ...props }: { label: string } & InputHTMLAttributes<HTMLInputElement>) {
+/** Champ partage par tous les formulaires d'authentification (connexion et inscription). */
+export function AuthInput({ label, className, ...props }: { label: string } & InputHTMLAttributes<HTMLInputElement>) {
   return (
     <label className="mb-3.5 block w-full">
       <span className="mb-1.5 block text-xs font-semibold text-[var(--muted)]">{label}</span>
@@ -150,19 +151,19 @@ function LoginInput({ label, className, ...props }: { label: string } & InputHTM
   );
 }
 
-function SuccessPanel({ destinationLabel }: { destinationLabel: string }) {
+export function SuccessPanel({ destinationLabel, title = "Connexion reussie" }: { destinationLabel: string; title?: string }) {
   return (
     <div className="flex flex-col items-center py-6 text-center">
       <span className="mb-3.5 flex h-[52px] w-[52px] items-center justify-center rounded-full bg-flag-green text-white">
         <IconCheckCircle className="h-6 w-6" />
       </span>
-      <p className="font-extrabold tracking-tight text-[var(--foreground)]">Connexion reussie</p>
+      <p className="font-extrabold tracking-tight text-[var(--foreground)]">{title}</p>
       <p className="mt-1 text-sm text-[var(--muted)]">Redirection vers {destinationLabel}…</p>
     </div>
   );
 }
 
-/** Connexion voyageur : cadre telephone, bascule telephone / e-mail. */
+/** Connexion voyageur : meme carte que les autres profils, avec une bascule telephone / e-mail. */
 function PublicLogin({ next }: { next?: string }) {
   const [mode, setMode] = useState<"phone" | "email">("phone");
   const [identifier, setIdentifier] = useState("");
@@ -175,25 +176,18 @@ function PublicLogin({ next }: { next?: string }) {
   }
 
   return (
-    <div className="relative flex h-[660px] w-[340px] flex-col overflow-hidden rounded-[40px] border-[9px] border-[#17181C] bg-[var(--surface)] shadow-card">
-      <span
-        aria-hidden="true"
-        className="absolute top-[9px] left-1/2 z-20 h-[18px] w-[100px] -translate-x-1/2 rounded-full bg-[#17181C]"
-      />
-      <div className="flex h-8 shrink-0 items-end justify-between px-5 pb-1 text-xs font-bold text-[var(--foreground)]">
-        <span>16:22</span>
-        <span>●●● 82%</span>
+    <div className="w-full max-w-md overflow-hidden rounded-[22px] bg-[var(--surface)] shadow-card">
+      <div className="flex flex-col items-center px-8 pt-8">
+        <span aria-hidden="true" className="grad-brand mb-4 h-[52px] w-[52px] rounded-2xl" />
+        <h2 className="text-center font-extrabold tracking-tight text-[var(--foreground)]">Se connecter</h2>
+        <p className="mb-1 mt-1 text-center text-xs text-[var(--muted)]">Accedez a vos reservations et billets Kaara</p>
       </div>
 
-      <div className="flex flex-1 flex-col items-center overflow-y-auto px-6 py-7">
+      <div className="px-8 pb-8 pt-2">
         {succeeded ? (
           <SuccessPanel destinationLabel="l'accueil Kaara" />
         ) : (
-          <form onSubmit={handleSubmit} className="flex w-full flex-col items-center">
-            <span aria-hidden="true" className="grad-brand mb-4 h-[52px] w-[52px] rounded-2xl" />
-            <h2 className="text-center font-extrabold tracking-tight text-[var(--foreground)]">Se connecter</h2>
-            <p className="mb-5 mt-1 text-center text-xs text-[var(--muted)]">Accedez a vos reservations et billets Kaara</p>
-
+          <form onSubmit={handleSubmit} className="flex flex-col">
             <div className="mb-4 flex w-full rounded-xl bg-[var(--surface-muted)] p-1">
               {(["phone", "email"] as const).map((option) => (
                 <button
@@ -210,7 +204,7 @@ function PublicLogin({ next }: { next?: string }) {
               ))}
             </div>
 
-            <LoginInput
+            <AuthInput
               label={mode === "phone" ? "Numero de telephone" : "Adresse e-mail"}
               type={mode === "phone" ? "tel" : "email"}
               inputMode={mode === "phone" ? "tel" : "email"}
@@ -220,7 +214,7 @@ function PublicLogin({ next }: { next?: string }) {
               autoComplete={mode === "phone" ? "tel" : "email"}
               required
             />
-            <LoginInput
+            <AuthInput
               label="Mot de passe"
               type="password"
               placeholder="••••••••"
@@ -230,9 +224,9 @@ function PublicLogin({ next }: { next?: string }) {
               required
             />
 
-            <span className="mb-4 -mt-2 w-full text-right text-xs font-semibold text-brand-600">Mot de passe oublie ?</span>
+            <span className="mb-4 -mt-2 text-right text-xs font-semibold text-brand-600">Mot de passe oublie ?</span>
 
-            {message ? <FormAlert className="mb-3 w-full">{message}</FormAlert> : null}
+            {message ? <FormAlert className="mb-3">{message}</FormAlert> : null}
 
             <Button type="submit" size="lg" className="w-full" isLoading={isPending}>
               Se connecter
@@ -299,7 +293,7 @@ function RoleLoginCard({
           <SuccessPanel destinationLabel={destinationLabel} />
         ) : (
           <form onSubmit={handleSubmit} className="flex flex-col">
-            <LoginInput
+            <AuthInput
               label={identifierLabel}
               type={identifierType}
               placeholder={identifierPlaceholder}
@@ -308,7 +302,7 @@ function RoleLoginCard({
               autoComplete="username"
               required
             />
-            <LoginInput
+            <AuthInput
               label="Mot de passe"
               type="password"
               placeholder="••••••••"
@@ -361,7 +355,7 @@ function AdminLogin({ next }: { next?: string }) {
           <SuccessPanel destinationLabel="la Console Admin" />
         ) : (
           <form onSubmit={handleSubmit} className="flex flex-col">
-            <LoginInput
+            <AuthInput
               label="Email interne"
               type="email"
               placeholder="prenom.nom@kaara.ci"
@@ -370,7 +364,7 @@ function AdminLogin({ next }: { next?: string }) {
               autoComplete="username"
               required
             />
-            <LoginInput
+            <AuthInput
               label="Mot de passe"
               type="password"
               placeholder="••••••••"
@@ -380,7 +374,7 @@ function AdminLogin({ next }: { next?: string }) {
               required
             />
             {/* Ignore cote API pour un compte qui n'a pas active la 2FA : ce champ ne bloque donc jamais un admin qui n'a pas encore configure son application d'authentification. */}
-            <LoginInput
+            <AuthInput
               label="Code de verification (2FA)"
               type="text"
               inputMode="numeric"
