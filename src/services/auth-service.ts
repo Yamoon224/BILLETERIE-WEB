@@ -16,11 +16,14 @@ export interface RegisterInput {
 /**
  * Le jeton est persiste ici et nulle part ailleurs : c'est le seul endroit du
  * frontend qui sait comment une session commence et se termine.
+ *
+ * `identifier` est une adresse e-mail ou un numero de telephone : l'API
+ * determine elle-meme lequel des deux a ete saisi.
  */
-export async function login(email: string, password: string): Promise<AuthenticatedUser> {
+export async function login(identifier: string, password: string): Promise<AuthenticatedUser> {
   const response = await apiFetch<SessionResponse>("/login", {
     method: "POST",
-    body: { email, password, device_name: "web" },
+    body: { login: identifier, password, device_name: "web" },
   });
 
   storeToken(response.data.token);

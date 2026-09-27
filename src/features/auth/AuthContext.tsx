@@ -13,7 +13,8 @@ interface AuthContextValue {
   isInitialising: boolean;
   /** La session s'est refermee d'elle-meme (jeton expire), et non a la demande. */
   hasExpired: boolean;
-  login: (email: string, password: string) => Promise<AuthenticatedUser>;
+  /** `identifier` est une adresse e-mail ou un numero de telephone. */
+  login: (identifier: string, password: string) => Promise<AuthenticatedUser>;
   register: (input: RegisterInput) => Promise<AuthenticatedUser>;
   logout: () => Promise<void>;
   refresh: () => Promise<void>;
@@ -66,8 +67,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     };
   }, []);
 
-  const login = useCallback(async (email: string, password: string) => {
-    const authenticated = await authService.login(email, password);
+  const login = useCallback(async (identifier: string, password: string) => {
+    const authenticated = await authService.login(identifier, password);
     setHasExpired(false);
     setUser(authenticated);
 
