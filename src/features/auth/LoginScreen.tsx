@@ -21,9 +21,9 @@ const ROLES: Array<{ id: Role; label: string; icon: ReactNode }> = [
 
 const ROLE_INTROS: Record<Role, string> = {
   public: "Connexion voyageur : numero de telephone ou e-mail, au choix.",
-  partner: "Connexion partenaire — residences meublees et location de vehicules.",
-  company: "Connexion compagnie — gestion des lignes, horaires et reservations.",
-  admin: "Connexion administrateur — acces interne reserve a l'equipe Kaara.",
+  partner: "Connexion partenaire - residences meublees et location de vehicules.",
+  company: "Connexion compagnie - gestion des lignes, horaires et reservations.",
+  admin: "Connexion administrateur - acces interne reserve a l'equipe Kaara.",
 };
 
 /**
@@ -347,7 +347,7 @@ function AdminLogin({ next }: { next?: string }) {
           <IconLock className="h-5 w-5" />
         </span>
         <h2 className="text-center font-extrabold tracking-tight text-[var(--foreground)]">Kaara Admin</h2>
-        <p className="mb-1 mt-1 text-center text-xs text-[var(--muted)]">Console interne — acces reserve a l&apos;equipe Kaara</p>
+        <p className="mb-1 mt-1 text-center text-xs text-[var(--muted)]">Console interne - acces reserve a l&apos;equipe Kaara</p>
       </div>
 
       <div className="px-8 pb-8 pt-2">
