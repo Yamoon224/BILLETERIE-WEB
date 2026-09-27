@@ -10,6 +10,7 @@ import { useMutation } from "@/hooks/useMutation";
 import { errorMessage } from "@/lib/api-client";
 import { ROLE_LABEL } from "@/lib/labels";
 import { authService } from "@/services";
+import { TwoFactorSettings } from "./TwoFactorSettings";
 
 export function ProfileView() {
   const { user, refresh } = useAuth();
@@ -123,6 +124,8 @@ export function ProfileView() {
             </form>
           </CardBody>
         </Card>
+
+        {user.roles.includes("platform_admin") ? <TwoFactorSettings /> : null}
 
         <Card>
           <CardHeader title="Affichage" description="Clair, sombre, ou suivre le reglage de l'appareil." />

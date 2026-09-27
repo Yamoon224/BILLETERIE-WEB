@@ -65,3 +65,27 @@ export async function updatePassword(input: {
 }): Promise<void> {
   await apiFetch("/me/password", { method: "PUT", body: input });
 }
+
+// --- Verification en deux etapes (reservee au role platform_admin) -------------
+
+export interface TwoFactorEnrollment {
+  secret: string;
+  otpauth_url: string;
+}
+
+export async function twoFactorStatus(): Promise<boolean> {
+  return (await apiFetch<{ data: { enabled: boolean } }>("/me/two-factor")).data.enabled;
+}
+
+/** Demarre (ou redemarre) une inscription : sans effet tant que `confirmTwoFactor` n'a pas ete appelee avec succes. */
+export async function enableTwoFactor(): Promise<TwoFactorEnrollment> {
+  return (await apiFetch<{ data: TwoFactorEnrollment }>("/me/two-factor", { method: "POST" })).data;
+}
+
+export async function confirmTwoFactor(code: string): Promise<void> {
+  await apiFetch("/me/two-factor/confirm", { method: "POST", body: { code } });
+}
+
+export async function disableTwoFactor(password: string): Promise<void> {
+  await apiFetch("/me/two-factor", { method: "DELETE", body: { password } });
+}
