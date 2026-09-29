@@ -3,6 +3,7 @@
 import { useCallback, useState } from "react";
 import { Badge, Button, DataTable } from "@/components/ui";
 import type { Column } from "@/components/ui";
+import { CompanyFormDialog } from "@/features/network/CompanyList";
 import { useDebouncedValue } from "@/hooks/useDebouncedValue";
 import { useMutation } from "@/hooks/useMutation";
 import { usePaginatedData } from "@/hooks/usePaginatedData";
@@ -25,6 +26,7 @@ const STATUS_TONE: Record<ListingStatus, "success" | "warning" | "danger"> = {
  */
 export function CompanyValidationList() {
   const [search, setSearch] = useState("");
+  const [viewing, setViewing] = useState<Company | null>(null);
   const debounced = useDebouncedValue(search);
   const { sort, setSort, sortParams } = useSort();
 
@@ -79,25 +81,45 @@ export function CompanyValidationList() {
               Valider
             </Button>
           </div>
-        ) : null,
+        ) : (
+          <div className="flex justify-end">
+            <Button size="sm" variant="ghost" onClick={() => setViewing(company)}>
+              Voir
+            </Button>
+          </div>
+        ),
     },
   ];
 
   return (
-    <DataTable
-      columns={columns}
-      rows={list.items}
-      getRowKey={(company) => company.id}
-      isLoading={list.isLoading}
-      error={list.error}
-      onRetry={list.reload}
-      meta={list.meta}
-      onPageChange={list.setPage}
-      onPerPageChange={list.setPerPage}
-      sort={sort}
-      onSortChange={setSort}
-      search={{ value: search, onChange: setSearch, placeholder: "Nom ou code…" }}
-      emptyTitle="Aucune compagnie"
-    />
+    <>
+      <DataTable
+        columns={columns}
+        rows={list.items}
+        getRowKey={(company) => company.id}
+        isLoading={list.isLoading}
+        error={list.error}
+        onRetry={list.reload}
+        meta={list.meta}
+        onPageChange={list.setPage}
+        onPerPageChange={list.setPerPage}
+        sort={sort}
+        onSortChange={setSort}
+        search={{ value: search, onChange: setSearch, placeholder: "Nom ou code…" }}
+        emptyTitle="Aucune compagnie"
+      />
+
+      {viewing ? (
+        <CompanyFormDialog
+          company={viewing}
+          canSetCommission
+          onClose={() => setViewing(null)}
+          onSaved={() => {
+            setViewing(null);
+            list.reload();
+          }}
+        />
+      ) : null}
+    </>
   );
 }

@@ -118,7 +118,7 @@ export function CompanyList() {
   );
 }
 
-function CompanyFormDialog({
+export function CompanyFormDialog({
   company,
   canSetCommission,
   onClose,
