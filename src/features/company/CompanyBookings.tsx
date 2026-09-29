@@ -32,7 +32,7 @@ export function CompanyBookings() {
               <tr>
                 <th className="px-4 py-2.5 sm:px-5">Passager</th>
                 <th className="px-4 py-2.5">Depart</th>
-                <th className="px-4 py-2.5">Siege</th>
+                <th className="px-4 py-2.5">Places</th>
                 <th className="px-4 py-2.5 sm:px-5">Paiement</th>
               </tr>
             </thead>
@@ -41,7 +41,7 @@ export function CompanyBookings() {
                 <tr key={booking.id} className="border-t border-[var(--hairline)]">
                   <td className="px-4 py-2.5 font-semibold sm:px-5">{booking.customer_name}</td>
                   <td className="px-4 py-2.5">{booking.trip ? formatTime(booking.trip.departs_at) : "-"}</td>
-                  <td className="px-4 py-2.5">{booking.tickets?.map((ticket) => ticket.seat_number).join(", ") || "-"}</td>
+                  <td className="px-4 py-2.5 tabular-nums">{booking.seats_count}</td>
                   <td className="px-4 py-2.5 sm:px-5">
                     {booking.payments?.[0] ? (
                       <Badge tone={booking.payments[0].status === "succeeded" ? "success" : "warning"}>{booking.payments[0].method_label}</Badge>
