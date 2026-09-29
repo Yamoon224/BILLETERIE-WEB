@@ -85,7 +85,7 @@ export function mine(params: ListParams = {}): Promise<Paginated<Booking>> {
 // --- Espace connecte ----------------------------------------------------------------------
 
 export function list(
-  params: ListParams & { status?: BookingStatus | ""; channel?: BookingChannel | ""; trip_id?: string } = {},
+  params: ListParams & { status?: BookingStatus | ""; channel?: BookingChannel | ""; trip_id?: string; from?: string; to?: string } = {},
 ): Promise<Paginated<Booking>> {
   return apiFetch<Paginated<Booking>>("/bookings", { query: { ...params } });
 }
