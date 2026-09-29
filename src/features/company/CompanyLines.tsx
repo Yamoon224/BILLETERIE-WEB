@@ -4,9 +4,31 @@ import { useCallback } from "react";
 import { Card, ErrorState, LoadingState, Toggle } from "@/components/ui";
 import { useAsyncData } from "@/hooks/useAsyncData";
 import { useMutation } from "@/hooks/useMutation";
-import { formatDuration, formatMoney } from "@/lib/format";
-import { networkService } from "@/services";
+import { formatMoney, formatTime, todayIso } from "@/lib/format";
+import { networkService, tripService } from "@/services";
 import type { Itinerary } from "@/types/api";
+
+/**
+ * Horaires affiches pour une ligne : les departs programmes aujourd'hui sur
+ * cet itineraire, pas une duree de trajet - c'est ce que lit un gestionnaire
+ * pour savoir a quelle heure sa ligne part, pas combien de temps elle dure.
+ */
+function useTodaySchedules(): Map<string, string[]> {
+  const loader = useCallback(
+    () => tripService.list({ from: todayIso(), to: todayIso(), per_page: 100, sort: "departs_at", direction: "asc" }),
+    [],
+  );
+  const { data } = useAsyncData(loader);
+
+  const schedules = new Map<string, string[]>();
+  for (const trip of data?.data ?? []) {
+    const times = schedules.get(trip.itinerary_id) ?? [];
+    times.push(formatTime(trip.departs_at));
+    schedules.set(trip.itinerary_id, times);
+  }
+
+  return schedules;
+}
 
 /**
  * Lignes de la compagnie, avec une bascule active/pause.
@@ -20,6 +42,7 @@ import type { Itinerary } from "@/types/api";
 export function CompanyLines() {
   const loader = useCallback(() => networkService.listItineraries({ per_page: 100 }), []);
   const { data, isLoading, error, reload } = useAsyncData(loader);
+  const schedules = useTodaySchedules();
 
   const toggle = useMutation(({ id, is_active }: { id: string; is_active: boolean }) => networkService.updateItinerary(id, { is_active }));
 
@@ -46,7 +69,7 @@ export function CompanyLines() {
               <thead className="text-left text-xs uppercase tracking-wider text-[var(--muted)]">
                 <tr>
                   <th className="px-4 py-2.5 sm:px-5">Ligne</th>
-                  <th className="px-4 py-2.5">Duree</th>
+                  <th className="px-4 py-2.5">Horaires</th>
                   <th className="px-4 py-2.5">Prix</th>
                   <th className="px-4 py-2.5 sm:px-5">Statut</th>
                 </tr>
@@ -57,7 +80,7 @@ export function CompanyLines() {
                     <td className="px-4 py-2.5 font-semibold sm:px-5">
                       {itinerary.origin_city?.name} → {itinerary.destination_city?.name}
                     </td>
-                    <td className="px-4 py-2.5">{formatDuration(itinerary.duration_minutes)}</td>
+                    <td className="px-4 py-2.5">{schedules.get(itinerary.id)?.join(", ") || "—"}</td>
                     <td className="px-4 py-2.5">{formatMoney(itinerary.base_price)}</td>
                     <td className="px-4 py-2.5 sm:px-5">
                       <div className="flex items-center gap-2.5">

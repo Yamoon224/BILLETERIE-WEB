@@ -65,8 +65,8 @@ export default function CompanyLayout({ children }: { children: React.ReactNode 
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "whitespace-nowrap border-b-[3px] px-3 py-3 text-sm font-bold transition-colors",
-                  isActive ? "border-brand-500 text-white" : "border-transparent text-white/50 hover:text-white/80",
+                  "whitespace-nowrap border-b-[3px] bg-transparent px-3 py-3 text-sm font-bold transition-colors",
+                  isActive ? "border-brand-500 text-white" : "border-transparent text-white/50 hover:bg-white/5 hover:text-white/80",
                 )}
               >
                 {item.label}
