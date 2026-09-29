@@ -32,6 +32,18 @@ export async function login(identifier: string, password: string, code?: string)
   return response.data.user;
 }
 
+/** Connexion rapide au guichet, par code PIN plutot que par mot de passe (comptes agents uniquement). */
+export async function loginWithPin(identifier: string, pin: string): Promise<AuthenticatedUser> {
+  const response = await apiFetch<SessionResponse>("/login/pin", {
+    method: "POST",
+    body: { login: identifier, pin, device_name: "tablette-guichet" },
+  });
+
+  storeToken(response.data.token);
+
+  return response.data.user;
+}
+
 export async function register(input: RegisterInput): Promise<AuthenticatedUser> {
   const response = await apiFetch<SessionResponse>("/register", { method: "POST", body: input });
 

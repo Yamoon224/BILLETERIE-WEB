@@ -19,6 +19,8 @@ interface AuthContextValue {
    * l'API pour les comptes qui ne l'ont pas active.
    */
   login: (identifier: string, password: string, code?: string) => Promise<AuthenticatedUser>;
+  /** Connexion rapide au guichet, par code PIN (comptes agents uniquement). */
+  loginWithPin: (identifier: string, pin: string) => Promise<AuthenticatedUser>;
   register: (input: RegisterInput) => Promise<AuthenticatedUser>;
   logout: () => Promise<void>;
   refresh: () => Promise<void>;
@@ -79,6 +81,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return authenticated;
   }, []);
 
+  const loginWithPin = useCallback(async (identifier: string, pin: string) => {
+    const authenticated = await authService.loginWithPin(identifier, pin);
+    setHasExpired(false);
+    setUser(authenticated);
+
+    return authenticated;
+  }, []);
+
   const register = useCallback(async (input: RegisterInput) => {
     const created = await authService.register(input);
     setHasExpired(false);
@@ -100,8 +110,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const hasRole = useCallback((role: RoleName) => user?.roles.includes(role) ?? false, [user]);
 
   const value = useMemo<AuthContextValue>(
-    () => ({ user, isInitialising, hasExpired, login, register, logout, refresh, can, hasRole }),
-    [user, isInitialising, hasExpired, login, register, logout, refresh, can, hasRole],
+    () => ({ user, isInitialising, hasExpired, login, loginWithPin, register, logout, refresh, can, hasRole }),
+    [user, isInitialising, hasExpired, login, loginWithPin, register, logout, refresh, can, hasRole],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
@@ -126,8 +136,9 @@ export function useAuth(): AuthContextValue {
  */
 export function homeFor(user: AuthenticatedUser): string {
   if (user.roles.includes("platform_admin")) return "/admin";
+  if (user.roles.includes("company_manager")) return "/company";
+  if (user.permissions.includes("sales.create")) return "/counter";
   if (user.permissions.includes("reports.view")) return "/dashboard";
-  if (user.permissions.includes("sales.create")) return "/dashboard/counter";
   if (user.permissions.includes("tickets.validate")) return "/dashboard/boarding";
 
   return "/my-tickets";

@@ -1,6 +1,5 @@
 "use client";
 
-import { useCallback, useMemo, useState } from "react";
 import type { FormEvent } from "react";
 import {
   Badge,
@@ -16,36 +15,13 @@ import {
 } from "@/components/ui";
 import { IconCash, IconCheckCircle, IconPhone, IconPrinter, IconRefresh, IconWifiOff } from "@/components/ui/icons";
 import { SeatPicker } from "@/features/booking/SeatPicker";
-import { useAsyncData } from "@/hooks/useAsyncData";
-import { useOfflineQueue } from "@/hooks/useOfflineQueue";
-import { ApiError, NetworkError, errorMessage } from "@/lib/api-client";
+import { errorMessage } from "@/lib/api-client";
 import { cn } from "@/lib/cn";
-import { formatDateTime, formatMoney, formatTime, todayIso } from "@/lib/format";
+import { formatDateTime, formatMoney } from "@/lib/format";
 import { MOBILE_MONEY_PROVIDERS } from "@/lib/labels";
-import { cachedSeatMap, cachedTrips, cacheSeatMap, cacheTrips, enqueueSale, newClientReference } from "@/lib/offline-store";
-import { bookingService, tripService } from "@/services";
-import type { Booking, MobileMoneyProvider, PaymentMethod, SeatMap, Trip } from "@/types/api";
-
-type Receipt =
-  | { kind: "online"; booking: Booking; method: PaymentMethod }
-  | { kind: "offline"; clientReference: string; tripLabel: string; seats: string[]; total: number; customer: string };
-
-function tripLabel(trip: Trip): string {
-  return `${formatTime(trip.departs_at)} · ${trip.itinerary?.origin_city?.name} → ${trip.itinerary?.destination_city?.name}`;
-}
-
-/** Departs du jour et du lendemain : en ligne si possible, sinon depuis le cache du poste. */
-async function loadSellableTrips(): Promise<{ trips: Trip[]; savedAt: string | null }> {
-  try {
-    const page = await tripService.list({ from: todayIso(), to: todayIso(2), per_page: 100, sort: "departs_at", direction: "asc" });
-    const open = page.data.filter((trip) => trip.accepts_bookings);
-    cacheTrips(open);
-
-    return { trips: open, savedAt: null };
-  } catch {
-    return cachedTrips();
-  }
-}
+import type { MobileMoneyProvider, PaymentMethod } from "@/types/api";
+import { tripLabel, useCounterSale } from "./useCounterSale";
+import type { CounterSaleState, Receipt } from "./useCounterSale";
 
 /**
  * Guichet : vente au comptoir, avec ou sans reseau.
@@ -62,125 +38,40 @@ async function loadSellableTrips(): Promise<{ trips: Trip[]; savedAt: string | n
  * money exige un reseau : hors ligne, seules les especes sont proposees.
  */
 export function CounterSale() {
-  const queue = useOfflineQueue();
+  const {
+    queue,
+    trips,
+    isLoadingTrips,
+    reloadTrips,
+    tripsSavedAt,
+    tripId,
+    selectTrip,
+    selectedTrip,
+    seatMap: effectiveSeatMap,
+    isLoadingSeatMap,
+    seats,
+    setSeats,
+    customerName,
+    setCustomerName,
+    customerPhone,
+    setCustomerPhone,
+    method,
+    setMethod,
+    provider,
+    setProvider,
+    payerMsisdn,
+    setPayerMsisdn,
+    total,
+    isSubmitting,
+    error,
+    submit,
+    receipt,
+    setReceipt,
+  }: CounterSaleState = useCounterSale();
 
-  const { data: tripsData, isLoading: isLoadingTrips, reload: reloadTrips } = useAsyncData(loadSellableTrips);
-  const trips = tripsData?.trips ?? [];
-
-  const [tripId, setTripId] = useState("");
-  const seatMapLoader = useCallback(async (): Promise<SeatMap | null> => {
-    if (!tripId) return null;
-    try {
-      const fresh = await tripService.seatMap(tripId);
-      cacheSeatMap(tripId, fresh);
-      return fresh;
-    } catch {
-      return cachedSeatMap(tripId);
-    }
-  }, [tripId]);
-  const { data: seatMap, isLoading: isLoadingSeatMap, reload: reloadSeatMap } = useAsyncData(seatMapLoader);
-
-  const [seats, setSeats] = useState<string[]>([]);
-  const [customerName, setCustomerName] = useState("");
-  const [customerPhone, setCustomerPhone] = useState("");
-  const [method, setMethod] = useState<PaymentMethod>("cash");
-  const [provider, setProvider] = useState<MobileMoneyProvider>("orange_money");
-  const [payerMsisdn, setPayerMsisdn] = useState("");
-
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [error, setError] = useState<unknown>(null);
-  const [receipt, setReceipt] = useState<Receipt | null>(null);
-
-  // Les places vendues hors ligne sont marquees prises sur le plan en cache :
-  // sans cela, l'agent revendrait la meme place au client suivant.
-  const effectiveSeatMap = useMemo<SeatMap | null>(() => {
-    if (!seatMap) return null;
-
-    const local = new Set(
-      queue.sales.filter((sale) => sale.trip_id === seatMap.trip.id).flatMap((sale) => sale.passengers.map((passenger) => passenger.seat_number)),
-    );
-    if (local.size === 0) return seatMap;
-
-    return {
-      ...seatMap,
-      rows: seatMap.rows.map((row) => ({
-        ...row,
-        seats: row.seats.map((seat) => ({ ...seat, is_taken: seat.is_taken || local.has(seat.number) })),
-      })),
-    };
-  }, [seatMap, queue.sales]);
-
-  const selectedTrip = trips.find((trip) => trip.id === tripId) ?? seatMap?.trip ?? null;
-  const total = (selectedTrip?.price ?? 0) * seats.length;
-
-  function selectTrip(id: string) {
-    setTripId(id);
-    setSeats([]);
-  }
-
-  function resetSale() {
-    setSeats([]);
-    setCustomerName("");
-    setCustomerPhone("");
-    setPayerMsisdn("");
-    setError(null);
-  }
-
-  async function submit(event: FormEvent) {
+  function handleSubmit(event: FormEvent) {
     event.preventDefault();
-    if (!selectedTrip || seats.length === 0) return;
-
-    setIsSubmitting(true);
-    setError(null);
-
-    const clientReference = newClientReference("VENTE");
-    const passengers = seats.map((seat, index) => ({
-      seat_number: seat,
-      name: index === 0 ? customerName.trim() : `${customerName.trim()} (${index + 1})`,
-    }));
-
-    const effectiveMethod: PaymentMethod = queue.isOnline ? method : "cash";
-
-    try {
-      const result = await bookingService.counterSale({
-        trip_id: selectedTrip.id,
-        customer_name: customerName.trim(),
-        customer_phone: customerPhone.trim(),
-        passengers,
-        payment_method: effectiveMethod,
-        payment_provider: effectiveMethod === "mobile_money" ? provider : null,
-        payer_msisdn: effectiveMethod === "mobile_money" ? payerMsisdn.trim() || customerPhone.trim() : null,
-        client_reference: clientReference,
-      });
-
-      setReceipt({ kind: "online", booking: result.booking, method: effectiveMethod });
-      resetSale();
-      reloadSeatMap();
-    } catch (caught) {
-      if (caught instanceof NetworkError && effectiveMethod === "cash") {
-        enqueueSale({
-          client_reference: clientReference,
-          sold_at: new Date().toISOString(),
-          trip_id: selectedTrip.id,
-          customer_name: customerName.trim(),
-          customer_phone: customerPhone.trim(),
-          passengers,
-          payment_method: "cash",
-          total_amount: total,
-          trip_label: tripLabel(selectedTrip),
-        });
-        setReceipt({ kind: "offline", clientReference, tripLabel: tripLabel(selectedTrip), seats, total, customer: customerName.trim() });
-        resetSale();
-      } else {
-        setError(caught);
-        if (caught instanceof ApiError && caught.code === "seat_unavailable") {
-          setSeats([]);
-          reloadSeatMap();
-        }
-      }
-    } finally {
-      setIsSubmitting(false);
-    }
+    void submit();
   }
 
   return (
@@ -190,7 +81,7 @@ export function CounterSale() {
           <FormAlert tone="warning">
             <strong>Mode hors ligne.</strong> Les ventes en especes sont enregistrees sur ce poste et seront synchronisees
             automatiquement au retour du reseau.
-            {tripsData?.savedAt ? ` Departs en cache du ${formatDateTime(tripsData.savedAt)}.` : ""}
+            {tripsSavedAt ? ` Departs en cache du ${formatDateTime(tripsSavedAt)}.` : ""}
           </FormAlert>
         ) : null}
 
@@ -249,7 +140,7 @@ export function CounterSale() {
         <Card>
           <CardHeader title="Encaissement" />
           <CardBody>
-            <form onSubmit={submit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-4">
               <TextField label="Nom du client" placeholder="Yao Kouassi" value={customerName} onChange={(event) => setCustomerName(event.target.value)} required />
               <TextField
                 label="Telephone du client"
@@ -403,7 +294,7 @@ function ReceiptCard({ receipt, onClose }: { receipt: Receipt; onClose: () => vo
   );
 }
 
-function SyncStatus({ queue }: { queue: ReturnType<typeof useOfflineQueue> }) {
+function SyncStatus({ queue }: { queue: CounterSaleState["queue"] }) {
   const pending = queue.sales.length;
   const rejected = queue.lastResult?.results.filter((item) => item.status === "rejected") ?? [];
 

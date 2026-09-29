@@ -5,17 +5,18 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import type { FormEvent, InputHTMLAttributes, ReactNode } from "react";
 import { Button, FormAlert } from "@/components/ui";
-import { IconBuilding, IconBus, IconCheckCircle, IconLock, IconPhone, IconShield } from "@/components/ui/icons";
+import { IconBuilding, IconBus, IconCheckCircle, IconLock, IconPhone, IconShield, IconWallet } from "@/components/ui/icons";
 import { ApiError, errorMessage } from "@/lib/api-client";
 import { cn } from "@/lib/cn";
 import { homeFor, useAuth } from "./AuthContext";
 
-type Role = "public" | "partner" | "company" | "admin";
+type Role = "public" | "partner" | "company" | "agent" | "admin";
 
 const ROLES: Array<{ id: Role; label: string; icon: ReactNode }> = [
   { id: "public", label: "Grand public", icon: <IconPhone /> },
   { id: "partner", label: "Partenaire", icon: <IconBuilding /> },
   { id: "company", label: "Compagnie", icon: <IconBus /> },
+  { id: "agent", label: "Agent guichet", icon: <IconWallet /> },
   { id: "admin", label: "Admin", icon: <IconShield /> },
 ];
 
@@ -23,6 +24,7 @@ const ROLE_INTROS: Record<Role, string> = {
   public: "Connexion voyageur : numero de telephone ou e-mail, au choix.",
   partner: "Connexion partenaire - residences meublees et location de vehicules.",
   company: "Connexion compagnie - gestion des lignes, horaires et reservations.",
+  agent: "Connexion guichet - identifiant et code PIN, pour une reconnexion rapide entre deux clients.",
   admin: "Connexion administrateur - acces interne reserve a l'equipe Kaara.",
 };
 
@@ -89,6 +91,7 @@ export function LoginScreen({ next }: { next?: string }) {
           next={next}
         />
       ) : null}
+      {role === "agent" ? <AgentLogin next={next} /> : null}
       {role === "admin" ? <AdminLogin next={next} /> : null}
     </div>
   );
@@ -127,6 +130,40 @@ function useLoginSubmit(next: string | undefined) {
   const message =
     error instanceof ApiError
       ? (error.fieldErrors.login?.[0] ?? error.fieldErrors.code?.[0] ?? errorMessage(error))
+      : error
+        ? errorMessage(error)
+        : null;
+
+  return { submit, isPending, succeeded, message };
+}
+
+/** Soumission par code PIN, symetrique de `useLoginSubmit` : meme ecran de succes, meme redirection. */
+function usePinLoginSubmit(next: string | undefined) {
+  const router = useRouter();
+  const { loginWithPin } = useAuth();
+  const [isPending, setIsPending] = useState(false);
+  const [succeeded, setSucceeded] = useState(false);
+  const [error, setError] = useState<unknown>(null);
+
+  async function submit(identifier: string, pin: string) {
+    setIsPending(true);
+    setError(null);
+
+    try {
+      const user = await loginWithPin(identifier, pin);
+      setSucceeded(true);
+      window.setTimeout(() => {
+        router.replace(next?.startsWith("/") && !next.startsWith("//") ? next : homeFor(user));
+      }, 1100);
+    } catch (caught) {
+      setError(caught);
+      setIsPending(false);
+    }
+  }
+
+  const message =
+    error instanceof ApiError
+      ? (error.fieldErrors.login?.[0] ?? error.fieldErrors.pin?.[0] ?? errorMessage(error))
       : error
         ? errorMessage(error)
         : null;
@@ -321,6 +358,74 @@ function RoleLoginCard({
             </Button>
 
             <p className="mt-4 text-center text-xs text-[var(--muted)]">{footer}</p>
+          </form>
+        )}
+      </div>
+    </div>
+  );
+}
+
+/**
+ * Connexion guichet : identifiant (telephone ou e-mail, deja connu de
+ * l'agent) et code PIN a quatre chiffres, plus rapide a saisir entre deux
+ * clients qu'un mot de passe. Reservee cote API aux comptes agents porteurs
+ * d'un PIN (voir AuthService::attemptWithPin) - un mot de passe reste
+ * disponible via l'onglet Grand public pour tout autre cas.
+ */
+function AgentLogin({ next }: { next?: string }) {
+  const [identifier, setIdentifier] = useState("");
+  const [pin, setPin] = useState("");
+  const { submit, isPending, succeeded, message } = usePinLoginSubmit(next);
+
+  function handleSubmit(event: FormEvent) {
+    event.preventDefault();
+    submit(identifier.trim(), pin.trim());
+  }
+
+  return (
+    <div className="w-full max-w-md overflow-hidden rounded-[22px] bg-[var(--surface)] shadow-card">
+      <div className="flex flex-col items-center px-8 pt-8">
+        <span aria-hidden="true" className="grad-brand mb-4 h-[52px] w-[52px] rounded-2xl" />
+        <h2 className="text-center font-extrabold tracking-tight text-[var(--foreground)]">Kaara Agent</h2>
+        <p className="mb-1 mt-1 text-center text-xs text-[var(--muted)]">Connexion guichet</p>
+      </div>
+
+      <div className="px-8 pb-8 pt-2">
+        {succeeded ? (
+          <SuccessPanel destinationLabel="votre guichet" />
+        ) : (
+          <form onSubmit={handleSubmit} className="flex flex-col">
+            <AuthInput
+              label="Identifiant agent"
+              type="text"
+              placeholder="07 XX XX XX XX ou e-mail"
+              value={identifier}
+              onChange={(event) => setIdentifier(event.target.value)}
+              autoComplete="username"
+              required
+            />
+            <AuthInput
+              label="Code PIN"
+              type="password"
+              inputMode="numeric"
+              pattern="\d{4}"
+              maxLength={4}
+              placeholder="••••"
+              value={pin}
+              onChange={(event) => setPin(event.target.value.replace(/\D/g, "").slice(0, 4))}
+              autoComplete="off"
+              required
+            />
+
+            {message ? <FormAlert className="mb-3">{message}</FormAlert> : null}
+
+            <Button type="submit" size="lg" className="w-full" isLoading={isPending} disabled={pin.length !== 4}>
+              Se connecter
+            </Button>
+
+            <p className="mt-4 text-center text-xs text-[var(--muted)]">
+              Pas de PIN, ou mot de passe uniquement ? Utilisez l&apos;onglet Grand public.
+            </p>
           </form>
         )}
       </div>
