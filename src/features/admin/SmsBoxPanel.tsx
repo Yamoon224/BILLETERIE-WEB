@@ -55,7 +55,7 @@ export function SmsBoxPanel() {
               </div>
               <div className="flex items-center justify-between gap-2">
                 <p className="text-[10.5px] font-bold">
-                  {sim.is_low_balance ? "⚠ Credit bas" : "✓ Active"} — {formatMoney(sim.balance)}
+                  {sim.is_low_balance ? "⚠ Credit bas" : "✓ Active"} - {formatMoney(sim.balance)}
                 </p>
                 <button type="button" onClick={() => setRechargingSim(sim)} className="text-[10.5px] font-bold underline decoration-white/50 underline-offset-2 hover:decoration-white">
                   Recharger
@@ -89,7 +89,7 @@ export function SmsBoxPanel() {
                 data.recent_queue.map((item) => (
                   <tr key={item.id} className="border-b border-[var(--hairline)] last:border-0 even:bg-[var(--surface-muted)]/50">
                     <td className="px-4 py-3">{item.recipient}</td>
-                    <td className="px-4 py-3">{item.operator ?? "—"}</td>
+                    <td className="px-4 py-3">{item.operator ?? "-"}</td>
                     <td className="px-4 py-3 font-mono text-xs">{item.reference}</td>
                     <td className="px-4 py-3">
                       <Badge tone={item.status === "sent" ? "success" : item.status === "failed" ? "danger" : "warning"}>{item.status_label}</Badge>

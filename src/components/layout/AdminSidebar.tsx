@@ -54,7 +54,7 @@ export function AdminSidebar({
       >
         <div className="flex h-16 shrink-0 items-center justify-between border-b border-white/10 px-4">
           <Link href="/admin" onClick={onCloseMobile} className="rounded-sm">
-            <Logo size="sm" tone="brand" />
+            <Logo size="sm" tone="brand" onDark />
           </Link>
           <button
             type="button"

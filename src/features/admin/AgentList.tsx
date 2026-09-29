@@ -67,7 +67,7 @@ export function AgentList() {
         </div>
       ),
     },
-    { key: "station", header: "Gare", hideOnMobile: true, cell: (agent) => agent.station?.name ?? "—" },
+    { key: "station", header: "Gare", hideOnMobile: true, cell: (agent) => agent.station?.name ?? "-" },
     {
       key: "sales",
       header: "Ventes aujourd'hui",

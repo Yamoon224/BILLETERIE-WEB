@@ -86,8 +86,8 @@ function PromotionRow({ promotion, onToggle, isPending }: { promotion: Promotion
           {promotion.title}
         </div>
         <div className="min-w-0 flex-1">
-          <p className="font-semibold">{promotion.zone === "hero_banner" ? "Banniere hero — page d'accueil" : promotion.kind_label}</p>
-          <p className="text-xs text-[var(--muted)]">{promotion.subtitle ?? (promotion.advertiser_name ? `Publicite — ${promotion.advertiser_name}` : "Sans date de fin programmee")}</p>
+          <p className="font-semibold">{promotion.zone === "hero_banner" ? "Banniere hero - page d'accueil" : promotion.kind_label}</p>
+          <p className="text-xs text-[var(--muted)]">{promotion.subtitle ?? (promotion.advertiser_name ? `Publicite - ${promotion.advertiser_name}` : "Sans date de fin programmee")}</p>
         </div>
         <div className="flex shrink-0 items-center gap-3">
           <span className="text-xs font-bold text-[var(--muted)]">{promotion.is_active ? "Actif" : "Suspendu"}</span>

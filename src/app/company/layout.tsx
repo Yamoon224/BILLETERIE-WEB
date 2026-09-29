@@ -44,7 +44,7 @@ export default function CompanyLayout({ children }: { children: React.ReactNode 
       <header className="bg-[#0e1a3a]">
         <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-4 sm:px-6">
           <Link href="/company" className="rounded-sm">
-            <Logo size="sm" tone="brand" />
+            <Logo size="sm" tone="brand" onDark />
           </Link>
           <div className="flex items-center gap-3">
             <span className="hidden text-xs font-semibold text-white/60 sm:inline">{user.company?.name}</span>

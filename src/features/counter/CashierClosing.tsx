@@ -31,7 +31,7 @@ export function CashierClosing({ onBack }: { onBack: () => void }) {
 
       {data ? (
         <>
-          <p className="mb-4 text-base font-extrabold tracking-tight capitalize">Cloture de caisse — {formatDayLong(data.date)}</p>
+          <p className="mb-4 text-base font-extrabold tracking-tight capitalize">Cloture de caisse - {formatDayLong(data.date)}</p>
 
           <div className="mb-4 overflow-hidden rounded-2xl border border-[var(--hairline)]">
             <Row label="Billets vendus" value={String(data.tickets_sold)} />

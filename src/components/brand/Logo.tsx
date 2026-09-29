@@ -28,11 +28,18 @@ export function Logo({
   tone = "flag",
   className,
   tagline = false,
+  onDark = false,
 }: {
   size?: "sm" | "md" | "lg";
   tone?: "flag" | "brand";
   className?: string;
   tagline?: boolean;
+  /**
+   * Le fond porteur est sombre quel que soit le theme choisi (bandeau navy
+   * d'une console) : « Ka » reste blanc plutot que de suivre `dark:`, qui
+   * suit le theme de l'interface et non la couleur reelle sous le logo.
+   */
+  onDark?: boolean;
 }) {
   return (
     <span className={cn("inline-flex items-center gap-2.5", className)}>
@@ -40,7 +47,8 @@ export function Logo({
       <span className="flex flex-col leading-none">
         <span
           className={cn(
-            "font-extrabold tracking-tight text-stone-900 dark:text-stone-50",
+            "font-extrabold tracking-tight",
+            onDark ? "text-white" : "text-stone-900 dark:text-stone-50",
             size === "lg" ? "text-2xl" : "text-lg",
           )}
         >

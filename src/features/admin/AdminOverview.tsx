@@ -48,7 +48,7 @@ export function AdminOverview() {
       <Card>
         <CardBody>
           <div className="mb-2 flex flex-wrap items-baseline justify-between gap-2">
-            <p className="text-sm font-bold">Objectif Phase 1 — trajets reserves cette semaine</p>
+            <p className="text-sm font-bold">Objectif Phase 1 - trajets reserves cette semaine</p>
             <p className="text-base font-extrabold text-brand-700 dark:text-brand-400">
               {formatNumber(bookingsThisWeek)} / {formatNumber(WEEKLY_TRIP_GOAL)}
             </p>
@@ -70,7 +70,7 @@ export function AdminOverview() {
       </div>
 
       <Card>
-        <CardHeader title="Trajets reserves — 7 derniers jours" />
+        <CardHeader title="Trajets reserves - 7 derniers jours" />
         <CardBody>
           <div className="flex h-28 items-end gap-2">
             {days.map((day) => (
@@ -97,7 +97,7 @@ export function AdminOverview() {
                 <AlertRow icon={<IconAlert className="h-4 w-4" />} text={`${pending.partners} annonce(s) partenaire en attente de validation`} />
               ) : null}
               {lowBalanceSims.map((sim) => (
-                <AlertRow key={sim.id} icon={<IconChat className="h-4 w-4" />} text={`SIM ${sim.operator_label} du SMS Box — credit bas (${formatMoney(sim.balance)})`} tone="warn" />
+                <AlertRow key={sim.id} icon={<IconChat className="h-4 w-4" />} text={`SIM ${sim.operator_label} du SMS Box - credit bas (${formatMoney(sim.balance)})`} tone="warn" />
               ))}
             </>
           )}

@@ -36,7 +36,7 @@ export function CompanyLines() {
     <div className="space-y-4">
       <Card>
         <div className="border-b border-[var(--hairline)] px-4 py-3.5 sm:px-5">
-          <p className="text-sm font-bold tracking-tight">Mes lignes — activer / mettre en pause</p>
+          <p className="text-sm font-bold tracking-tight">Mes lignes - activer / mettre en pause</p>
         </div>
         {data.data.length === 0 ? (
           <p className="px-5 py-8 text-center text-sm text-[var(--muted)]">Aucune ligne enregistree.</p>
@@ -78,7 +78,7 @@ export function CompanyLines() {
         )}
       </Card>
       <p className="text-xs text-[var(--muted)]">
-        Mettre une ligne en pause bloque les nouvelles reservations sur cet itineraire — les reservations deja payees restent valables.
+        Mettre une ligne en pause bloque les nouvelles reservations sur cet itineraire - les reservations deja payees restent valables.
       </p>
     </div>
   );
