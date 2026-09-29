@@ -57,6 +57,13 @@ export type TransmissionType = "manual" | "automatic";
 export type FuelType = "petrol" | "diesel" | "hybrid" | "electric";
 export type RentalVehicleCategory = "citadine" | "berline" | "suv" | "minibus" | "luxe" | "utilitaire";
 
+/** Statut de validation d'une compagnie ou d'une fiche partenaire. */
+export type ListingStatus = "pending" | "active" | "rejected";
+export type PromotionZone = "hero_banner" | "featured_tile";
+export type PromotionKind = "editorial" | "advertisement";
+export type SimOperator = "orange" | "mtn" | "moov";
+export type SmsDeliveryStatus = "pending" | "sent" | "failed";
+
 // --- Comptes ----------------------------------------------------------------------
 
 export interface CompanyRef {
@@ -78,6 +85,11 @@ export interface AuthenticatedUser {
   last_login_at: string | null;
 }
 
+export interface StationRef {
+  id: string;
+  name: string;
+}
+
 export interface User {
   id: string;
   name: string;
@@ -87,6 +99,8 @@ export interface User {
   roles?: RoleName[];
   company?: CompanyRef | null;
   company_id: string | null;
+  station?: StationRef | null;
+  station_id: string | null;
   last_login_at: string | null;
   created_at: string | null;
 }
@@ -147,6 +161,8 @@ export interface Company extends CompanyRef {
   commission_per_mille: number | null;
   effective_commission_per_mille: number;
   is_active: boolean;
+  status: ListingStatus;
+  status_label: string;
   vehicles_count?: number;
   itineraries_count?: number;
   stations_count?: number;
@@ -420,6 +436,8 @@ export interface Apartment {
   photo_urls: string[];
   is_featured: boolean;
   is_active: boolean;
+  status: ListingStatus;
+  status_label: string;
   city?: CityRef;
   city_id: string;
   partner?: PartnerRef;
@@ -447,11 +465,78 @@ export interface RentalVehicle {
   photo_urls: string[];
   is_featured: boolean;
   is_active: boolean;
+  status: ListingStatus;
+  status_label: string;
   city?: CityRef;
   city_id: string;
   partner?: PartnerRef;
   partner_id: string;
   created_at: string | null;
+}
+
+// --- Console d'administration : SMS Box, offres, finances ----------------------------------
+
+export interface Promotion {
+  id: string;
+  title: string;
+  subtitle: string | null;
+  zone: PromotionZone;
+  zone_label: string;
+  kind: PromotionKind;
+  kind_label: string;
+  advertiser_name: string | null;
+  partner_id: string | null;
+  starts_at: string | null;
+  ends_at: string | null;
+  is_active: boolean;
+  created_at: string | null;
+}
+
+export interface SimCard {
+  id: string;
+  operator: SimOperator;
+  operator_label: string;
+  phone_number: string | null;
+  balance: number;
+  low_balance_threshold: number;
+  is_low_balance: boolean;
+  is_active: boolean;
+}
+
+export interface SmsDispatch {
+  id: string;
+  recipient: string;
+  reference: string;
+  status: SmsDeliveryStatus;
+  status_label: string;
+  attempts: number;
+  error: string | null;
+  operator: string | null;
+  sent_at: string | null;
+  created_at: string | null;
+}
+
+export interface SmsBoxOverview {
+  stats: { sent_today: number; failed_today: number; delivery_rate: number; queued: number };
+  sim_cards: SimCard[];
+  recent_queue: SmsDispatch[];
+}
+
+export interface FinanceOverview {
+  period: { from: string; to: string };
+  currency: string;
+  summary: DashboardOverview["summary"];
+  paid_out_to_companies: number;
+  average_commission_per_mille: number;
+  commission_by_company: Array<{
+    company_id: string;
+    company_name: string;
+    bookings: number;
+    gross: number;
+    commission: number;
+    net: number;
+  }>;
+  revenue_by_payment_method: DashboardOverview["revenue_by_payment_method"];
 }
 
 export interface AuditLog {

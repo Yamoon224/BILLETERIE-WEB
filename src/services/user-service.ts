@@ -7,11 +7,14 @@ export interface UserInput {
   phone?: string | null;
   password?: string | null;
   company_id?: string | null;
+  station_id?: string | null;
   is_active?: boolean;
   roles: RoleName[];
 }
 
-export function list(params: ListParams & { role?: RoleName | ""; is_active?: boolean } = {}): Promise<Paginated<User>> {
+export function list(
+  params: ListParams & { role?: RoleName | ""; is_active?: boolean; station_id?: string } = {},
+): Promise<Paginated<User>> {
   return apiFetch<Paginated<User>>("/users", { query: { ...params } });
 }
 

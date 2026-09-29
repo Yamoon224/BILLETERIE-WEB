@@ -17,3 +17,6 @@ export * as reportService from "./report-service";
 export * as userService from "./user-service";
 export * as apartmentService from "./apartment-service";
 export * as rentalVehicleService from "./rental-vehicle-service";
+export * as smsService from "./sms-service";
+export * as promotionService from "./promotion-service";
+export * as financeService from "./finance-service";

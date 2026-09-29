@@ -1,7 +1,8 @@
 import { apiFetch } from "@/lib/api-client";
-import type { City, Company, Itinerary, ListParams, Paginated, Single, Station, Vehicle, VehicleClass } from "@/types/api";
+import type { City, Company, Itinerary, ListingStatus, ListParams, Paginated, Single, Station, Vehicle, VehicleClass } from "@/types/api";
 
 type ActiveFilter = { is_active?: boolean };
+type StatusFilter = { status?: ListingStatus };
 
 export interface VehicleInput {
   company_id?: string;
@@ -50,7 +51,7 @@ export interface CityInput {
 
 // --- Compagnies ------------------------------------------------------------------------
 
-export function listCompanies(params: ListParams & ActiveFilter = {}): Promise<Paginated<Company>> {
+export function listCompanies(params: ListParams & ActiveFilter & StatusFilter = {}): Promise<Paginated<Company>> {
   return apiFetch<Paginated<Company>>("/companies", { query: { ...params } });
 }
 
@@ -60,6 +61,11 @@ export async function createCompany(input: CompanyInput): Promise<Company> {
 
 export async function updateCompany(id: string, input: Partial<CompanyInput>): Promise<Company> {
   return (await apiFetch<Single<Company>>(`/companies/${id}`, { method: "PATCH", body: input })).data;
+}
+
+/** Validation ou rejet d'une compagnie en attente, reserve a l'administrateur de plateforme. */
+export async function changeCompanyStatus(id: string, status: "active" | "rejected"): Promise<Company> {
+  return (await apiFetch<Single<Company>>(`/companies/${id}/status`, { method: "POST", body: { status } })).data;
 }
 
 // --- Villes ------------------------------------------------------------------------------

@@ -16,3 +16,4 @@ export { Modal } from "./Modal";
 export { PageHeader } from "./PageHeader";
 export { Pagination } from "./Pagination";
 export { StatCard } from "./StatCard";
+export { Toggle } from "./Toggle";
