@@ -19,7 +19,7 @@ import { errorMessage } from "@/lib/api-client";
 import { cn } from "@/lib/cn";
 import { formatDateTime, formatMoney } from "@/lib/format";
 import { MOBILE_MONEY_PROVIDERS } from "@/lib/labels";
-import type { MobileMoneyProvider, PaymentMethod } from "@/types/api";
+import type { MobileMoneyProvider } from "@/types/api";
 import { tripLabel, useCounterSale } from "./useCounterSale";
 import type { CounterSaleState, Receipt } from "./useCounterSale";
 

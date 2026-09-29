@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import type { FormEvent } from "react";
 import { Button, FormAlert, LoadingState, Modal, TextField } from "@/components/ui";
@@ -22,6 +23,7 @@ import { tripLabel, useCounterSale } from "./useCounterSale";
  */
 export function TabletCounter() {
   const { user, logout } = useAuth();
+  const router = useRouter();
   const [view, setView] = useState<"pos" | "caisse">("pos");
   const [isLeaving, setIsLeaving] = useState(false);
   const sale = useCounterSale();
@@ -29,7 +31,7 @@ export function TabletCounter() {
   async function leave() {
     setIsLeaving(true);
     await logout().catch(() => undefined);
-    window.location.href = "/login";
+    router.replace("/login");
   }
 
   return (
