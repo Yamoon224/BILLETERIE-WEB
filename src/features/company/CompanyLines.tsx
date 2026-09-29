@@ -9,21 +9,27 @@ import { networkService, tripService } from "@/services";
 import type { Itinerary } from "@/types/api";
 
 /**
- * Horaires affiches pour une ligne : les departs programmes aujourd'hui sur
- * cet itineraire, pas une duree de trajet - c'est ce que lit un gestionnaire
- * pour savoir a quelle heure sa ligne part, pas combien de temps elle dure.
+ * Horaires affiches pour une ligne : les heures de depart programmees dans
+ * les sept prochains jours sur cet itineraire, pas une duree de trajet.
+ *
+ * Sur sept jours plutot qu'aujourd'hui seul : les departs sont programmes a
+ * l'avance et rien n'oblige un depart a exister precisement aujourd'hui -
+ * une ligne active dont le prochain depart est demain ne doit pas paraitre
+ * sans horaires. Deduplique par heure : un depart quotidien a 6h ne doit
+ * apparaitre qu'une fois, pas sept.
  */
-function useTodaySchedules(): Map<string, string[]> {
+function useUpcomingSchedules(): Map<string, string[]> {
   const loader = useCallback(
-    () => tripService.list({ from: todayIso(), to: todayIso(), per_page: 100, sort: "departs_at", direction: "asc" }),
+    () => tripService.list({ from: todayIso(), to: todayIso(7), per_page: 200, sort: "departs_at", direction: "asc" }),
     [],
   );
   const { data } = useAsyncData(loader);
 
   const schedules = new Map<string, string[]>();
   for (const trip of data?.data ?? []) {
+    const time = formatTime(trip.departs_at);
     const times = schedules.get(trip.itinerary_id) ?? [];
-    times.push(formatTime(trip.departs_at));
+    if (!times.includes(time)) times.push(time);
     schedules.set(trip.itinerary_id, times);
   }
 
@@ -42,7 +48,7 @@ function useTodaySchedules(): Map<string, string[]> {
 export function CompanyLines() {
   const loader = useCallback(() => networkService.listItineraries({ per_page: 100 }), []);
   const { data, isLoading, error, reload } = useAsyncData(loader);
-  const schedules = useTodaySchedules();
+  const schedules = useUpcomingSchedules();
 
   const toggle = useMutation(({ id, is_active }: { id: string; is_active: boolean }) => networkService.updateItinerary(id, { is_active }));
 
