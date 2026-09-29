@@ -80,6 +80,8 @@ export interface AuthenticatedUser {
   is_active: boolean;
   company?: CompanyRef | null;
   company_id: string | null;
+  station?: StationRef | null;
+  station_id: string | null;
   roles: RoleName[];
   permissions: string[];
   last_login_at: string | null;
