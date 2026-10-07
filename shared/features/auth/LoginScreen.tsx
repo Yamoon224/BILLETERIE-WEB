@@ -38,9 +38,22 @@ export interface LoginTarget {
 
 const DEFAULT_DENIED = "Ce compte n'a pas acces a cet espace. Connectez-vous depuis l'espace qui correspond a votre profil.";
 
-/** Seuls les chemins internes sont suivis : `//exemple.com` sortirait du site. */
+/**
+ * Seuls les chemins internes sont suivis. Le prefixe ne suffit pas a le
+ * garantir : `//exemple.com` sort du site, et `/\exemple.com` aussi, les
+ * navigateurs lisant la barre oblique inversee comme une barre oblique.
+ * L'adresse est donc resolue, puis son origine comparee a la notre.
+ */
 function destination({ next, home = "/" }: LoginTarget): string {
-  return next?.startsWith("/") && !next.startsWith("//") ? next : home;
+  if (!next || !next.startsWith("/") || next.startsWith("//") || /[\\\t\r\n]/.test(next)) return home;
+
+  try {
+    const url = new URL(next, window.location.origin);
+
+    return url.origin === window.location.origin ? `${url.pathname}${url.search}${url.hash}` : home;
+  } catch {
+    return home;
+  }
 }
 
 /** Deroule commun aux deux modes de connexion : etat, controle d'espace, redirection. */
