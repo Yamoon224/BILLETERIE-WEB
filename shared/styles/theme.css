@@ -1,0 +1,418 @@
+/*
+ * Trois modes de theme - clair, sombre, systeme - pilotes par une classe sur
+ * <html> plutot que par la seule media query : un voyageur doit pouvoir choisir
+ * l'inverse de son systeme, et ce choix doit survivre au rechargement. La
+ * variante `dark:` de Tailwind est donc rebranchee sur `.dark`.
+ */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: ui-monospace, "SFMono-Regular", "Cascadia Code", Menlo, monospace;
+
+  /*
+   * Cyan vif, decline en une seule rampe : le ciel, la mer, l'horizon des
+   * possibles. Le blanc reste la seconde couleur de la charte - il porte les
+   * surfaces - et ce cyan est reserve a ce qui doit attirer l'oeil : action
+   * principale, etat actif, prix. Le jaune et le rose fuchsia de la charte
+   * n'apparaissent qu'a travers `grad-brand` (voir plus bas) : jamais en
+   * rampe unie, pour qu'ils restent des accents et non un fond.
+   */
+  --color-brand-50: #eafbff;
+  --color-brand-100: #c9f3fd;
+  --color-brand-200: #97e6fb;
+  --color-brand-300: #59d3f4;
+  --color-brand-400: #1cbbe8;
+  --color-brand-500: #00b4e6;
+  --color-brand-600: #0089b3;
+  --color-brand-700: #036d8f;
+  --color-brand-800: #0a5570;
+  --color-brand-900: #0d4258;
+
+  /* Jaune et rose fuchsia de la charte : une seule teinte "vive" et une seule
+     teinte "sombre" chacun, jamais une rampe complete (voir la note sur
+     `grad-brand` plus bas) - ils ne servent qu'en accent ponctuel (badge,
+     trait de degrade) ou dans les etats hover des degrades de marque. */
+  --color-fuchsia: #e6007e;
+  --color-fuchsia-dark: #b3005f;
+  --color-yellow: #ffd400;
+  --color-yellow-dark: #d9a900;
+
+  /* Vert, reserve aux etats de succes et de selection : siege choisi,
+     embarquement autorise, paiement encaisse. Il ne sert jamais de
+     decoration. */
+  --color-flag-green: #1f7a4d;
+
+  /* Orange fixe, independant de la rampe de marque : ne sert qu'au liser
+     drapeau (logo, pied de page), cote a cote avec le vert ci-dessus. Ces
+     deux couleurs restent figees quelle que soit l'evolution de la charte. */
+  --color-flag-orange: #e8590c;
+}
+
+:root {
+  color-scheme: light;
+  --canvas: #f4fbfd;
+  --surface: #ffffff;
+  --surface-muted: #e9f5f8;
+  --foreground: #12222b;
+  --muted: #57707a;
+  --hairline: #dcebef;
+  --card-shadow: 0 1px 2px rgb(10 30 38 / 0.05), 0 12px 28px -14px rgb(10 30 38 / 0.22);
+  --card-shadow-hover: 0 2px 4px rgb(10 30 38 / 0.06), 0 18px 38px -16px rgb(0 137 179 / 0.35);
+}
+
+.dark {
+  color-scheme: dark;
+  --canvas: #071219;
+  --surface: #0f1d24;
+  --surface-muted: #15262e;
+  --foreground: #e9f6fa;
+  --muted: #93aab2;
+  --hairline: #22343b;
+  --card-shadow: 0 1px 2px rgb(0 0 0 / 0.5), 0 12px 30px -14px rgb(0 0 0 / 0.85);
+  --card-shadow-hover: 0 2px 6px rgb(0 0 0 / 0.55), 0 20px 42px -16px rgb(0 180 230 / 0.3);
+}
+
+/*
+ * Ilot force en surface claire, quel que soit le theme ambiant : le panneau
+ * de recherche du Hero (voyageur) reste blanc meme en mode sombre, sur
+ * demande explicite (capture de maquette). Redeclare les memes jetons que
+ * `:root`, ce qui suffit a reblanchir tout ce qui les consomme en cascade
+ * (Card, champs a libelle flottant `.field-*`) sans dupliquer leurs styles.
+ * Les classes `dark:` de Tailwind restant branchees sur l'ancetre `.dark`
+ * (voir `@custom-variant` plus haut), elles continuent de s'appliquer a
+ * l'interieur de cet ilot : ne pas y placer d'enfant qui en porte.
+ */
+.theme-force-light {
+  color-scheme: light;
+  --canvas: #f4fbfd;
+  --surface: #ffffff;
+  --surface-muted: #e9f5f8;
+  --foreground: #12222b;
+  --muted: #57707a;
+  --hairline: #dcebef;
+  --card-shadow: 0 1px 2px rgb(10 30 38 / 0.05), 0 12px 28px -14px rgb(10 30 38 / 0.22);
+  --card-shadow-hover: 0 2px 4px rgb(10 30 38 / 0.06), 0 18px 38px -16px rgb(0 137 179 / 0.35);
+  --field-border: #c9dee3;
+  --field-border-hover: #9fbac2;
+  --field-border-focus: #00b4e6;
+  --field-border-error: #e11d48;
+  --field-label: #5e7a83;
+  --field-label-focus: #0089b3;
+  --field-placeholder: #85a0a8;
+  --field-disabled-bg: #e9f5f8;
+}
+
+/*
+ * Couleurs des graphiques.
+ *
+ * Trois teintes categorielles, dans un ordre fixe valide en paires completes
+ * (daltonisme protan/deutan et vision normale) contre les surfaces reelles des
+ * cartes, en clair comme en sombre. Le vert de succes n'y figure pas : il est
+ * reserve aux etats de succes. La couleur suit l'entite - mobile money est
+ * toujours orange, quel que soit son rang dans la liste - independamment de
+ * la charte du produit : c'est la couleur reelle de la marque Orange Money.
+ */
+:root {
+  --series-1: #db6d00;
+  --series-2: #2a78d6;
+  --series-3: #1baf7a;
+  --chart-grid: #dcebef;
+  --chart-axis: #c9dee3;
+  --meter-track: #ffe9cc;
+}
+
+.dark {
+  --series-1: #db6d00;
+  --series-2: #3987e5;
+  --series-3: #199e70;
+  --chart-grid: #22343b;
+  --chart-axis: #2e4750;
+  --meter-track: #3a2a1a;
+}
+
+body {
+  background-color: var(--canvas);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* La bande degradee multicolore de la charte - cyan, rose fuchsia, jaune -
+   toujours diagonale : une seule definition, reprise par les boutons, les
+   en-tetes de billet, les liseres de cartes et l'etat actif. Elle materialise
+   la trajectoire du voyage, jamais un simple fond decoratif. Le cyan reste
+   uni sur les 40 premiers pourcents de la diagonale avant de basculer, pour
+   que la couleur de marque domine au lieu de se diluer des le depart. */
+@utility grad-brand {
+  background-image: linear-gradient(135deg, var(--color-brand-400) 0%, var(--color-brand-400) 40%, var(--color-fuchsia) 70%, var(--color-yellow) 100%);
+}
+
+@utility grad-brand-hover {
+  background-image: linear-gradient(135deg, var(--color-brand-600) 0%, var(--color-brand-600) 40%, var(--color-fuchsia-dark) 70%, var(--color-yellow-dark) 100%);
+}
+
+@utility grad-brand-soft {
+  background-image: linear-gradient(135deg, rgb(0 180 230 / 0.14) 0%, rgb(230 0 126 / 0.06) 100%);
+}
+
+@utility grad-brand-text {
+  background-image: linear-gradient(135deg, var(--color-brand-500) 0%, var(--color-fuchsia-dark) 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+/* Bandeau fixe du logo et du pied de page : orange + vert, cote a cote, sans
+   blanc entre les deux - partage nette a 55 %. Independant de `grad-brand`
+   afin que ce motif reste stable meme si la rampe de marque evolue - le
+   logo ne suit jamais la charte generale. */
+@utility grad-logo {
+  background-image: linear-gradient(
+    135deg,
+    var(--color-flag-orange) 0%,
+    var(--color-flag-orange) 55%,
+    var(--color-flag-green) 55%,
+    var(--color-flag-green) 100%
+  );
+}
+
+/* Variante de `grad-brand` pour le pictogramme du logo : sur un carre de
+   36 px, une simple rampe 0/50/100 laisse le cyan a peine visible dans le
+   coin - le fuchsia central domine. Le premier tiers est donc tenu en cyan
+   uni avant de basculer, pour que la couleur reste lisible meme reduite. */
+@utility grad-logo-brand {
+  background-image: linear-gradient(135deg, var(--color-brand-400) 0%, var(--color-brand-400) 30%, var(--color-fuchsia) 65%, var(--color-yellow) 100%);
+}
+
+@utility shadow-card {
+  box-shadow: var(--card-shadow);
+}
+
+@utility shadow-card-hover {
+  box-shadow: var(--card-shadow-hover);
+}
+
+@keyframes fade-rise {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@utility animate-fade-rise {
+  animation: fade-rise 0.24s ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--foreground) 22%, transparent) transparent;
+}
+
+::selection {
+  background-color: rgb(0 180 230 / 0.24);
+}
+
+/* ---------------------------------------------------------------------------
+ * Champ a libelle flottant, contour unique, coins rounded-sm
+ * ---------------------------------------------------------------------------
+ *
+ * Le contour n'est pas porte par le controle mais par un <fieldset> pose
+ * par-dessus. Sa <legend> decoupe un vrai trou dans le trait au moment ou le
+ * libelle monte : rien n'est masque derriere un fond opaque, donc aucun
+ * « double trait » quand le champ vit dans une carte teintee ou un dialogue.
+ */
+
+:root {
+  --field-border: #c9dee3;
+  --field-border-hover: #9fbac2;
+  --field-border-focus: #00b4e6;
+  --field-border-error: #e11d48;
+  --field-label: #5e7a83;
+  --field-label-focus: #0089b3;
+  --field-placeholder: #85a0a8;
+  --field-disabled-bg: #e9f5f8;
+}
+
+.dark {
+  --field-border: #2e4750;
+  --field-border-hover: #47646d;
+  --field-border-focus: #1cbbe8;
+  --field-border-error: #fb7185;
+  --field-label: #93aab2;
+  --field-label-focus: #59d3f4;
+  --field-placeholder: #6b8890;
+  --field-disabled-bg: #15262e;
+}
+
+@layer components {
+  .field-shell {
+    position: relative;
+    display: block;
+    margin-top: 0.4rem;
+  }
+
+  .field-control {
+    display: block;
+    width: 100%;
+    border: 0;
+    border-radius: var(--radius-sm);
+    background-color: transparent;
+    padding: 0.75rem 0.8rem;
+    font-size: 0.9rem;
+    line-height: 1.35rem;
+    color: var(--foreground);
+    outline: none;
+  }
+
+  .field-control::placeholder {
+    color: transparent;
+    transition: color 0.12s ease-out;
+  }
+
+  /* Le placeholder n'apparait qu'une fois le libelle monte : les deux textes ne
+     se superposent jamais. */
+  .field-control:focus::placeholder {
+    color: var(--field-placeholder);
+  }
+
+  .field-control:disabled {
+    cursor: not-allowed;
+    background-color: var(--field-disabled-bg);
+    color: color-mix(in srgb, var(--foreground) 55%, transparent);
+  }
+
+  .field-outline {
+    position: absolute;
+    inset: -0.4rem 0 0 0;
+    margin: 0;
+    padding: 0 0.55rem;
+    min-width: 0;
+    pointer-events: none;
+    border: 1px solid var(--field-border);
+    border-radius: var(--radius-sm);
+    transition:
+      border-color 0.15s ease-out,
+      box-shadow 0.15s ease-out;
+  }
+
+  .field-outline > legend {
+    display: block;
+    float: none;
+    width: auto;
+    max-width: 0.01px;
+    height: 0.8rem;
+    padding: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    visibility: hidden;
+    font-size: 0.7rem;
+    transition: max-width 0.12s ease-out;
+  }
+
+  .field-outline > legend > span {
+    display: inline-block;
+    padding: 0 0.3rem;
+    opacity: 0;
+    visibility: visible;
+  }
+
+  .field-shell:hover .field-outline {
+    border-color: var(--field-border-hover);
+  }
+
+  .field-label {
+    position: absolute;
+    left: 0.85rem;
+    top: 50%;
+    z-index: 1;
+    max-width: calc(100% - 1.7rem);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    transform: translateY(-50%);
+    pointer-events: none;
+    font-size: 0.9rem;
+    line-height: 1;
+    color: var(--field-label);
+    transition:
+      top 0.12s ease-out,
+      font-size 0.12s ease-out,
+      color 0.12s ease-out;
+  }
+
+  .field-shell--textarea .field-label {
+    top: 1.45rem;
+  }
+
+  /* Etat monte : au focus, ou des qu'une valeur est presente. Les <select> et
+     champs de date ne connaissent pas `:placeholder-shown` : `:not()` les rend
+     flottants en permanence, ce qui est voulu - ils affichent toujours quelque
+     chose. */
+  .field-control:focus ~ .field-outline > legend,
+  .field-control:not(:placeholder-shown) ~ .field-outline > legend,
+  .field-control--filled ~ .field-outline > legend {
+    max-width: 100%;
+  }
+
+  .field-control:focus ~ .field-label,
+  .field-control:not(:placeholder-shown) ~ .field-label,
+  .field-control--filled ~ .field-label {
+    top: -0.4rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+  }
+
+  .field-control:focus ~ .field-label {
+    color: var(--field-label-focus);
+  }
+
+  .field-control:focus ~ .field-outline {
+    border-color: var(--field-border-focus);
+    box-shadow: inset 0 0 0 1px var(--field-border-focus);
+  }
+
+  .field-control--filled::placeholder {
+    color: var(--foreground);
+    font-weight: 500;
+  }
+
+  .field-control[aria-invalid="true"] ~ .field-outline {
+    border-color: var(--field-border-error);
+  }
+
+  .field-control[aria-invalid="true"]:focus ~ .field-outline {
+    box-shadow: inset 0 0 0 1px var(--field-border-error);
+  }
+
+  .field-control[aria-invalid="true"] ~ .field-label {
+    color: var(--field-border-error);
+  }
+
+  .field-control:disabled ~ .field-outline {
+    border-color: color-mix(in srgb, var(--field-border) 55%, transparent);
+  }
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+
+  body {
+    background: #fff;
+  }
+}

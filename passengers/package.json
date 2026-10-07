@@ -1,0 +1,21 @@
+{
+  "name": "@kaara/passengers",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Site voyageur Kaara : recherche, reservation, paiement et billets. Deploye sur kaara.ci.",
+  "scripts": {
+    "dev": "next dev -p 3000",
+    "build": "next build",
+    "start": "next start -p 3000",
+    "lint": "eslint",
+    "typecheck": "next typegen && tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@kaara/shared": "*",
+    "next": "16.3.4",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
+  }
+}

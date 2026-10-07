@@ -1,23 +1,32 @@
 {
-  "name": "billeterie-web",
+  "name": "kaara-web",
   "version": "0.1.0",
   "private": true,
-  "description": "Interface Next.js de la billetterie interurbaine : parcours voyageur, guichet, embarquement et tableau de bord.",
+  "description": "Interfaces Next.js de Kaara, un projet par role (passengers, companies, agents, admins, partners) et un socle commun (shared).",
+  "workspaces": [
+    "shared",
+    "passengers",
+    "companies",
+    "agents",
+    "admins",
+    "partners"
+  ],
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "eslint",
-    "typecheck": "tsc --noEmit",
-    "test": "vitest run",
-    "test:watch": "vitest",
+    "dev:passengers": "npm run dev -w @kaara/passengers",
+    "dev:companies": "npm run dev -w @kaara/companies",
+    "dev:agents": "npm run dev -w @kaara/agents",
+    "dev:admins": "npm run dev -w @kaara/admins",
+    "dev:partners": "npm run dev -w @kaara/partners",
+    "build:passengers": "npm run build -w @kaara/passengers",
+    "build:companies": "npm run build -w @kaara/companies",
+    "build:agents": "npm run build -w @kaara/agents",
+    "build:admins": "npm run build -w @kaara/admins",
+    "build:partners": "npm run build -w @kaara/partners",
+    "build": "npm run build --workspaces --if-present",
+    "lint": "npm run lint --workspaces --if-present",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
     "check": "npm run lint && npm run typecheck && npm run test && npm run build"
-  },
-  "dependencies": {
-    "next": "16.3.4",
-    "qrcode": "^1.5.4",
-    "react": "19.2.8",
-    "react-dom": "19.2.8"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

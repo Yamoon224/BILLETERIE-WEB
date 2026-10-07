@@ -1,0 +1,19 @@
+{
+  "name": "@kaara/partners",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Espace Partenaires Kaara : residences meublees et location de vehicules. Deploye sur partners.kaara.ci.",
+  "scripts": {
+    "dev": "next dev -p 3004",
+    "build": "next build",
+    "start": "next start -p 3004",
+    "lint": "eslint",
+    "typecheck": "next typegen && tsc --noEmit"
+  },
+  "dependencies": {
+    "@kaara/shared": "*",
+    "next": "16.3.4",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
+  }
+}

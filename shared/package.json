@@ -1,0 +1,20 @@
+{
+  "name": "@kaara/shared",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Socle commun des espaces Kaara : design system, theme, client d'API, session, services et ecrans utilises par plusieurs espaces. Livre en TypeScript brut, compile par chaque projet Next.js.",
+  "scripts": {
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "qrcode": "^1.5.4"
+  },
+  "peerDependencies": {
+    "next": "16.3.4",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
+  }
+}

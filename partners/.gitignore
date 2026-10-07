@@ -1,0 +1,15 @@
+# next.js
+/.next/
+/out/
+
+# production
+/build
+/.next-build
+
+# env files : seul l'exemple est versionne
+.env*
+!.env.local.example
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts

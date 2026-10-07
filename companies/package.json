@@ -1,0 +1,19 @@
+{
+  "name": "@kaara/companies",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Espace Compagnies Kaara : ventes, lignes, departs et referentiel d'une compagnie. Deploye sur companies.kaara.ci.",
+  "scripts": {
+    "dev": "next dev -p 3001",
+    "build": "next build",
+    "start": "next start -p 3001",
+    "lint": "eslint",
+    "typecheck": "next typegen && tsc --noEmit"
+  },
+  "dependencies": {
+    "@kaara/shared": "*",
+    "next": "16.3.4",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
+  }
+}
